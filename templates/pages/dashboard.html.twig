@@ -2,5 +2,8 @@
 {% block body %}
     <h2>Bienvenue sur votre dashboard : {{ username }}</h2>
 
+    <a href="{{ path('new_account') }}">
+        <span>creer un compte</span>
+    </a>
 
 {% endblock %}
