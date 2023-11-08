@@ -15,7 +15,7 @@
         <ul>
             {% if app.user %}
                 <li><a href="{{ path('dashboard') }}">Dashboard</a></li>
-                <li><a href="">Profil</a></li>
+                <li><a href="{{ path('profile') }}">Profile</a></li>
                 <li><a href="logout" class="btn">Déconnexion</a></li>
             {% else %}
                 {# If NOT connected #}

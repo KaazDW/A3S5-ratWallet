@@ -37,6 +37,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'userID', targetEntity: Account::class, orphanRemoval: true)]
     private Collection $nameAccount;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $nbAccount = null;
+
     public function __construct()
     {
         $this->nameAccount = new ArrayCollection();
@@ -150,6 +153,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $nameAccount->setUserID(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getNbAccount(): ?int
+    {
+        return $this->nbAccount;
+    }
+
+    public function setNbAccount(?int $nbAccount): static
+    {
+        $this->nbAccount = $nbAccount;
 
         return $this;
     }
