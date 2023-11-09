@@ -13,14 +13,11 @@
     <header>
         <img src="{{ asset('images/logo/logo-shop.png') }}" class="nav-logo" alt="Logo du site">
         <ul>
-            {% if app.user %}
+
                 <li><a href="{{ path('dashboard') }}">Dashboard</a></li>
                 <li><a href="{{ path('profile') }}">Profile</a></li>
                 <li><a href="logout" class="btn">Déconnexion</a></li>
-            {% else %}
-                {# If NOT connected #}
-                <li><a href="login" class="btn-round">Connexion</a></li>
-            {% endif %}
+
         </ul>
     </header>
 
