@@ -1,4 +1,4 @@
-# A3S5-ratWallet
+# ratWallet.
 
 ```
 git clone https://github.com/KaazDW/A3S5-ratWallet.git

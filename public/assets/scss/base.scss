@@ -1,0 +1,37 @@
+// BASE SASS FILE - init global sass content
+
+// Google Fonts Import : Poppins + League Spartan
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@100;200;300;400;500;600;700;800;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+// Default initialization
+*{
+  margin: 0;
+  padding: 0;
+  color: var(--color-black);
+  ul{list-style: none;}
+  a{text-decoration: none;}
+  button:hover{cursor: pointer;}
+}
+
+// Variables definitions
+:root{
+  --color-black: #222;
+  --color-white: white;
+  --color-darkgrey: #323232;
+
+  --color-primary: #F1EFE7;
+  --color-red: #FF6F59;
+  --color-blue: #576CA8;
+
+  --font-title: 'League Spartan', sans-serif;
+  --font-content: 'Poppins', sans-serif;
+}
+
+// Main style definition, header and body disposition
+body {
+  background-color: var(--color-primary);
+  font-family: var(--font-content);
+
+}
+
+// Individual elements style definition
