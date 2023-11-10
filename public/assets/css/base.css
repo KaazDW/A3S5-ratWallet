@@ -29,5 +29,49 @@ body {
   background-color: var(--color-primary);
   font-family: var(--font-content);
 }
+body header {
+  border: 1px solid black;
+  color: black;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 220px;
+  height: 100%;
+}
+body header img {
+  max-width: 60px;
+  height: 60px;
+}
+body header .name {
+  margin: -40px 0 0 80px;
+}
+body header .case {
+  width: 100%;
+  height: 100px;
+  margin: 55px 0 0 0;
+  background-color: white;
+  border-radius: 15px;
+}
+body header .nav-account {
+  background-color: red;
+  margin-top: 20px;
+  width: 100%;
+  height: 300px;
+}
+body header .nav-account ul {
+  list-style: none;
+  padding: 0;
+}
+body header .nav-account ul li {
+  margin-bottom: 10px;
+}
+body header .nav-account ul li a {
+  text-decoration: none;
+  color: white;
+}
+body header .nav-account ul li a:hover {
+  text-decoration: underline;
+}
 
 /*# sourceMappingURL=base.css.map */

@@ -34,15 +34,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $username = null;
 
-    #[ORM\OneToMany(mappedBy: 'userID', targetEntity: Account::class, orphanRemoval: true)]
-    private Collection $nameAccount;
-
     #[ORM\Column(nullable: true)]
     private ?int $nbAccount = null;
 
+   #[ORM\OneToMany(mappedBy: 'user', targetEntity: Account::class)]
+    private Collection $accounts;
     public function __construct()
     {
-        $this->nameAccount = new ArrayCollection();
+        $this->accounts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -130,27 +129,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Account>
      */
-    public function getNameAccount(): Collection
+    public function getAccounts(): Collection
     {
-        return $this->nameAccount;
+        return $this->accounts;
     }
 
-    public function addNameAccount(Account $nameAccount): static
+    public function addAccounts(Account $accounts): static
     {
-        if (!$this->nameAccount->contains($nameAccount)) {
-            $this->nameAccount->add($nameAccount);
-            $nameAccount->setUserID($this);
+        if (!$this->accounts->contains($accounts)) {
+            $this->accounts->add($accounts);
+            $accounts->setUserID($this);
         }
 
         return $this;
     }
 
-    public function removeNameAccount(Account $nameAccount): static
+    public function removeAccounts(Account $accounts): static
     {
-        if ($this->nameAccount->removeElement($nameAccount)) {
+        if ($this->accounts->removeElement($accounts)) {
             // set the owning side to null (unless already changed)
-            if ($nameAccount->getUserID() === $this) {
-                $nameAccount->setUserID(null);
+            if ($accounts->getUserID() === $this) {
+                $accounts->setUserID(null);
             }
         }
 

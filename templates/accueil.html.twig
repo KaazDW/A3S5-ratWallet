@@ -1,26 +1,25 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %}Welcome!{% endblock %}</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-    {% block stylesheets %}
-    {% endblock %}
+{% extends 'base.html.twig' %}
 
-    {% block javascripts %}
-    {% endblock %}
-</head>
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/css/pages/accueil.css') }}">
+{% endblock %}
 
-<body>
-    <div class="logo">
+ {% block body %}
+     <div class="content">
+         <div class="logo">
+             <img src="{{ asset('assets/images/logo/rW-logo-icon-white.png') }}" class="nav-logo" alt="Logo du site">
+         </div>
+         <div class="title">
+             <h1>ratWallet.</h1>
+         </div>
+         <div class="subtitle">
+             <h2>finance finance</h2>
+         </div>
+         <div class="nav">
+             <a href="{{ path('app_login') }}" class="btn">Se connecter</a>
+             <a href="{{ path('app_register') }}" class="btn">Créer un compte</a>
+             <a href="https://github.com/KaazDW/A3S5-ratWallet" target="_blank">Github</a>
 
-    </div>
-    <div class="nav">
-        <ul>
-            <li><a href="{{ path('dashboard') }}" class="btn">Je sais pas</a></li>
-            <li><a href="{{ path('app_login') }}" class="btn">Connection</a></li>
-            <li><a href="https://github.com/KaazDW/A3S5-ratWallet" class="btn">Github</a></li>
-        </ul>
-    </div>
-</body>
-</html>
+         </div>
+     </div>
+ {% endblock %}

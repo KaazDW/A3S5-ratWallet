@@ -31,7 +31,53 @@
 body {
   background-color: var(--color-primary);
   font-family: var(--font-content);
+  header {
+    border:1px solid black;
+    color: black;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 220px;
+    height: 100%;
+    img {
+      max-width: 60px;
+      height: 60px;
+    }
+    .name{
+      margin: -40px 0 0 80px
+    }
+    .case{
+      width: 100%;
+      height:100px;
+      margin: 55px 0 0 0;
+      background-color: white;
+      border-radius: 15px;
+    }
+    .nav-account {
+      background-color: red;
+      margin-top: 20px;
+      width: 100%;
+      height:300px;
+      ul {
+        list-style: none;
+        padding: 0;
+        li {
+          margin-bottom: 10px;
+          a {
+            text-decoration: none;
+            color: white;
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+    .nav-bas{
 
+    }
+  }
 }
 
 // Individual elements style definition

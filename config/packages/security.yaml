@@ -28,7 +28,7 @@ security:
                 default_target_path: dashboard
             logout:
                 path: app_logout
-                target: app_login
+                target: accueil
 
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
