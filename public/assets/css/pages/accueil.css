@@ -1,0 +1,38 @@
+main .content {
+  width: 60%;
+  height: 60%;
+  margin: 15% 20% 15% 20%;
+}
+main .content .logo img {
+  width: 100px;
+  height: 100px;
+  border-radius: 20px;
+  margin-left: 75px;
+}
+main .content .title {
+  font-family: var(--font-title);
+  font-size: 60px;
+  width: 530px;
+  margin: -150px 0 0 300px;
+}
+main .content .subtitle {
+  font-family: var(--font-title);
+  font-size: 15px;
+  width: 530px;
+  margin: -15px 0 0 300px;
+  text-align: center;
+}
+main .content .nav {
+  width: 530px;
+  margin: 30px 0 0 300px;
+}
+main .content .nav a {
+  display: inline-block;
+  text-align: center;
+  padding: 5px 25px;
+  border-radius: 20px;
+  border: 1px solid black;
+  margin-right: 23px;
+}
+
+/*# sourceMappingURL=accueil.css.map */
