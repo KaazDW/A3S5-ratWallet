@@ -1,11 +1,24 @@
 # ratWallet.
 
+
+## Getting Started : Project Init
 ```
 git clone https://github.com/KaazDW/A3S5-ratWallet.git
 cd A3S5-ratWallet/
 compose install
+```
+> Create new db named : "ratwallet"
+```
+php bin/console doctrine:schema:update -f
 symfony server:start
 ```
+
+> dev sass compile command
+```
+sass public\assets\scss\pages\accueil.scss:public\assets\css\pages\accueil.css -w
+sass public\assets\scss\base.scss:public\assets\css\base.css -w                  
+```
+## Specifications
 
 Sujet : Système de suivi des dépenses personnelles.
 - Login
@@ -18,7 +31,7 @@ Sujet : Système de suivi des dépenses personnelles.
     - Dashboard avec graphiques
     - Gestion des remboursements (ex: a rembourser : 30€ a Pierre, 12€ a .... etc etc)
 - Responsive primordiale car utilisation sur mobile important
-- Sécurité des données
+- Sécurité des données 
 
 <div align="center">
   <img src="https://github.com/KaazDW/A3S5-ratWallet/blob/master/DOC/cg_1.png">
