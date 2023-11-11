@@ -1,44 +1,46 @@
-main {
-  .content {
-    width: 60%;
-    height: 60%;
-    margin: 15% 20% 15% 20%;
+// HOMEPAGE Sass File 
 
-    .logo {
-      img {
-        width: 100px;
-        height: 100px;
-        border-radius: 20px;
-        margin-left: 75px;
-      }
-    }
+body{
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .home-content {
+    margin: auto;
+    text-align: center;
 
     .title {
-      font-family: var(--font-title);
-      font-size: 60px;
-      width: 530px;
-      margin: -150px 0 0 300px;
-    }
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
 
-    .subtitle {
-      font-family: var(--font-title);
-      font-size: 15px;
-      width: 530px;
-      margin: -15px 0 0 300px;
-      text-align: center;
-    }
+      img {
+        height: 110px;
+        border-radius: 22px;
+        filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.445));
+        user-select: none;
 
+      }
+      // .uptitle -> Init in base.scss for a globale use
+      // .subtitle -> Init in base.scss for a globale use
+
+    }
     .nav {
-      width: 530px;
-      margin: 30px 0 0 300px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 25px;
+      user-select: none;
 
       a {
-        display: inline-block;
         text-align: center;
         padding: 5px 25px;
         border-radius: 20px;
         border: 1px solid black;
-        margin-right: 23px;
+        margin: 0 10px;
+        font-weight: 600;
       }
     }
   }

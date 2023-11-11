@@ -1,25 +1,34 @@
 {% extends 'base.html.twig' %}
 
+
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('assets/css/pages/accueil.css') }}">
 {% endblock %}
 
  {% block body %}
-     <div class="content">
-         <div class="logo">
-             <img src="{{ asset('assets/images/logo/rW-logo-icon-white.png') }}" class="nav-logo" alt="Logo du site">
-         </div>
+    <!-- https://codepen.io/TurkAysenur/pen/ZEpxeYm -->
+    <!-- Maybe think about use a svg animated background like this on the dashboard ?? -->
+
+     <div class="home-content">
          <div class="title">
-             <h1>ratWallet.</h1>
-         </div>
-         <div class="subtitle">
-             <h2>finance finance</h2>
+            <img src="{{ asset('assets/images/logo/rW-logo-icon-white.png') }}" class="nav-logo" alt="Logo du site">
+            <div class="text">
+                <h1 class="uptitle">ratWallet.</h1>
+                <h2 class="subtitle">Organize Your Financial Life</h2>
+                <!-- Other subtitles example : maybe make a switch effect on subtitle ? -->
+                <!-- Effect examples : https://codepen.io/spaling/pen/rNemwb ;   -->
+                <!-- <h2 class="subtitle">Master Your Finances</h2> -->
+                <!-- <h2 class="subtitle">Optimize and Organize Your Wallet</h2> -->
+                <!-- <h2 class="subtitle">Simplify, Organize, Prosper</h2> -->
+                <!-- <h2 class="subtitle">Elevate with Organized Finances</h2> -->
+            </div>
          </div>
          <div class="nav">
+            <!-- Add hover effect -->
+            <!-- Effect examples : https://codepen.io/aaroniker/pen/OJPqPMR ; https://codepen.io/aaroniker/pen/XWYpyNM ; https://codepen.io/robdimarzo/pen/zBMjWy-->
              <a href="{{ path('app_login') }}" class="btn">Se connecter</a>
              <a href="{{ path('app_register') }}" class="btn">Créer un compte</a>
              <a href="https://github.com/KaazDW/A3S5-ratWallet" target="_blank">Github</a>
-
          </div>
      </div>
  {% endblock %}
