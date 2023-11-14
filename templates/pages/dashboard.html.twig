@@ -1,35 +1,5 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {% if app.user is defined and app.user %}
-        {% if app.user.getNbAccount()|length < 3 %}
-            <a href="{{ path('new_account') }}">
-                <span>Créer un compte</span>
-            </a>
-            <h3>Vos comptes :</h3>
-            <ul>
-                {% for account in accounts %}
-                    <ul>
-                        <li>
-                            <a href="{{ path('detailsAccount', {'id': account.id}) }}">
-                                <h5 class="card-title text-center">{{ account.nameAccount }}</h5>
-                            </a>
-                         </li>
-                        <li>- Solde : {{ account.balance }} €</li>
-                    </ul>
-                {% endfor %}
-               {# {% for accounts in app.user.getAccounts() %}
-                    <li>{{ accounts.name }} - Solde : {{ accounts.balance }} €</li>
-                {% endfor %}#}
-            </ul>
-        {% else %}
-            <p>Vous avez atteint le nombre maximum de comptes.</p>
-        {% endif %}
-    {% endif %}
-    {# Afficher les messages flash d'erreur #}
-    {% for flashError in app.flashes('error') %}
-        <div class="alert alert-danger">
-            {{ flashError }}
-        </div>
-    {% endfor %}
+
 {% endblock %}

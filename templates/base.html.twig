@@ -16,26 +16,30 @@
 
     <body>
         <header>
-            {% if app.user %}
-                <img src="{{ asset('assets/images/logo/rW-logo-icon-white.png') }}" class="nav-logo" alt="Logo du site">
-                {% if app.user is defined and app.user %}
-                    <a class="name">{{ app.user.username }}</a>
-                {% endif %}
-                <div class="case"></div>
-                <ul class="nav-account">
-                    <li><a class="case" href="{{ path('dashboard') }}">Dashboard</a></li>
-                    <li><a class="case" href="{{ path('profile') }}">Profile</a></li>
-                    <li><a class="case" href="{{ path('app_logout') }}" class="btn">Déconnexion</a></li>
-                </ul>
+            <img src="{{ asset('assets/images/logo/rW-logo-icon-white.png') }}" class="nav-logo" alt="Logo du site">
 
-                <ul class="nav-bas">
-                    <li><a class="case" href="{{ path('profile') }}">Profile</a></li>
-                    <li><a class="case" href="{{ path('app_logout') }}" class="btn">Déconnexion</a></li>
-                </ul>
-            {% endif %}
         </header>
         <main>
-            {% block body %}{% endblock %}
+            <aside>
+                {% if app.user %}
+                    {% if app.user is defined and app.user %}
+                        <a class="name">{{ app.user.username }}</a>
+                    {% endif %}
+                    <div class="case"></div>
+                    <ul class="nav-account">
+                        <li><a class="case" href="{{ path('dashboard') }}">Dashboard</a></li>
+                        <li><a class="case" href="{{ path('profile') }}">Profile</a></li>
+                        <li><a class="case" href="{{ path('app_logout') }}" class="btn">Déconnexion</a></li>
+                    </ul>
+
+                    <ul class="nav-bas">
+                        <li><a class="case" href="{{ path('profile') }}">Profile</a></li>
+                        <li><a class="case" href="{{ path('app_logout') }}" class="btn">Déconnexion</a></li>
+                    </ul>
+                {% endif %}
+            </aside>
+            {% block body %}
+            {% endblock %}
         </main>
     </body>
 </html>

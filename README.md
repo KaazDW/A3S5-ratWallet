@@ -5,9 +5,9 @@
 ```
 git clone https://github.com/KaazDW/A3S5-ratWallet.git
 cd A3S5-ratWallet/
-compose install
+composer install
 ```
-> Create new db named : "ratwallet"
+> \> Create new db named : "ratwallet"
 ```
 php bin/console doctrine:schema:update -f
 symfony server:start
