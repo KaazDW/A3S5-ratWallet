@@ -29,6 +29,10 @@ class Account
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $nameAccount = null;
 
+    #[ORM\ManyToOne(targetEntity:'App\Entity\Currency',inversedBy: 'accounts')]
+    #[ORM\JoinColumn(name:'currency_id', referencedColumnName:'id',nullable: false)]
+    private ?Currency $currency = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -85,6 +89,18 @@ class Account
     public function setNameAccount(?string $nameAccount): static
     {
         $this->nameAccount = $nameAccount;
+
+        return $this;
+    }
+
+    public function getCurrency(): ?Currency
+    {
+        return $this->currency;
+    }
+
+    public function setCurrency(?Currency $currency): static
+    {
+        $this->currency = $currency;
 
         return $this;
     }

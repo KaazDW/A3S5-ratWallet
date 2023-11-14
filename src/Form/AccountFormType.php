@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Account;
+use App\Entity\Currency;
 use App\Entity\User;
 use Doctrine\DBAL\Types\DateTimeType;
 use Doctrine\DBAL\Types\TextType;
@@ -21,11 +22,16 @@ class AccountFormType extends AbstractType
             ->add('balance', MoneyType::class, [
                 'label' => 'Balance',
             ])
-            ->add('user_id', EntityType::class, [
+            ->add('user_id',  EntityType::class, [
                 'class' => User::class,
                 'choice_label' => 'id',
             ])
-            ->add('name_account');
+            ->add('name_account')
+            ->add('currency', EntityType::class, [
+                'class' => Currency::class,
+                'choice_label' => 'label', // Nom du champ à afficher dans le formulaire
+                'label' => 'Currency', // Étiquette du champ
+            ]);
 
     }
 
