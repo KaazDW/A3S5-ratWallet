@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Account;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,21 +20,28 @@ class DashboardController extends AbstractController
 
     public function accountList(EntityManagerInterface $entityManager): Response
     {
-        
-        $accountRepository = $entityManager->getRepository(Account::class);
-        $accounts = $accountRepository->findAll();
+        $user = $this->getUser();
 
+        // Check if the user is an instance of the User class
+        if ($user instanceof User) {
+            // Get the user ID
+            $userId = $user->getId();
 
-        return $this->render('components/account.html.twig', [
-            'accounts' => $accounts,
-        ]);
+            // Get the accounts for the user with the specified user ID
+            $accountRepository = $entityManager->getRepository(Account::class);
+            $accounts = $accountRepository->findBy(['userID' => $userId]);
+
+            return $this->render('components/account.html.twig', [
+                'accounts' => $accounts,
+            ]);
+        }
+
     }
 
     #[Route('/dashboard', name: 'dashboard')]
     public function index(EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
-
         $accountRepository = $entityManager->getRepository(Account::class);
         $accounts = $accountRepository->findAll();
 

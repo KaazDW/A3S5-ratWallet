@@ -17,7 +17,7 @@ class Account
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'userID')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'user_id_id', referencedColumnName: 'id',nullable: false)]
     private ?User $userID = null;
 
     #[ORM\Column]
