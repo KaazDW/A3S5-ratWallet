@@ -35,7 +35,6 @@ class AccountController extends AbstractController
         $account = new Account();
         $account->setUserId($user);
 
-        // Incrémente le nombre de comptes de l'utilisateur
         $user->setNbAccount($user->getNbAccount() + 1);
 
         $form = $this->createForm(AccountFormType::class, $account);
@@ -55,6 +54,29 @@ class AccountController extends AbstractController
             'form' => $form->createView(),
             'account' => $account,
         ]);
+    }
+
+    #[Route('/deleteAccount/{id}', name: 'delete_account')]
+    public function deleteAccount(int $id, EntityManagerInterface $entityManager): Response
+    {
+        $accountRepository = $entityManager->getRepository(Account::class);
+        $account = $accountRepository->find($id);
+
+        if (!$account) {
+            $this->addFlash('error', 'Compte non trouvé.');
+            return $this->redirectToRoute('dashboard');
+        }
+
+        $user = $this->getUser();
+        $user->setNbAccount($user->getNbAccount() - 1);
+
+        $entityManager->remove($account);
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Compte supprimé avec succès !');
+
+        return $this->redirectToRoute('dashboard');
     }
 
 }
