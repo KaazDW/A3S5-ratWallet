@@ -1,0 +1,14 @@
+<ul>
+    {% if app.user.getNbAccount()|length < 3 %}
+        {% for account in accounts %}
+            <li>
+                <a href="{{ path('detailsAccount', {'id': account.id}) }}">
+                    {{ account.nameAccount }}
+                </a>
+            </li>
+        {% endfor %}
+            <li><a href="{{ path('new_account') }}">Créer un compte</a></li>
+    {% else %}
+        <li>Vous avez atteint dddsfsdfe nombre maximum de comptes.</li>
+    {% endif %}
+</ul>

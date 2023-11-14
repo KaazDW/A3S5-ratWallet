@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
         <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/base.css') }}">
         {% block stylesheets %}
+
         {% endblock %}
 
         {% block javascripts %}
@@ -24,21 +25,32 @@
             <h1 class="uptitle">ratWallet.</h1>
         </header>
         {% endif %}
-
+        <style>
+            /* .border *{
+                border: 2px solid red;
+            } */
+        </style>
         <main>
             {% if app.user %}
                 <aside>
-                    {% if app.user is defined and app.user %}
-                        <a class="name">{{ app.user.username }}</a>
-                    {% endif %}
-                    <div class="case"></div>
+                    <div></div>
+                    
+                    <div>
+                    <!-- ACCOUNT DIV -->
+                    {{ render(controller(
+                        'App\\Controller\\DashboardController::accountList'
+                    )) }}
+                    </div>
+<!--                     
                     <ul class="nav-account">
-                        <li><a class="case" href="{{ path('dashboard') }}">Dashboard</a></li>
-                        <li><a class="case" href="{{ path('profile') }}">Profile</a></li>
-                        <li><a class="case" href="{{ path('app_logout') }}" class="btn">Déconnexion</a></li>
-                    </ul>
+                        <li><a href="{{ path('dashboard') }}">Dashboard</a></li>
+                        <li><a href="{{ path('profile') }}">Profile</a></li>
+                        <li><a href="{{ path('app_logout') }}" class="btn">Déconnexion</a></li>
+                        
+                        
+                    </ul> -->
 
-                    <ul class="nav-bas">
+                    <ul class="bot">
                         <li><a class="case" href="{{ path('profile') }}">Profile</a></li>
                         <li><a class="case" href="{{ path('app_logout') }}" class="btn">Déconnexion</a></li>
                     </ul>

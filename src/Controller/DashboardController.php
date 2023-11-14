@@ -16,6 +16,19 @@ class DashboardController extends AbstractController
     {
         $this->entityManager = $entityManager;
     }
+
+    public function accountList(EntityManagerInterface $entityManager): Response
+    {
+        
+        $accountRepository = $entityManager->getRepository(Account::class);
+        $accounts = $accountRepository->findAll();
+
+
+        return $this->render('components/account.html.twig', [
+            'accounts' => $accounts,
+        ]);
+    }
+
     #[Route('/dashboard', name: 'dashboard')]
     public function index(EntityManagerInterface $entityManager): Response
     {
