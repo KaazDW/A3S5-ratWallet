@@ -22,12 +22,9 @@ class DashboardController extends AbstractController
     {
         $user = $this->getUser();
 
-        // Check if the user is an instance of the User class
         if ($user instanceof User) {
-            // Get the user ID
             $userId = $user->getId();
 
-            // Get the accounts for the user with the specified user ID
             $accountRepository = $entityManager->getRepository(Account::class);
             $accounts = $accountRepository->findBy(['userID' => $userId]);
 
@@ -35,6 +32,7 @@ class DashboardController extends AbstractController
                 'accounts' => $accounts,
             ]);
         }
+        return $this->render('login/index.html.twig', []);
 
     }
 
