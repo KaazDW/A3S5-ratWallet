@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Account;
+use App\Entity\Goal;
 use App\Form\AccountFormType;
+use App\Form\GoalFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -79,4 +81,24 @@ class AccountController extends AbstractController
         return $this->redirectToRoute('dashboard');
     }
 
+    #[Route('/createGoal', name: 'create_goal')]
+    public function createGoal(Request $request,EntityManagerInterface $entityManager): Response
+    {
+        $goal = new Goal();
+        $form = $this->createForm(GoalFormType::class, $goal);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $entityManager->persist($goal);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('dashboard');
+        }
+
+        return $this->render('pages/newGoal.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
 }

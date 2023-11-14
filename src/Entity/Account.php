@@ -33,6 +33,13 @@ class Account
     #[ORM\JoinColumn(name:'currency_id', referencedColumnName:'id',nullable: false)]
     private ?Currency $currency = null;
 
+    #[ORM\ManyToOne(targetEntity:'App\Entity\AccountType', inversedBy: 'accounts')]
+    #[ORM\JoinColumn(name:'account_type_id', referencedColumnName:'id', nullable: false)]
+    private ?AccountType $accountType = null;
+
+    #[ORM\ManyToOne(inversedBy: 'accounts')]
+    private ?Goal $goal = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -101,6 +108,30 @@ class Account
     public function setCurrency(?Currency $currency): static
     {
         $this->currency = $currency;
+
+        return $this;
+    }
+
+    public function getAccountType(): ?AccountType
+    {
+        return $this->accountType;
+    }
+
+    public function setAccountType(?AccountType $accountType): static
+    {
+        $this->accountType = $accountType;
+
+        return $this;
+    }
+
+    public function getGoal(): ?Goal
+    {
+        return $this->goal;
+    }
+
+    public function setGoal(?Goal $goal): static
+    {
+        $this->goal = $goal;
 
         return $this;
     }
