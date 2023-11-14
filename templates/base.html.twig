@@ -15,13 +15,19 @@
     </head>
 
     <body>
+        {% if app.user %}
         <header>
-            <img src="{{ asset('assets/images/logo/rW-logo-icon-white.png') }}" class="nav-logo" alt="Logo du site">
-
+            <div class="user">
+                <img src="{{ asset('assets/images/logo/rW-logo-icon-white.png') }}" class="icon" alt="Logo du site">
+                <span>{{ app.user.username }}.</span>
+            </div>
+            <h1 class="uptitle">ratWallet.</h1>
         </header>
+        {% endif %}
+
         <main>
-            <aside>
-                {% if app.user %}
+            {% if app.user %}
+                <aside>
                     {% if app.user is defined and app.user %}
                         <a class="name">{{ app.user.username }}</a>
                     {% endif %}
@@ -36,8 +42,9 @@
                         <li><a class="case" href="{{ path('profile') }}">Profile</a></li>
                         <li><a class="case" href="{{ path('app_logout') }}" class="btn">Déconnexion</a></li>
                     </ul>
-                {% endif %}
-            </aside>
+                </aside>
+            {% endif %}
+
             {% block body %}
             {% endblock %}
         </main>

@@ -15,8 +15,9 @@ symfony server:start
 
 > dev sass compile command
 ```
-sass public\assets\scss\pages\accueil.scss:public\assets\css\pages\accueil.css -w
 sass public\assets\scss\base.scss:public\assets\css\base.css -w                  
+sass public\assets\scss\pages\accueil.scss:public\assets\css\pages\accueil.css -w
+sass public\assets\scss\pages\dashboard.scss:public\assets\css\pages\dashboard.css -w
 ```
 ## Specifications
 
