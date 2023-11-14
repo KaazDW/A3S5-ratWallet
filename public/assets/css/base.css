@@ -13,6 +13,10 @@
 * button:hover {
   cursor: pointer;
 }
+* button {
+  background-color: transparent;
+  border: none;
+}
 
 :root {
   --color-black: #222;

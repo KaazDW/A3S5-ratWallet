@@ -31,7 +31,7 @@ body .home-content .nav a {
   text-align: center;
   padding: 5px 25px;
   border-radius: 20px;
-  border: 1px solid black;
+  border: 1px solid var(--color-black);
   margin: 0 10px;
   font-weight: 600;
 }
