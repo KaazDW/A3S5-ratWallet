@@ -3,6 +3,7 @@
   margin: 0;
   padding: 0;
   color: var(--color-black);
+  border: 1px solid red;
 }
 * ul {
   list-style: none;
@@ -37,6 +38,9 @@
 body {
   background-color: var(--color-primary);
   font-family: var(--font-content);
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr;
 }
 body header {
   display: flex;
@@ -58,6 +62,22 @@ body header .uptitle {
   font-size: 35px;
   letter-spacing: -2px;
 }
+body main {
+  display: flex;
+  height: 100%;
+}
+body main aside {
+  width: 100%;
+  min-width: 200px;
+  max-width: 300px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+body main section.dashboard {
+  width: 100%;
+}
+
 .uptitle {
   font-family: var(--font-title);
   font-weight: 800;

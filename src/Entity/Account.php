@@ -37,7 +37,8 @@ class Account
     #[ORM\JoinColumn(name:'account_type_id', referencedColumnName:'id', nullable: false)]
     private ?AccountType $accountType = null;
 
-    #[ORM\ManyToOne(inversedBy: 'accounts')]
+    #[ORM\OneToOne(mappedBy: 'accounts', targetEntity: 'App\Entity\Goal')]
+    #[ORM\JoinColumn(name:'goal_id', referencedColumnName:'id', nullable: true)]
     private ?Goal $goal = null;
 
     #[ORM\OneToMany(mappedBy: 'account', targetEntity: Expense::class)]

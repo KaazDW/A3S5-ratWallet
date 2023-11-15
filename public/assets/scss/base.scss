@@ -12,6 +12,9 @@
   a{text-decoration: none;}
   button:hover{cursor: pointer;}
   button{background-color: transparent; border: none;}
+
+  border: 1px solid red;
+
 }
 
 // Variables definitions
@@ -38,7 +41,9 @@
 body {
   background-color: var(--color-primary);
   font-family: var(--font-content);
-
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr;
   header {
     display: flex;
     align-items: center;
@@ -67,9 +72,27 @@ body {
       // text-align: center;
     }
   }
-  aside{
+  main{
+    display: flex;
+    height: 100%;
+    aside{
+      width: 100%;
+      min-width: 200px;
+      max-width: 300px;
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
+    }
+    section.dashboard{
+      width: 100%;
+
+    }
+
+
+
 
   }
+
 }
 
 // Individual elements style definition

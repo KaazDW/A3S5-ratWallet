@@ -24,6 +24,11 @@ class GoalFormType extends AbstractType
                 'choice_label' => 'label',
                 'label' => 'Category',
             ])
+            /*->add('account', HiddenType::class, [
+                'data_class' => Account::class,
+                'mapped' => false,
+                'data' => $user->getAccounts(),
+            ])*/
         ;
     }
 

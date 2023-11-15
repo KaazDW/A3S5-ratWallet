@@ -25,9 +25,13 @@ class Goal
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\OneToOne(mappedBy: 'goal', targetEntity: Account::class)]
-    private Collection $accounts;
+    //#[ORM\OneToMany(mappedBy: 'goals', targetEntity: Account::class)]
+    //#[ORM\JoinColumn(name:'account_id', referencedColumnName:'id' , nullable: false)]
+    //private Collection $accounts;
 
+    #[ORM\OneToOne(inversedBy: 'goals', targetEntity: Account::class)]
+    #[ORM\JoinColumn(name:'account_id', referencedColumnName:'id')]
+    private Collection|null $accounts ;
     #[ORM\ManyToOne(inversedBy: 'goals')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;

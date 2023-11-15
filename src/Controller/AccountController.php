@@ -81,6 +81,8 @@ class AccountController extends AbstractController
         $entityManager->remove($account);
         $entityManager->persist($user);
         $entityManager->flush();
+        $entityManager->persist($user);
+
 
         $this->addFlash('success', 'Compte supprimé avec succès !');
 
@@ -88,15 +90,16 @@ class AccountController extends AbstractController
     }
 
     #[Route('/createGoal', name: 'create_goal')]
-    public function createGoal(Request $request,EntityManagerInterface $entityManager): Response
+    public function createGoal(Request $request, EntityManagerInterface $entityManager): Response
     {
+
         $goal = new Goal();
+
         $form = $this->createForm(GoalFormType::class, $goal);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $entityManager->persist($goal);
             $entityManager->flush();
 
@@ -107,6 +110,7 @@ class AccountController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
 
     #[Route('/createDebt', name: 'create_debt')]
     public function createDebt(Request $request,EntityManagerInterface $entityManager): Response
