@@ -4,7 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Account;
 use App\Entity\User;
+use App\Repository\ExpenseRepository;
+use App\Repository\IncomeRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -36,25 +40,6 @@ class DashboardController extends AbstractController
 
     }
 
-    #[Route('/dashboard', name: 'dashboard')]
-    public function index(EntityManagerInterface $entityManager): Response
-    {
-        $user = $this->getUser();
-        $accountRepository = $entityManager->getRepository(Account::class);
-        $accounts = $accountRepository->findAll();
-
-        if ($user) {
-            $username = $user->getUsername();
-        } else {
-            $username = 'Invité';
-        }
-
-        return $this->render('pages/dashboard.html.twig', [
-            'username' => $username,
-            'accounts' => $accounts,
-        ]);
-    }
-
     #[Route('/dashboard/{id}', name: 'detailsAccount')]
     public function detailsAccount(int $id ,EntityManagerInterface $entityManager): Response
     {
@@ -70,6 +55,33 @@ class DashboardController extends AbstractController
 
         return $this->render('pages/detailsAccount.html.twig', [
             'account' => $account,
+        ]);
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
+    #[Route('/dashboard', name: 'dashboard')]
+    public function index(EntityManagerInterface $entityManager,IncomeRepository $incomeRepository,ExpenseRepository $expenseRepository): Response
+    {
+        $user = $this->getUser();
+        $accountRepository = $entityManager->getRepository(Account::class);
+        $accounts = $accountRepository->findAll();
+
+        if ($user) {
+            $username = $user->getUsername();
+        } else {
+            $username = 'Invité';
+        }
+        $totalIncomeAmount = $incomeRepository->getTotalIncomeAmount();
+        $totalExpenseAmount = $expenseRepository->getTotalExpenseAmount();
+
+        return $this->render('pages/dashboard.html.twig', [
+            'username' => $username,
+            'accounts' => $accounts,
+            'totalIncomeAmount' => $totalIncomeAmount,
+            'totalExpenseAmount' => $totalExpenseAmount,
         ]);
     }
 

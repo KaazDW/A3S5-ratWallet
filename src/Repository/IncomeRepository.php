@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Income;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -20,6 +22,28 @@ class IncomeRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Income::class);
     }
+
+    public function getTotalIncomeAmount(): ?float
+    {
+        try {
+            $query = $this->createQueryBuilder('i')
+                ->select('SUM(i.amount) as totalAmount')
+                ->getQuery();
+
+            dump($query->getSQL()); // Debugging statement
+
+            $result = $query->getSingleScalarResult();
+
+            dump($result); // Debugging statement
+
+            return $result ?? 0.0;
+        } catch (\Exception $e) {
+            dump($e->getMessage()); // Debugging statement
+            // Log or handle the exception
+            return null;
+        }
+    }
+
 
 //    /**
 //     * @return Income[] Returns an array of Income objects

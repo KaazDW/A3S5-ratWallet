@@ -20,6 +20,27 @@ class ExpenseRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Expense::class);
     }
+    public function getTotalExpenseAmount(): ?float
+    {
+        try {
+            $query = $this->createQueryBuilder('i')
+                ->select('SUM(i.amount) as totalAmount')
+                ->getQuery();
+
+            dump($query->getSQL()); // Debugging statement
+
+            $result = $query->getSingleScalarResult();
+
+            dump($result); // Debugging statement
+
+            return $result ?? 0.0;
+        } catch (\Exception $e) {
+            dump($e->getMessage()); // Debugging statement
+            // Log or handle the exception
+            return null;
+        }
+    }
+
 
 //    /**
 //     * @return Expense[] Returns an array of Expense objects

@@ -26,7 +26,8 @@ class Expense
     #[ORM\ManyToOne(inversedBy: 'expenses')]
     private ?Category $category = null;
 
-    #[ORM\ManyToOne(inversedBy: 'expenses')]
+    #[ORM\ManyToOne(targetEntity:Account::class, inversedBy: 'expenses')]
+    #[ORM\JoinColumn(name:'account_id', referencedColumnName:'id', nullable:false)]
     private ?Account $account = null;
 
     public function getId(): ?int
