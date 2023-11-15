@@ -25,7 +25,7 @@ class Goal
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\OneToMany(mappedBy: 'goal', targetEntity: Account::class)]
+    #[ORM\OneToOne(mappedBy: 'goal', targetEntity: Account::class)]
     private Collection $accounts;
 
     #[ORM\ManyToOne(inversedBy: 'goals')]

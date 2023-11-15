@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <h1>Create Debt</h1>
+
+    {{ form_start(form) }}
+    {{ form_row(form.debtAmount) }}
+    {{ form_row(form.creditor) }}
+    {{ form_row(form.deadline) }}
+    <button type="submit" class="btn btn-primary">Ajouter la debt</button>
+    {{ form_end(form) }}
+{% endblock %}

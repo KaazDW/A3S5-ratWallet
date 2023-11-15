@@ -40,6 +40,22 @@ class Account
     #[ORM\ManyToOne(inversedBy: 'accounts')]
     private ?Goal $goal = null;
 
+    #[ORM\OneToMany(mappedBy: 'account', targetEntity: Expense::class)]
+    private Collection $expenses;
+
+    #[ORM\OneToMany(mappedBy: 'account', targetEntity: Income::class)]
+    private Collection $incomes;
+
+    #[ORM\OneToMany(mappedBy: 'account', targetEntity: Debt::class)]
+    private Collection $debts;
+
+    public function __construct()
+    {
+        $this->expenses = new ArrayCollection();
+        $this->incomes = new ArrayCollection();
+        $this->debts = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -132,6 +148,96 @@ class Account
     public function setGoal(?Goal $goal): static
     {
         $this->goal = $goal;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Expense>
+     */
+    public function getExpenses(): Collection
+    {
+        return $this->expenses;
+    }
+
+    public function addExpense(Expense $expense): static
+    {
+        if (!$this->expenses->contains($expense)) {
+            $this->expenses->add($expense);
+            $expense->setAccount($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExpense(Expense $expense): static
+    {
+        if ($this->expenses->removeElement($expense)) {
+            // set the owning side to null (unless already changed)
+            if ($expense->getAccount() === $this) {
+                $expense->setAccount(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Income>
+     */
+    public function getIncomes(): Collection
+    {
+        return $this->incomes;
+    }
+
+    public function addIncome(Income $income): static
+    {
+        if (!$this->incomes->contains($income)) {
+            $this->incomes->add($income);
+            $income->setAccount($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIncome(Income $income): static
+    {
+        if ($this->incomes->removeElement($income)) {
+            // set the owning side to null (unless already changed)
+            if ($income->getAccount() === $this) {
+                $income->setAccount(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Debt>
+     */
+    public function getDebts(): Collection
+    {
+        return $this->debts;
+    }
+
+    public function addDebt(Debt $debt): static
+    {
+        if (!$this->debts->contains($debt)) {
+            $this->debts->add($debt);
+            $debt->setAccount($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDebt(Debt $debt): static
+    {
+        if ($this->debts->removeElement($debt)) {
+            // set the owning side to null (unless already changed)
+            if ($debt->getAccount() === $this) {
+                $debt->setAccount(null);
+            }
+        }
 
         return $this;
     }

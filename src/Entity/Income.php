@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\DebtRepository;
+use App\Repository\IncomeRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: DebtRepository::class)]
-class Debt
+#[ORM\Entity(repositoryClass: IncomeRepository::class)]
+class Income
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -15,19 +15,18 @@ class Debt
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?float $debtAmount = null;
+    private ?float $amount = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $creditor = null;
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $description = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $deadline = null;
+    private ?\DateTimeInterface $date = null;
 
-    #[ORM\ManyToOne(inversedBy: 'debts')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(inversedBy: 'incomes')]
     private ?Category $category = null;
 
-    #[ORM\ManyToOne(inversedBy: 'debts')]
+    #[ORM\ManyToOne(inversedBy: 'incomes')]
     private ?Account $account = null;
 
     public function getId(): ?int
@@ -35,38 +34,38 @@ class Debt
         return $this->id;
     }
 
-    public function getDebtAmount(): ?float
+    public function getAmount(): ?float
     {
-        return $this->debtAmount;
+        return $this->amount;
     }
 
-    public function setDebtAmount(float $debtAmount): static
+    public function setAmount(float $amount): static
     {
-        $this->debtAmount = $debtAmount;
+        $this->amount = $amount;
 
         return $this;
     }
 
-    public function getCreditor(): ?string
+    public function getDescription(): ?string
     {
-        return $this->creditor;
+        return $this->description;
     }
 
-    public function setCreditor(string $creditor): static
+    public function setDescription(?string $description): static
     {
-        $this->creditor = $creditor;
+        $this->description = $description;
 
         return $this;
     }
 
-    public function getDeadline(): ?\DateTimeInterface
+    public function getDate(): ?\DateTimeInterface
     {
-        return $this->deadline;
+        return $this->date;
     }
 
-    public function setDeadline(?\DateTimeInterface $deadline): static
+    public function setDate(?\DateTimeInterface $date): static
     {
-        $this->deadline = $deadline;
+        $this->date = $date;
 
         return $this;
     }

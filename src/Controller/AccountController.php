@@ -3,9 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Account;
+use App\Entity\Debt;
+use App\Entity\Expense;
 use App\Entity\Goal;
+use App\Entity\Income;
 use App\Form\AccountFormType;
+use App\Form\DebtFormType;
+use App\Form\ExpenseFormType;
 use App\Form\GoalFormType;
+use App\Form\IncomeFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -98,6 +104,69 @@ class AccountController extends AbstractController
         }
 
         return $this->render('pages/newGoal.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/createDebt', name: 'create_debt')]
+    public function createDebt(Request $request,EntityManagerInterface $entityManager): Response
+    {
+        $debt = new Debt();
+        $form = $this->createForm(DebtFormType::class, $debt);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $entityManager->persist($debt);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('dashboard');
+        }
+
+        return $this->render('pages/newDebt.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/createIncome', name: 'create_income')]
+    public function createIncome(Request $request,EntityManagerInterface $entityManager): Response
+    {
+        $income = new Income();
+        $form = $this->createForm(IncomeFormType::class, $income);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $entityManager->persist($income);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('dashboard');
+        }
+
+        return $this->render('pages/newIncome.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/createExpense', name: 'create_expense')]
+    public function createExpense(Request $request,EntityManagerInterface $entityManager): Response
+    {
+        $expense = new Expense();
+        $form = $this->createForm(ExpenseFormType::class, $expense);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $entityManager->persist($expense);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('dashboard');
+        }
+
+        return $this->render('pages/newExpense.html.twig', [
             'form' => $form->createView(),
         ]);
     }
