@@ -48,16 +48,17 @@
                         </ul> -->
 
                         <ul class="bot">
-                            <li><a href="{{ path('create_goal') }}">Ajouter un Goal</a></li>
-                            <li><a href="{{ path('create_debt') }}">Ajouter une Debt</a></li>
+                            <!--li><a href="">Ajouter une Debt</a></li-->
                             <li><a href="{{ path('create_income') }}">Ajouter une Income</a></li>
                             <li><a href="{{ path('create_expense') }}">Ajouter une Expense</a></li>
+                        </ul>
+                    </div>
+                    <div class="bottom">
+                        <ul class="bot">
+                            <li><a href="{{ path('export_goals') }}" class="btn btn-success">Export Goals</a></li>
                             <li><a class="case" href="{{ path('profile') }}">Profile</a></li>
                             <li><a class="case" href="{{ path('app_logout') }}" class="btn">Déconnexion</a></li>
                         </ul>
-                    </div>
-                    <div class="bot">
-                        <p>tewtdfsdf</p>
                     </div>
 
                 </aside>

@@ -89,17 +89,17 @@ class AccountController extends AbstractController
         return $this->redirectToRoute('dashboard');
     }
 
+
     #[Route('/createGoal', name: 'create_goal')]
     public function createGoal(Request $request, EntityManagerInterface $entityManager): Response
     {
-
         $goal = new Goal();
-
         $form = $this->createForm(GoalFormType::class, $goal);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $entityManager->persist($goal);
             $entityManager->flush();
 
@@ -110,6 +110,8 @@ class AccountController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+
 
 
     #[Route('/createDebt', name: 'create_debt')]
@@ -173,5 +175,13 @@ class AccountController extends AbstractController
         return $this->render('pages/newExpense.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/export-goals', name: 'export_goals')]
+    public function exportGoals(GoalExportService $goalExportService): Response
+    {
+        $filename = $goalExportService->exportToExcel();
+
+        return $this->file($filename, 'goals_export.xlsx');
     }
 }

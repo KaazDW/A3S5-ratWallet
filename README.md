@@ -6,6 +6,7 @@
 git clone https://github.com/KaazDW/A3S5-ratWallet.git
 cd A3S5-ratWallet/
 composer install
+composer require phpoffice/phpspreadsheet
 ```
 > \> Create new db named : "ratwallet"
 ```

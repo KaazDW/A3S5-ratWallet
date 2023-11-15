@@ -3,12 +3,17 @@
 {% block title %}Create Goal{% endblock %}
 
 {% block body %}
-    <h1>Create Goal</h1>
+       <h1>Create Goal</h1>
 
-    {{ form_start(form) }}
-    {{ form_row(form.targetAmount) }}
-    {{ form_row(form.deadline) }}
-    {{ form_row(form.description) }}
-    <button type="submit" class="btn btn-primary">Ajouter le goal</button>
-    {{ form_end(form) }}
-{% endblock %}
+       {{ form_start(form) }}
+       {{ form_row(form.targetAmount) }}
+       {{ form_row(form.deadline) }}
+       {{ form_row(form.description) }}
+       <button type="submit" class="btn btn-primary">Ajouter le goal</button>
+       {{ form_end(form) }}
+
+       <p>---------------------------------------------</p>
+
+
+
+   {% endblock %}
