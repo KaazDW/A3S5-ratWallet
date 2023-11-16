@@ -17,6 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 class AccountController extends AbstractController
 {
@@ -89,9 +90,8 @@ class AccountController extends AbstractController
         return $this->redirectToRoute('dashboard');
     }
 
-
-    #[Route('/createGoal', name: 'create_goal')]
-    public function createGoal(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/createGoal/{id}', name: 'create_goal')]
+    public function createGoal(int $id, Request $request, EntityManagerInterface $entityManager, Security $security): Response
     {
         $goal = new Goal();
         $form = $this->createForm(GoalFormType::class, $goal);
@@ -99,8 +99,22 @@ class AccountController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            // Enregistrez d'abord le nouveau goal
             $entityManager->persist($goal);
+            $entityManager->flush();
+
+            // Associez le goal à l'Account
+            $account = $entityManager->getRepository(Account::class)->find($id);
+
+            if (!$account) {
+                // Gérer le cas où l'Account avec l'ID spécifié n'est pas trouvé
+                throw $this->createNotFoundException('Account not found');
+            }
+
+            $account->setGoal($goal);
+
+            // Mise à jour de l'Account dans la base de données
+            $entityManager->persist($account);
             $entityManager->flush();
 
             return $this->redirectToRoute('dashboard');
@@ -110,6 +124,7 @@ class AccountController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
 
 
 

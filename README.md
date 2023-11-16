@@ -8,20 +8,37 @@ cd A3S5-ratWallet/
 composer install
 composer require phpoffice/phpspreadsheet
 ```
-> \> Create new db named : "ratwallet"
+Create new db named : "ratwallet"
 ```
 php bin/console doctrine:schema:update -f
 symfony server:start
 ```
 
-> dev sass compile command
+dev sass compile command :
 ```
 sass public\assets\scss\base.scss:public\assets\css\base.css -w                  
 sass public\assets\scss\pages\accueil.scss:public\assets\css\pages\accueil.css -w
 sass public\assets\scss\pages\dashboard.scss:public\assets\css\pages\dashboard.css -w
+sass public\assets\scss\pages\login.scss:public\assets\css\pages\login.css -w   
 ```
-## Specifications
 
+## Notes
+Important :
+- ajout
+- filtre complexe (filtre multiplle sur les objets - recherche texte, catégorie couplé)
+
+Vu notre sujet :
+- mettre l'accent sur les statistiques 
+- il faut utilser impoerattivement doctrine de toutes facons.
+
+Doc sur les components Symfony :
+https://symfony.com/doc/current/templates.html#embedding-controllers
+
+Doctrine :
+> "En doctrine on s'en bas les couilles des id : `SELECT * FROM Student WHERE idschool=2;` deviens `$querybuilder("s")->andWhere(s.school=:idschool)->setParameter('idschool', 2);` `$querybuilder("student")->innerJoin("student.school")->innerJoin("school.city","city")->andWhere("city.name"=:name)->setparameter("name","Bourg-en-bresse")->getQuery()->getResult();`"
+
+
+## Specifications
 Sujet : Système de suivi des dépenses personnelles.
 - Login
     - Enregistrement de plusieurs comptes bancaires
