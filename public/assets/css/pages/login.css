@@ -25,6 +25,7 @@ body .login-content form .login-form .inputs div {
   padding: 5px 15px;
   margin-bottom: 7px;
   border-radius: 50px;
+  text-align: left;
 }
 body .login-content form .login-form .inputs div i {
   color: #3d3d3d;
@@ -38,6 +39,16 @@ body .login-content form .login-form .inputs div input:focus-visible {
 }
 body .login-content form .login-form .inputs div input:focus {
   outline: none;
+}
+body .login-content form .login-form .inputs div:last-child {
+  font-size: 13px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+body .login-content form .login-form .inputs div:last-child input {
+  margin: 0 15px;
 }
 body .login-content form .login-form .button {
   margin-top: 15px;

@@ -28,6 +28,7 @@ body{
             padding: 5px 15px;
             margin-bottom: 7px;
             border-radius: 50px;
+            text-align: left;
             i{
               color: #3d3d3d;
             }
@@ -40,6 +41,16 @@ body{
             }
             input:focus{
               outline: none;
+            }
+          }
+          div:last-child{
+            font-size: 13px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            input{
+              margin: 0 15px;
             }
           }
         }

@@ -5,33 +5,64 @@
 {% endblock %}
 
 {% block body %}
+    <div class="login-content">
+        <form action="{{ path('app_login') }}" method="post">
+            <h3 class="uptitle">Login.</h3>
+            <div class="login-form">
+                {{ form_start(registrationForm) }}
+
+                <div class="inputs">
+                    {{ form_row(registrationForm.email, {
+                        'label': false,
+                        'attr': {
+                            'placeholder': 'Email Address',
+                        },
+                    }) }}
+
+                    {{ form_row(registrationForm.username, {
+                        'label': false,
+                        'attr': {
+                            'placeholder': 'Username',
+                        },
+                    }) }}
+
+                    {{ form_row(registrationForm.plainPassword, {
+                        'label': false,
+                        'attr': {
+                            'placeholder': 'Password',
+                        },
+                    }) }}
+
+                    {{ form_row(registrationForm.agreeTerms, {
+                    'label': 'I agree to the terms',
+                    }) }}
+
+                </div>
+                <div class="button">
+                    <a href="{{ path('accueil') }}">
+                        <i class="bi bi-arrow-left-square-fill"></i>
+                    </a>
+                    <button type="submit">
+                        <i class="bi bi-person-plus-fill"></i>
+                    </button>
+                </div>
+                {{ form_end(registrationForm) }}
+
+            </div>
+        </form>
+    </div>
 <div class="wrapper">
     <div class="inner">
-        {{ form_errors(registrationForm) }}
-        {{ form_start(registrationForm) }}
-            <h3>New Useré</h3>
-            <div class="form-holder">
-                <span class="lnr lnr-user"><i class="bi bi-person-circle"></i></span>
-                <input type="text" class="form-control" placeholder="Username">
-            </div>
-            <div class="form-holder">
-                <span class="lnr lnr-envelope"><i class="bi bi-envelope-at"></i></span>
-                <input type="text" class="form-control" placeholder="Mail">
-            </div>
-            <div class="form-holder">
-                <span class="lnr lnr-lock"><i class="bi bi-lock"></i></span>
-                <input type="password" class="form-control" placeholder="Password">
-            </div>
-        {{ form_errors(registrationForm) }}
-        {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.username) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
-            <button type="submit" class="btn">Register</button>
-            {{ form_end(registrationForm) }}
+{#        {{ form_errors(registrationForm) }}#}
+{#        {{ form_start(registrationForm) }}#}
+{#        {{ form_row(registrationForm.email) }}#}
+{#        {{ form_row(registrationForm.username) }}#}
+{#        {{ form_row(registrationForm.plainPassword, {#}
+{#            label: 'Password'#}
+{#        }) }}#}
+{#        {{ form_row(registrationForm.agreeTerms) }}#}
+{#            <button type="submit" class="btn">Register</button>#}
+{#            {{ form_end(registrationForm) }}#}
     </div>
 </div>
 {% endblock %}
