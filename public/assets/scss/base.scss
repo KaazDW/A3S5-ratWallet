@@ -9,7 +9,7 @@
   padding: 0;
   //color: var(--color-black);
   ul{list-style: none;}
-  a{text-decoration: none;}
+  a{text-decoration: none; color: black;}
   button:hover{cursor: pointer;}
   button{background-color: transparent; border: none;}
 
@@ -106,12 +106,15 @@ body {
   letter-spacing: -5px;
   font-size: 90px;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.24));
+  color: var(--color-black);
+
 }
 .subtitle {
   font-family: var(--font-title);
   font-size: 22px;
   margin-top: -14px;
   text-align: left;
+  color: var(--color-black);
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.24));
 }
 .icon{

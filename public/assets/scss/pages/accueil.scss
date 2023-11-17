@@ -6,6 +6,7 @@ body{
   display: flex;
   align-items: center;
   justify-content: center;
+  color: black;
 
   .home-content {
     margin: auto;
@@ -21,7 +22,7 @@ body{
         border-radius: 22px;
         filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.445));
         user-select: none;
-
+        margin-right: 15px;
       }
       // .uptitle -> Init in base.scss for a globale use
       // .subtitle -> Init in base.scss for a globale use
