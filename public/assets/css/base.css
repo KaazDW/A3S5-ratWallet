@@ -111,7 +111,6 @@ body main section.dashboard {
   border: none;
   position: relative;
   display: inline-block;
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.24));
 }
 
 .button::before,

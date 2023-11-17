@@ -55,7 +55,7 @@ body{
             }
           }
         }
-        .button{
+        .btn{
           margin-top: 15px;
           display: flex;
           justify-content: center;
@@ -70,15 +70,4 @@ body{
     }
   }
 }
-/* Pour les champs de texte */
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-  transition: background-color 5000s ease-in-out 0s; /* Ajoute une transition pour éviter un changement brusque */
-}
 
-/* Pour les étiquettes des champs pré-remplis (le texte au-dessus du champ) */
-input:-webkit-autofill + label {
-  /* Votre style personnalisé ici */
-}

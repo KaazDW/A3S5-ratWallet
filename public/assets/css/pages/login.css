@@ -1,4 +1,3 @@
-@charset "UTF-8";
 body {
   height: 100vh;
   width: 100vw;
@@ -51,28 +50,15 @@ body .login-content form .login-form .inputs div:last-child {
 body .login-content form .login-form .inputs div:last-child input {
   margin: 0 15px;
 }
-body .login-content form .login-form .button {
+body .login-content form .login-form .btn {
   margin-top: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 15px;
 }
-body .login-content form .login-form .button * {
+body .login-content form .login-form .btn * {
   font-size: 23px;
-}
-
-/* Pour les champs de texte */
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-  transition: background-color 5000s ease-in-out 0s; /* Ajoute une transition pour éviter un changement brusque */
-}
-
-/* Pour les étiquettes des champs pré-remplis (le texte au-dessus du champ) */
-input:-webkit-autofill + label {
-  /* Votre style personnalisé ici */
 }
 
 /*# sourceMappingURL=login.css.map */
