@@ -33,7 +33,6 @@ body .home-content .nav a {
   border-radius: 20px;
   border: 1px solid var(--color-black);
   margin: 0 10px;
-  font-weight: 600;
 }
 
 .subtitle-slider {
