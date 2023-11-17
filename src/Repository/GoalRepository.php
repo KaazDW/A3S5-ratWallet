@@ -4,6 +4,9 @@ namespace App\Repository;
 
 use App\Entity\Goal;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -20,6 +23,33 @@ class GoalRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Goal::class);
     }
+
+
+    public function findOneByAccountId(int $accountId): ?float
+    {
+        try {
+            $query = $this->createQueryBuilder('g')
+                ->select('g.targetAmount')
+                ->join('g.accounts', 'a')
+                ->andWhere('a.id = :accountId')
+                ->setParameter('accountId', $accountId)
+                ->getQuery();
+
+            dump($query->getSQL());
+
+            $result = $query->getSingleScalarResult();
+
+            dump($result);
+
+            return $result ?? 0.0;
+        } catch (\Exception $e) {
+            dump($e->getMessage());
+            return null;
+        }
+    }
+
+
+
 
 //    /**
 //     * @return Goal[] Returns an array of Goal objects

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Account;
 use App\Entity\User;
 use App\Repository\ExpenseRepository;
+use App\Repository\GoalRepository;
 use App\Repository\IncomeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
@@ -41,7 +42,7 @@ class DashboardController extends AbstractController
     }
 
     #[Route('/dashboard/{id}', name: 'detailsAccount')]
-    public function detailsAccount(int $id ,EntityManagerInterface $entityManager): Response
+    public function detailsAccount(int $id ,EntityManagerInterface $entityManager, IncomeRepository $incomeRepository,ExpenseRepository $expenseRepository, GoalRepository $goalRepository): Response
     {
         $user = $this->getUser();
 
@@ -52,9 +53,16 @@ class DashboardController extends AbstractController
             throw $this->createNotFoundException('Compte non trouvé');
         }
 
+        $totalIncomeAmount = $incomeRepository->getTotalIncomeAmount();
+        $totalExpenseAmount = $expenseRepository->getTotalExpenseAmount();
+        $totalGoal = $goalRepository->findOneByAccountId($id);
+
 
         return $this->render('pages/detailsAccount.html.twig', [
             'account' => $account,
+            'totalIncomeAmount' => $totalIncomeAmount,
+            'totalExpenseAmount' => $totalExpenseAmount,
+            'totalGoal' => $totalGoal,
         ]);
     }
 
@@ -63,7 +71,7 @@ class DashboardController extends AbstractController
      * @throws NoResultException
      */
     #[Route('/dashboard', name: 'dashboard')]
-    public function index(EntityManagerInterface $entityManager,IncomeRepository $incomeRepository,ExpenseRepository $expenseRepository): Response
+    public function index(EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
         $accountRepository = $entityManager->getRepository(Account::class);
@@ -74,14 +82,10 @@ class DashboardController extends AbstractController
         } else {
             $username = 'Invité';
         }
-        $totalIncomeAmount = $incomeRepository->getTotalIncomeAmount();
-        $totalExpenseAmount = $expenseRepository->getTotalExpenseAmount();
 
         return $this->render('pages/dashboard.html.twig', [
             'username' => $username,
             'accounts' => $accounts,
-            'totalIncomeAmount' => $totalIncomeAmount,
-            'totalExpenseAmount' => $totalExpenseAmount,
         ]);
     }
 
