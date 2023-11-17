@@ -34,12 +34,18 @@
   color: var(--color-white);
 }
 
+body.loaded {
+  opacity: 1;
+}
+
 body {
   background-color: var(--color-primary);
   font-family: var(--font-content);
   height: 100vh;
   display: grid;
   grid-template-rows: auto 1fr;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
 }
 body header {
   display: flex;

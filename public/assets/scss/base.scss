@@ -36,6 +36,11 @@
   color: var(--color-white);
 }
 
+// for body opacity animation on load
+body.loaded {
+  opacity: 1;
+}
+
 // Main style definition, header and body disposition
 body {
   background-color: var(--color-primary);
@@ -43,6 +48,11 @@ body {
   height: 100vh;
   display: grid;
   grid-template-rows: auto 1fr;
+
+  // for body opacity animation on load
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+
   header {
     display: flex;
     align-items: center;
@@ -86,12 +96,7 @@ body {
       width: 100%;
 
     }
-
-
-
-
   }
-
 }
 
 // Individual elements style definition

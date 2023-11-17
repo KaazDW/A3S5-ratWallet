@@ -38,6 +38,7 @@ body .home-content .nav a {
 
 .subtitle-slider {
   margin-top: -22px;
+  user-select: none;
   margin-left: 3px;
 }
 .subtitle-slider__container {

@@ -47,6 +47,7 @@ body{
 
 .subtitle-slider {
   margin-top: -22px;
+  user-select: none;
   margin-left: 3px;
   &__container {
     font-weight: 600;

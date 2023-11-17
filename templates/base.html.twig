@@ -67,5 +67,12 @@
             {% block body %}
             {% endblock %}
         </main>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // for opacity body animation on load
+                document.body.classList.add('loaded');
+
+            });
+        </script>
     </body>
 </html>
