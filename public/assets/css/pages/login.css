@@ -21,6 +21,7 @@ body .login-content form .login-form {
   border-radius: 15px;
 }
 body .login-content form .login-form .inputs div {
+  user-select: none;
   background-color: white;
   padding: 5px 15px;
   margin-bottom: 7px;
