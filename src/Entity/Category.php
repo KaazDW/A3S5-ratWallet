@@ -18,10 +18,10 @@ class Category
     #[ORM\Column(length: 255)]
     private ?string $label = null;
 
-    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Goal::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Goal::class)]
     private Collection $goals;
 
-    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Debt::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Debt::class)]
     private Collection $debts;
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Income::class)]

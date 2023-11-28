@@ -2,8 +2,10 @@
 
 namespace App\Form;
 
+use App\Entity\Account;
 use App\Entity\Category;
 use App\Entity\Debt;
+use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -17,6 +19,10 @@ class DebtFormType extends AbstractType
             ->add('debtAmount')
             ->add('creditor')
             ->add('deadline')
+            ->add('account_id',  EntityType::class, [
+                'class' => Account::class,
+                'choice_label' => 'id',
+            ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'label',

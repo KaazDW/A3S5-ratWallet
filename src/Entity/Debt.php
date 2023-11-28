@@ -25,10 +25,10 @@ class Debt
 
     #[ORM\ManyToOne(inversedBy: 'debts')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Category $category = null;
+    private ?Account $account = null;
 
     #[ORM\ManyToOne(inversedBy: 'debts')]
-    private ?Account $account = null;
+    private ?Category $category = null;
 
     public function getId(): ?int
     {
@@ -71,18 +71,6 @@ class Debt
         return $this;
     }
 
-    public function getCategory(): ?Category
-    {
-        return $this->category;
-    }
-
-    public function setCategory(?Category $category): static
-    {
-        $this->category = $category;
-
-        return $this;
-    }
-
     public function getAccount(): ?Account
     {
         return $this->account;
@@ -91,6 +79,18 @@ class Debt
     public function setAccount(?Account $account): static
     {
         $this->account = $account;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): static
+    {
+        $this->category = $category;
 
         return $this;
     }

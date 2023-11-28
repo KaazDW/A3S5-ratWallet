@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\GoalRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -22,31 +20,18 @@ class Goal
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $deadline = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\OneToMany(mappedBy: 'goal', targetEntity: Account::class)]
-    private Collection $accounts;
+    #[ORM\OneToOne(mappedBy: 'goal', cascade: ['persist', 'remove'])]
+    private ?Account $account = null;
 
     #[ORM\ManyToOne(inversedBy: 'goals')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
-
-    public function __construct()
-    {
-        $this->accounts = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function setId(int $id): static
-    {
-        $this->id = $id;
-
-        return $this;
     }
 
     public function getTargetAmount(): ?float
@@ -85,32 +70,24 @@ class Goal
         return $this;
     }
 
-    /**
-     * @return Collection<int, Account>
-     */
-    public function getAccounts(): Collection
+    public function getAccount(): ?Account
     {
-        return $this->accounts;
+        return $this->account;
     }
 
-    public function addAccount(Account $account): static
+    public function setAccount(?Account $account): static
     {
-        if (!$this->accounts->contains($account)) {
-            $this->accounts->add($account);
+        // unset the owning side of the relation if necessary
+        if ($account === null && $this->account !== null) {
+            $this->account->setGoal(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($account !== null && $account->getGoal() !== $this) {
             $account->setGoal($this);
         }
 
-        return $this;
-    }
-
-    public function removeAccount(Account $account): static
-    {
-        if ($this->accounts->removeElement($account)) {
-            // set the owning side to null (unless already changed)
-            if ($account->getGoal() === $this) {
-                $account->setGoal(null);
-            }
-        }
+        $this->account = $account;
 
         return $this;
     }

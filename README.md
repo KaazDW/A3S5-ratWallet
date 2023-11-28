@@ -10,7 +10,8 @@ composer require phpoffice/phpspreadsheet
 ```
 Create new db named : "ratwallet"
 ```
-php bin/console doctrine:schema:update -f
+php bin/console doctrine:migrations:migrate
+php bin/console doctrine:schema:update -f //seulement si les migrations ne fonctionnent pas 
 symfony server:start
 ```
 

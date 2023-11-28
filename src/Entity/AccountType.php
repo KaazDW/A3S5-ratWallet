@@ -18,7 +18,7 @@ class AccountType
     #[ORM\Column(length: 255)]
     private ?string $label = null;
 
-    #[ORM\OneToMany(mappedBy: 'accountType', targetEntity: Account::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'accountType', targetEntity: Account::class)]
     private Collection $accounts;
 
     public function __construct()
@@ -29,13 +29,6 @@ class AccountType
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function setId(int $id): static
-    {
-        $this->id = $id;
-
-        return $this;
     }
 
     public function getLabel(): ?string

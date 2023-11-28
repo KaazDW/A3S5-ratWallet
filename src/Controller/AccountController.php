@@ -99,7 +99,6 @@ class AccountController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Enregistrez d'abord le nouveau goal
             $entityManager->persist($goal);
             $entityManager->flush();
 
@@ -125,12 +124,8 @@ class AccountController extends AbstractController
         ]);
     }
 
-
-
-
-
-    #[Route('/createDebt', name: 'create_debt')]
-    public function createDebt(Request $request,EntityManagerInterface $entityManager): Response
+    #[Route('/createDebt/{id}', name: 'create_debt')]
+    public function createDebt(int $id, Request $request,EntityManagerInterface $entityManager): Response
     {
         $debt = new Debt();
         $form = $this->createForm(DebtFormType::class, $debt);
@@ -138,9 +133,10 @@ class AccountController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            $debt->setAccountID($id);
             $entityManager->persist($debt);
             $entityManager->flush();
+
 
             return $this->redirectToRoute('dashboard');
         }

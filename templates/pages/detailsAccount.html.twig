@@ -1,14 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <a>{{account.nameAccount }}</a>
-    <a>{{account.balance }}</a>
+    <section class="dashboard">
+        <a>Nom : {{account.nameAccount }}</a> <br>
+        <a>Solde : {{account.balance }}</a>
 
+        <p>---------------</p>
 
-    <h1>Goal</h1>
-    <p>Total Goal: {{ totalGoal }}</p>
-    <h1>Total Income Amount</h1>
-    <p>Total Amount: {{ totalIncomeAmount }}</p>
-    <h1>Total Expense Amount</h1>
-    <p>Total Amount: {{ totalExpenseAmount }}</p>
+        <h1>Goal</h1>
+        <p>Total Goal: {{ totalGoal }}</p>
+        <h1>Total Income Amount</h1>
+        <p>Total Amount: {{ totalIncomeAmount }}</p>
+        <h1>Total Expense Amount</h1>
+        <p>Total Amount: {{ totalExpenseAmount }}</p>
+    </section>
 {% endblock %}

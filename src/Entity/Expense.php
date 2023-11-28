@@ -17,7 +17,7 @@ class Expense
     #[ORM\Column]
     private ?float $amount = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
@@ -26,8 +26,8 @@ class Expense
     #[ORM\ManyToOne(inversedBy: 'expenses')]
     private ?Category $category = null;
 
-    #[ORM\ManyToOne(targetEntity:Account::class, inversedBy: 'expenses')]
-    #[ORM\JoinColumn(name:'account_id', referencedColumnName:'id', nullable:false)]
+    #[ORM\ManyToOne(inversedBy: 'expenses')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Account $account = null;
 
     public function getId(): ?int

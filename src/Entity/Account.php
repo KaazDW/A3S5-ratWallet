@@ -16,69 +16,47 @@ class Account
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'userID')]
-    #[ORM\JoinColumn(name: 'user_id_id', referencedColumnName: 'id',nullable: false)]
-    private ?User $userID = null;
-
     #[ORM\Column]
     private ?float $balance = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $creationDate = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $nameAccount = null;
 
-    #[ORM\ManyToOne(targetEntity:'App\Entity\Currency',inversedBy: 'accounts')]
-    #[ORM\JoinColumn(name:'currency_id', referencedColumnName:'id',nullable: false)]
-    private ?Currency $currency = null;
+    #[ORM\ManyToOne(inversedBy: 'accounts')]
+    private ?User $userID = null;
 
-    #[ORM\ManyToOne(targetEntity:'App\Entity\AccountType', inversedBy: 'accounts')]
-    #[ORM\JoinColumn(name:'account_type_id', referencedColumnName:'id', nullable: false)]
+    #[ORM\ManyToOne(inversedBy: 'accounts')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?AccountType $accountType = null;
 
-    #[ORM\OneToOne(mappedBy: 'accounts', targetEntity: 'App\Entity\Goal')]
-    #[ORM\JoinColumn(name:'goal_id', referencedColumnName:'id', nullable: true)]
+    #[ORM\ManyToOne(inversedBy: 'accounts')]
+    private ?Currency $currency = null;
+
+    #[ORM\OneToOne(inversedBy: 'account', cascade: ['persist', 'remove'])]
     private ?Goal $goal = null;
 
-    #[ORM\OneToMany(mappedBy: 'account', targetEntity: Expense::class)]
-    private Collection $expenses;
+    #[ORM\OneToMany(mappedBy: 'account', targetEntity: Debt::class, orphanRemoval: true)]
+    private Collection $debts;
 
-    #[ORM\OneToMany(mappedBy: 'account', targetEntity: Income::class)]
+    #[ORM\OneToMany(mappedBy: 'account', targetEntity: Income::class, orphanRemoval: true)]
     private Collection $incomes;
 
-    #[ORM\OneToMany(mappedBy: 'account', targetEntity: Debt::class)]
-    private Collection $debts;
+    #[ORM\OneToMany(mappedBy: 'account', targetEntity: Expense::class, orphanRemoval: true)]
+    private Collection $expenses;
 
     public function __construct()
     {
-        $this->expenses = new ArrayCollection();
-        $this->incomes = new ArrayCollection();
         $this->debts = new ArrayCollection();
+        $this->incomes = new ArrayCollection();
+        $this->expenses = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function setId(int $id): static
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
-    public function getUserID(): ?User
-    {
-        return $this->userID;
-    }
-
-    public function setUserID(?User $userID): static
-    {
-        $this->userID = $userID;
-
-        return $this;
     }
 
     public function getBalance(): ?float
@@ -98,7 +76,7 @@ class Account
         return $this->creationDate;
     }
 
-    public function setCreationDate(?\DateTimeInterface $creationDate): static
+    public function setCreationDate(\DateTimeInterface $creationDate): static
     {
         $this->creationDate = $creationDate;
 
@@ -110,21 +88,21 @@ class Account
         return $this->nameAccount;
     }
 
-    public function setNameAccount(?string $nameAccount): static
+    public function setNameAccount(string $nameAccount): static
     {
         $this->nameAccount = $nameAccount;
 
         return $this;
     }
 
-    public function getCurrency(): ?Currency
+    public function getUserID(): ?User
     {
-        return $this->currency;
+        return $this->userID;
     }
 
-    public function setCurrency(?Currency $currency): static
+    public function setUserID(?User $userID): static
     {
-        $this->currency = $currency;
+        $this->userID = $userID;
 
         return $this;
     }
@@ -137,6 +115,18 @@ class Account
     public function setAccountType(?AccountType $accountType): static
     {
         $this->accountType = $accountType;
+
+        return $this;
+    }
+
+    public function getCurrency(): ?Currency
+    {
+        return $this->currency;
+    }
+
+    public function setCurrency(?Currency $currency): static
+    {
+        $this->currency = $currency;
 
         return $this;
     }
@@ -154,29 +144,29 @@ class Account
     }
 
     /**
-     * @return Collection<int, Expense>
+     * @return Collection<int, Debt>
      */
-    public function getExpenses(): Collection
+    public function getDebts(): Collection
     {
-        return $this->expenses;
+        return $this->debts;
     }
 
-    public function addExpense(Expense $expense): static
+    public function addDebt(Debt $debt): static
     {
-        if (!$this->expenses->contains($expense)) {
-            $this->expenses->add($expense);
-            $expense->setAccount($this);
+        if (!$this->debts->contains($debt)) {
+            $this->debts->add($debt);
+            $debt->setAccount($this);
         }
 
         return $this;
     }
 
-    public function removeExpense(Expense $expense): static
+    public function removeDebt(Debt $debt): static
     {
-        if ($this->expenses->removeElement($expense)) {
+        if ($this->debts->removeElement($debt)) {
             // set the owning side to null (unless already changed)
-            if ($expense->getAccount() === $this) {
-                $expense->setAccount(null);
+            if ($debt->getAccount() === $this) {
+                $debt->setAccount(null);
             }
         }
 
@@ -214,29 +204,29 @@ class Account
     }
 
     /**
-     * @return Collection<int, Debt>
+     * @return Collection<int, Expense>
      */
-    public function getDebts(): Collection
+    public function getExpenses(): Collection
     {
-        return $this->debts;
+        return $this->expenses;
     }
 
-    public function addDebt(Debt $debt): static
+    public function addExpense(Expense $expense): static
     {
-        if (!$this->debts->contains($debt)) {
-            $this->debts->add($debt);
-            $debt->setAccount($this);
+        if (!$this->expenses->contains($expense)) {
+            $this->expenses->add($expense);
+            $expense->setAccount($this);
         }
 
         return $this;
     }
 
-    public function removeDebt(Debt $debt): static
+    public function removeExpense(Expense $expense): static
     {
-        if ($this->debts->removeElement($debt)) {
+        if ($this->expenses->removeElement($expense)) {
             // set the owning side to null (unless already changed)
-            if ($debt->getAccount() === $this) {
-                $debt->setAccount(null);
+            if ($expense->getAccount() === $this) {
+                $expense->setAccount(null);
             }
         }
 

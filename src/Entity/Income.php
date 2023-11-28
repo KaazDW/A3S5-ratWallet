@@ -17,7 +17,7 @@ class Income
     #[ORM\Column]
     private ?float $amount = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
@@ -27,6 +27,7 @@ class Income
     private ?Category $category = null;
 
     #[ORM\ManyToOne(inversedBy: 'incomes')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Account $account = null;
 
     public function getId(): ?int

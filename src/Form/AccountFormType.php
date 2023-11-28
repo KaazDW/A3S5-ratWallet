@@ -30,15 +30,14 @@ class AccountFormType extends AbstractType
             ->add('name_account')
             ->add('currency', EntityType::class, [
                 'class' => Currency::class,
-                'choice_label' => 'label', // Nom du champ à afficher dans le formulaire
-                'label' => 'Currency', // Étiquette du champ
+                'choice_label' => 'label',
+                'label' => 'Currency',
             ])
             ->add('account_type', EntityType::class, [
                 'class' => AccountType::class,
                 'choice_label' => 'label',
                 'label' => 'AccountType',
             ]);
-
     }
 
     public function configureOptions(OptionsResolver $resolver): void
