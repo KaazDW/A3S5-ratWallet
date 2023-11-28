@@ -20,13 +20,13 @@ class ExpenseRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Expense::class);
     }
-    public function getTotalExpenseAmount(int $accountId): ?float
+    public function getTotalExpenseAmount(int $id): ?float
     {
         try {
             $query = $this->createQueryBuilder('e')
                 ->select('SUM(e.amount) as totalExpenseAmount')
                 ->andWhere('e.account = :account_id')
-                ->setParameter('account_id', $accountId)
+                ->setParameter('account_id', $id)
                 ->getQuery();
 
             dump($query->getSQL());
