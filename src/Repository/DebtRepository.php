@@ -21,6 +21,29 @@ class DebtRepository extends ServiceEntityRepository
         parent::__construct($registry, Debt::class);
     }
 
+    public function findOneByAccountId(int $accountId): ?float
+    {
+        try {
+            $query = $this->createQueryBuilder('d')
+                ->select('SUM(d.debtAmount) as totalDebtAmount')
+                ->andWhere('d.account = :account_id')
+                ->setParameter('account_id', $accountId)
+                ->getQuery();
+
+            dump($query->getSQL());
+
+            $result = $query->getSingleScalarResult();
+
+            dump($result);
+
+            return $result ?? 0.0;
+        } catch (\Exception $e) {
+            dump($e->getMessage());
+            return null;
+        }
+    }
+
+
 //    /**
 //     * @return Debt[] Returns an array of Debt objects
 //     */

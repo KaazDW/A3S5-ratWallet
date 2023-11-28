@@ -6,6 +6,7 @@ use App\Entity\Account;
 use App\Entity\User;
 use App\Repository\ExpenseRepository;
 use App\Repository\GoalRepository;
+use App\Repository\DebtRepository;
 use App\Repository\IncomeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
@@ -42,7 +43,7 @@ class DashboardController extends AbstractController
     }
 
     #[Route('/dashboard/{id}', name: 'detailsAccount')]
-    public function detailsAccount(int $id ,EntityManagerInterface $entityManager, IncomeRepository $incomeRepository,ExpenseRepository $expenseRepository, GoalRepository $goalRepository): Response
+    public function detailsAccount(int $id ,EntityManagerInterface $entityManager, IncomeRepository $incomeRepository,ExpenseRepository $expenseRepository, GoalRepository $goalRepository, DebtRepository $debtRepository): Response
     {
         $user = $this->getUser();
 
@@ -53,9 +54,10 @@ class DashboardController extends AbstractController
             throw $this->createNotFoundException('Compte non trouvé');
         }
 
-        $totalIncomeAmount = $incomeRepository->getTotalIncomeAmount();
-        $totalExpenseAmount = $expenseRepository->getTotalExpenseAmount();
+        $totalIncomeAmount = $incomeRepository->getTotalIncomeAmount($id);
+        $totalExpenseAmount = $expenseRepository->getTotalExpenseAmount($id);
         $totalGoal = $goalRepository->findOneByAccountId($id);
+        $totalDebt = $debtRepository->findOneByAccountId($id);
 
 
         return $this->render('pages/detailsAccount.html.twig', [
@@ -63,6 +65,7 @@ class DashboardController extends AbstractController
             'totalIncomeAmount' => $totalIncomeAmount,
             'totalExpenseAmount' => $totalExpenseAmount,
             'totalGoal' => $totalGoal,
+            'totalDebt' => $totalDebt,
         ]);
     }
 

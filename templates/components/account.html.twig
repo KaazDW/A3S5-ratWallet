@@ -6,7 +6,9 @@
             </a>
             <a href="{{ path('delete_account',{'id': account.id}) }}"><i class="bi bi-trash3"></i></a>
             <a href="{{ path('create_goal',{'id': account.id}) }}"><i class="bi bi-gear"></i></a>
-            <a href="{{ path('create_debt',{'id': account.id}) }}">Add debt</a>
+            <a href="{{ path('create_debt',{'id': account.id}) }}"> debt | </a>
+            <a href="{{ path('create_income',{'id': account.id}) }}"> Income | </a>
+            <a href="{{ path('create_expense',{'id': account.id}) }}"> Expense | </a>
         </li>
     {% endfor %}
     {% if app.user.getNbAccount()|length < 3 %}

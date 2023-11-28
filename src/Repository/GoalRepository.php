@@ -29,10 +29,9 @@ class GoalRepository extends ServiceEntityRepository
     {
         try {
             $query = $this->createQueryBuilder('g')
-                ->select('g.targetAmount')
-                ->join('g.accounts', 'a')
-                ->andWhere('a.id = :accountId')
-                ->setParameter('accountId', $accountId)
+                ->select('SUM(g.targetAmount) as totalTargetAmount')
+                ->andWhere('g.id = :account_id')
+                ->setParameter('account_id', $accountId)
                 ->getQuery();
 
             dump($query->getSQL());

@@ -19,10 +19,6 @@ class DebtFormType extends AbstractType
             ->add('debtAmount')
             ->add('creditor')
             ->add('deadline')
-            ->add('account_id',  EntityType::class, [
-                'class' => Account::class,
-                'choice_label' => 'id',
-            ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'label',

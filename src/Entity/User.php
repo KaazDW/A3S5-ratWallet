@@ -34,11 +34,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $username = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $nbAccount = null;
-
    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Account::class)]
     private Collection $accounts;
+
+   #[ORM\Column(nullable: true)]
+   private ?int $nbAccount = null;
     public function __construct()
     {
         $this->accounts = new ArrayCollection();
@@ -167,4 +167,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
 }

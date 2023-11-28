@@ -71,6 +71,10 @@ class Debt
         return $this;
     }
 
+    //public function getAccount(): ?int
+    //{
+     //   return $this->account?->getId();
+    //}
     public function getAccount(): ?Account
     {
         return $this->account;

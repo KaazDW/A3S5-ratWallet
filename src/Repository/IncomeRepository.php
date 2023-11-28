@@ -23,23 +23,24 @@ class IncomeRepository extends ServiceEntityRepository
         parent::__construct($registry, Income::class);
     }
 
-    public function getTotalIncomeAmount(): ?float
+    public function getTotalIncomeAmount(int $accountId): ?float
     {
         try {
             $query = $this->createQueryBuilder('i')
-                ->select('SUM(i.amount) as totalAmount')
+                ->select('SUM(i.amount) as totalIncomeAmount')
+                ->andWhere('i.account = :account_id')
+                ->setParameter('account_id', $accountId)
                 ->getQuery();
 
-            dump($query->getSQL()); // Debugging statement
+            dump($query->getSQL());
 
             $result = $query->getSingleScalarResult();
 
-            dump($result); // Debugging statement
+            dump($result);
 
             return $result ?? 0.0;
         } catch (\Exception $e) {
-            dump($e->getMessage()); // Debugging statement
-            // Log or handle the exception
+            dump($e->getMessage());
             return null;
         }
     }

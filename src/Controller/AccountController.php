@@ -43,6 +43,7 @@ class AccountController extends AbstractController
 
         $account = new Account();
         $account->setUserId($user);
+        $account->setCreationDate(new \DateTime('now'));
 
         $user->setNbAccount($user->getNbAccount() + 1);
 
@@ -125,31 +126,41 @@ class AccountController extends AbstractController
     }
 
     #[Route('/createDebt/{id}', name: 'create_debt')]
-    public function createDebt(int $id, Request $request,EntityManagerInterface $entityManager): Response
+    public function createDebt(int $id, Request $request, EntityManagerInterface $entityManager, Security $security): Response
     {
+        $account = $entityManager->getRepository(Account::class)->find($id);
+        if (!$account) {
+            throw $this->createNotFoundException('Account not found');
+        }
         $debt = new Debt();
-        $form = $this->createForm(DebtFormType::class, $debt);
+        $debt->setAccount($account);
 
+        $form = $this->createForm(DebtFormType::class, $debt);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $debt->setAccountID($id);
             $entityManager->persist($debt);
             $entityManager->flush();
 
-
             return $this->redirectToRoute('dashboard');
         }
-
         return $this->render('pages/newDebt.html.twig', [
             'form' => $form->createView(),
         ]);
     }
 
-    #[Route('/createIncome', name: 'create_income')]
-    public function createIncome(Request $request,EntityManagerInterface $entityManager): Response
+
+    #[Route('/createIncome/{id}', name: 'create_income')]
+    public function createIncome(int $id, Request $request,EntityManagerInterface $entityManager): Response
     {
+        $account = $entityManager->getRepository(Account::class)->find($id);
+        if (!$account) {
+            throw $this->createNotFoundException('Account not found');
+        }
+
         $income = new Income();
+        $income->setAccount($account);
+
         $form = $this->createForm(IncomeFormType::class, $income);
 
         $form->handleRequest($request);
@@ -167,10 +178,17 @@ class AccountController extends AbstractController
         ]);
     }
 
-    #[Route('/createExpense', name: 'create_expense')]
-    public function createExpense(Request $request,EntityManagerInterface $entityManager): Response
+    #[Route('/createExpense/{id}', name: 'create_expense')]
+    public function createExpense(int $id, Request $request,EntityManagerInterface $entityManager): Response
     {
+        $account = $entityManager->getRepository(Account::class)->find($id);
+        if (!$account) {
+            throw $this->createNotFoundException('Account not found');
+        }
+
         $expense = new Expense();
+        $expense->setAccount($account);
+
         $form = $this->createForm(ExpenseFormType::class, $expense);
 
         $form->handleRequest($request);
