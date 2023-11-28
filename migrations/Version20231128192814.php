@@ -14,7 +14,7 @@ final class Version20231128192814 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Insertion de champ dans la table Category';
+        return 'Insertion de champ dans les tables accountType et Currency';
     }
 
     public function up(Schema $schema): void
