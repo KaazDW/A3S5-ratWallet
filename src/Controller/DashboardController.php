@@ -101,7 +101,7 @@ class DashboardController extends AbstractController
 
                 $entityManager->flush();
 
-                $this->addFlash('success', 'Transaction created successfully');
+                return $this->redirectToRoute('detailsAccount', ['id' => $id]);
             }
         }
 
