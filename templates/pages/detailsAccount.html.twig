@@ -2,8 +2,10 @@
 
 {% block body %}
     <section class="dashboard">
-        <a>Nom : {{account.nameAccount }}</a> <br>
-        <a>Solde : {{account.balance }}</a>
+        <div class="element">
+            <a>Nom : {{account.nameAccount }}</a> <br>
+            <a>Solde : {{account.balance }}</a>
+        </div>
 
         <p>---------------</p>
 
@@ -15,5 +17,49 @@
         <p>Total Amount: {{ totalIncomeAmount }}</p>
         <h1>Total Expense Amount</h1>
         <p>Total Amount: {{ totalExpenseAmount }}</p>
+
+        <p>---------------</p>
+            <h1>Create Transaction</h1>
+            <div>
+                <p>Choose transaction type:</p>
+                <button onclick="showForm('income')">Income</button>
+                <button onclick="showForm('expense')">Expense</button>
+            </div>
+
+             <div id="incomeForm" style="display:none;">
+                {{ form_start(incomeForm, {'attr': {'class': 'income-form'}}) }}
+                {{ form_row(incomeForm.amount) }}
+                {{ form_row(incomeForm.date) }}
+                {{ form_row(incomeForm.description) }}
+                <button type="submit" class="btn btn-primary">Ajouter une Income</button>
+                {{ form_end(incomeForm) }}
+            </div>
+
+            <div id="expenseForm" style="display:none;">
+                {{ form_start(expenseForm, {'attr': {'class': 'expense-form'}}) }}
+                {{ form_row(expenseForm.amount) }}
+                {{ form_row(expenseForm.date) }}
+                {{ form_row(expenseForm.description) }}
+                <button type="submit" class="btn btn-primary">Ajouter une dépense</button>
+                {{ form_end(expenseForm) }}
+            </div>
+
     </section>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        function showForm(type) {
+            if (type === 'income') {
+                document.getElementById('incomeForm').style.display = 'block';
+                document.getElementById('expenseForm').style.display = 'none';
+            } else if (type === 'expense') {
+                document.getElementById('incomeForm').style.display = 'none';
+                document.getElementById('expenseForm').style.display = 'block';
+            }
+            // Mettre à jour l'URL
+            const newUrl = window.location.href.split('?')[0] + '?type=' + type;
+            history.pushState({}, '', newUrl);
+        }
+    </script>
 {% endblock %}
