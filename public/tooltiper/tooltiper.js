@@ -1,11 +1,5 @@
 // https://github.com/KaazDW/Tooltiper
 
-const styleSheet = document.createElement('link');
-styleSheet.rel = 'stylesheet';
-styleSheet.type = 'text/css';
-styleSheet.href = 'https://raw.githubusercontent.com/KaazDW/Tooltiper/v1/tooltiper.css'; 
-document.head.appendChild(styleSheet);
-
 document.addEventListener('DOMContentLoaded', function () {
     let labels = document.querySelectorAll('.tooltip-container');
 
