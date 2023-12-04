@@ -8,13 +8,18 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class IncomeFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('amount')
+            ->add('amount', null, [
+                'constraints' => [
+                    new NotBlank(['message' => 'Amount cannot be blank.']),
+                ],
+            ])
             ->add('description')
             ->add('date')
             ->add('category', EntityType::class, [

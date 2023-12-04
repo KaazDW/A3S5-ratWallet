@@ -4,14 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Account;
 use App\Entity\Debt;
-use App\Entity\Expense;
 use App\Entity\Goal;
-use App\Entity\Income;
 use App\Form\AccountFormType;
 use App\Form\DebtFormType;
-use App\Form\ExpenseFormType;
 use App\Form\GoalFormType;
-use App\Form\IncomeFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -145,80 +141,6 @@ class AccountController extends AbstractController
             return $this->redirectToRoute('dashboard');
         }
         return $this->render('pages/newDebt.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
-
-
-    #[Route('/createIncome/{id}', name: 'create_income')]
-    public function createIncome(int $id, Request $request,EntityManagerInterface $entityManager): Response
-    {
-        $account = $entityManager->getRepository(Account::class)->find($id);
-        if (!$account) {
-            throw $this->createNotFoundException('Account not found');
-        }
-
-        $income = new Income();
-        $income->setAccount($account);
-
-        $form = $this->createForm(IncomeFormType::class, $income);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $incomeAmount = $income->getAmount();
-
-            // Increase the account balance by the income amount
-            $account->setBalance($account->getBalance() + $incomeAmount);
-
-            // Persist the income and update the account
-            $entityManager->persist($income);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('dashboard');
-        }
-
-
-        return $this->render('pages/newIncome.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
-
-    #[Route('/createExpense/{id}', name: 'create_expense')]
-    public function createExpense(int $id, Request $request,EntityManagerInterface $entityManager): Response
-    {
-        $account = $entityManager->getRepository(Account::class)->find($id);
-        $expenseRepository = $entityManager->getRepository(Expense::class);
-        if (!$account) {
-            throw $this->createNotFoundException('Account not found');
-        }
-
-        $expense = new Expense();
-        $expense->setAccount($account);
-
-        $form = $this->createForm(ExpenseFormType::class, $expense);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $expenseAmount = $expense->getAmount();
-
-            // Check if there are sufficient funds in the account
-            if ($account->getBalance() >= $expenseAmount) {
-                // Deduct the expense amount from the account balance
-                $account->setBalance($account->getBalance() - $expenseAmount);
-
-                $entityManager->persist($expense);
-                $entityManager->flush();
-
-                return $this->redirectToRoute('dashboard');
-            } else {
-                $this->addFlash('error', 'Insufficient funds');
-                return $this->redirectToRoute('create_expense', ['id' => $id]);
-            }
-        }
-
-        return $this->render('pages/newExpense.html.twig', [
             'form' => $form->createView(),
         ]);
     }
