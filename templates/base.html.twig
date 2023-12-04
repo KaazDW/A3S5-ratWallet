@@ -16,6 +16,7 @@
     </head>
 
     <body>
+
         {% if app.user %}
         <header>
             <div class="user">
@@ -25,16 +26,12 @@
             <h1 class="uptitle">ratWallet.</h1>
         </header>
         {% endif %}
-        <style>
-            /* .border *{
-                border: 2px solid red;
-            } */
-        </style>
+
         <main>
             {% if app.user %}
                 <aside>
                     <div class="main">
-                        <div>
+                        <div class="element">
                             <!-- ACCOUNT DIV -->
                             {{ render(controller(
                                 'App\\Controller\\DashboardController::accountList'
@@ -51,7 +48,7 @@
                             <!--li><a href="">Ajouter une Debt</a></li-->
                         </ul>
                     </div>
-                    <div class="bottom">
+                    <div class="bottom element">
                         <ul class="bot">
                             <li><a href="{{ path('export_goals') }}" class="btn btn-success">Export Goals</a></li>
                             <li><a class="case" href="{{ path('profile') }}">Profile</a></li>
@@ -64,11 +61,10 @@
             {% block body %}
             {% endblock %}
         </main>
+
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-                // for opacity body animation on load
-                document.body.classList.add('loaded');
-
+                document.body.classList.add('loaded'); // for opacity body animation on load
             });
         </script>
     </body>
