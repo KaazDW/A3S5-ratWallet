@@ -37,16 +37,10 @@
             {% if app.user %}
                 <aside>
                     <div class="main">
-                        <div class="element">
                             <!-- ACCOUNT DIV -->
                             {{ render(controller(
                                 'App\\Controller\\DashboardController::accountList'
                             )) }}
-                        </div>
-
-                        <ul class="bot">
-                            <!--li><a href="">Ajouter une Debt</a></li-->
-                        </ul>
                     </div>
                     <div class="bottom element">
                         <ul class="bot">

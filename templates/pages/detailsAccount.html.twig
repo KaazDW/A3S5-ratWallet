@@ -7,43 +7,43 @@
             <a>Solde : {{account.balance }}</a>
         </div>
 
-        <p>---------------</p>
+        <div class="element">
+            <h1>Goal</h1>
+            <p>Total Goal: {{ totalGoal }}</p>
+            <h1>Debt</h1>
+            <p>Total Debt: {{ totalDebt }}</p>
+            <h1>Total Income Amount</h1>
+            <p>Total Amount: {{ totalIncomeAmount }}</p>
+            <h1>Total Expense Amount</h1>
+            <p>Total Amount: {{ totalExpenseAmount }}</p>
+        </div>
 
-        <h1>Goal</h1>
-        <p>Total Goal: {{ totalGoal }}</p>
-        <h1>Debt</h1>
-        <p>Total Debt: {{ totalDebt }}</p>
-        <h1>Total Income Amount</h1>
-        <p>Total Amount: {{ totalIncomeAmount }}</p>
-        <h1>Total Expense Amount</h1>
-        <p>Total Amount: {{ totalExpenseAmount }}</p>
+            <div class="element">
+                <h1>Create Transaction</h1>
+                <div>
+                    <p>Choose transaction type:</p>
+                    <button onclick="showForm('income')">Income</button>
+                    <button onclick="showForm('expense')">Expense</button>
+                </div>
 
-        <p>---------------</p>
-            <h1>Create Transaction</h1>
-            <div>
-                <p>Choose transaction type:</p>
-                <button onclick="showForm('income')">Income</button>
-                <button onclick="showForm('expense')">Expense</button>
+                 <div id="incomeForm" style="display:none;">
+                    {{ form_start(incomeForm, {'attr': {'class': 'income-form'}}) }}
+                    {{ form_row(incomeForm.amount) }}
+                    {{ form_row(incomeForm.date) }}
+                    {{ form_row(incomeForm.description) }}
+                    <button type="submit" class="btn btn-primary">Ajouter une Income</button>
+                    {{ form_end(incomeForm) }}
+                </div>
+
+                <div id="expenseForm" style="display:none;">
+                    {{ form_start(expenseForm, {'attr': {'class': 'expense-form'}}) }}
+                    {{ form_row(expenseForm.amount) }}
+                    {{ form_row(expenseForm.date) }}
+                    {{ form_row(expenseForm.description) }}
+                    <button type="submit" class="btn btn-primary">Ajouter une dépense</button>
+                    {{ form_end(expenseForm) }}
+                </div>
             </div>
-
-             <div id="incomeForm" style="display:none;">
-                {{ form_start(incomeForm, {'attr': {'class': 'income-form'}}) }}
-                {{ form_row(incomeForm.amount) }}
-                {{ form_row(incomeForm.date) }}
-                {{ form_row(incomeForm.description) }}
-                <button type="submit" class="btn btn-primary">Ajouter une Income</button>
-                {{ form_end(incomeForm) }}
-            </div>
-
-            <div id="expenseForm" style="display:none;">
-                {{ form_start(expenseForm, {'attr': {'class': 'expense-form'}}) }}
-                {{ form_row(expenseForm.amount) }}
-                {{ form_row(expenseForm.date) }}
-                {{ form_row(expenseForm.description) }}
-                <button type="submit" class="btn btn-primary">Ajouter une dépense</button>
-                {{ form_end(expenseForm) }}
-            </div>
-
     </section>
 {% endblock %}
 
