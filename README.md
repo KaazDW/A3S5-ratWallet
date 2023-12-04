@@ -6,14 +6,15 @@
 git clone https://github.com/KaazDW/A3S5-ratWallet.git
 cd A3S5-ratWallet/
 composer install
-composer require phpoffice/phpspreadsheet
+npm install
 ```
 
 Create new db named : "ratwallet"
 
 ```
 php bin/console doctrine:migrations:migrate
-php bin/console doctrine:schema:update -f //seulement si les migrations ne fonctionnent pas
+php bin/console doctrine:schema:update -f // only if migrations does not work
+npm run watch
 symfony server:start
 ```
 
@@ -25,6 +26,11 @@ sass public\assets\scss\pages\accueil.scss:public\assets\css\pages\accueil.css -
 sass public\assets\scss\pages\dashboard.scss:public\assets\css\pages\dashboard.css -w
 sass public\assets\scss\pages\login.scss:public\assets\css\pages\login.css -w
 ```
+
+librairy used :
+
+- Chartjs for Symfony (https://symfony.com/bundles/ux-chartjs/current/index.html)[https://symfony.com/bundles/ux-chartjs/current/index.html]
+- PHPSpreadSheet
 
 ## Notes
 
