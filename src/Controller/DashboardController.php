@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Account;
 use App\Entity\Expense;
+use App\Entity\History;
 use App\Entity\Income;
 use App\Entity\User;
 use App\Form\ExpenseFormType;
@@ -77,6 +78,14 @@ class DashboardController extends AbstractController
                 $transactionAmount = $form->get('amount')->getData();
 
                 $account->setBalance($account->getBalance() + ($formType === 'income' ? $transactionAmount : -$transactionAmount));
+
+                // Enregistrement dans la table historique
+                $history = new History();
+                $history->setAccount($account);
+                $history->setDate(new \DateTime());
+                $history->setHistoryBalance($account->getBalance());
+
+                $entityManager->persist($history);
 
                 if ($formType === 'income') {
                     $income = $form->getData();

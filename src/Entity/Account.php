@@ -47,11 +47,15 @@ class Account
     #[ORM\OneToMany(mappedBy: 'account', targetEntity: Expense::class, orphanRemoval: true)]
     private Collection $expenses;
 
+    #[ORM\OneToMany(mappedBy: 'account', targetEntity: History::class, orphanRemoval: true)]
+    private Collection $histories;
+
     public function __construct()
     {
         $this->debts = new ArrayCollection();
         $this->incomes = new ArrayCollection();
         $this->expenses = new ArrayCollection();
+        $this->histories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -227,6 +231,36 @@ class Account
             // set the owning side to null (unless already changed)
             if ($expense->getAccount() === $this) {
                 $expense->setAccount(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, History>
+     */
+    public function getHistories(): Collection
+    {
+        return $this->histories;
+    }
+
+    public function addHistory(History $history): static
+    {
+        if (!$this->histories->contains($history)) {
+            $this->histories->add($history);
+            $history->setAccount($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHistory(History $history): static
+    {
+        if ($this->histories->removeElement($history)) {
+            // set the owning side to null (unless already changed)
+            if ($history->getAccount() === $this) {
+                $history->setAccount(null);
             }
         }
 

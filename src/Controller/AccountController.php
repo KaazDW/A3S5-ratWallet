@@ -29,7 +29,6 @@ class AccountController extends AbstractController
     {
         $user = $this->getUser();
 
-        // Vérifiez si l'utilisateur a atteint le nombre maximum de comptes
         $maxAccountLimit = 3;
 
         if ($user->getNbAccount() >= $maxAccountLimit) {
@@ -48,7 +47,7 @@ class AccountController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->persist($account);
-            $this->entityManager->persist($user); // Persiste les changements à l'utilisateur
+            $this->entityManager->persist($user);
             $this->entityManager->flush();
 
             $this->addFlash('success', 'Compte créé avec succès !');
