@@ -12,9 +12,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class ChartController extends AbstractController
 {
     #[Route('/chart-line/{id}', name: 'chart_line')]
-    public function chart(int $id): Response
+    public function chart(int $id,EntityManagerInterface $entityManager): Response
     {
-        return $this->render('pages/chartLine.html.twig');
+        $account = $entityManager->getRepository(Account::class)->find($id);
+
+        return $this->render('pages/chartLine.html.twig',[
+            'account' => $account,
+            ]);
     }
 
     #[Route('/chart-data/{id}', name: 'chart_data')]
