@@ -19,6 +19,9 @@ body .login-content form .login-form {
   padding: 30px;
   border-radius: 15px;
 }
+body .login-content form .login-form .inputs {
+  font-size: 14px;
+}
 body .login-content form .login-form .inputs div {
   user-select: none;
   background-color: white;
