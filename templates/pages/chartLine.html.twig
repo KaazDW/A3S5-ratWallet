@@ -1,0 +1,42 @@
+{# templates/chart/chart.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <section class="dashboard">
+        <div class="element">
+            <canvas id="myChart"></canvas>
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    {# Inclure le script Chart.js depuis le CDN #}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Dans votre fichier Twig -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const ctx = document.getElementById('myChart');
+            const accountId = 1;
+
+            fetch('{{ path('chart_data', {'id': 1}) }}')
+                .then(response => response.json())
+                .then(data => {
+                    new Chart(ctx, {
+                        type: 'line',
+                        data: data,
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                });
+        });
+    </script>
+{% endblock %}
