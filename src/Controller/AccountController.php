@@ -145,7 +145,7 @@ class AccountController extends AbstractController
     }
 
     #[Route('/export-goals', name: 'export_goals')]
-    public function exportGoals(GoalExportService $goalExportService): Response
+    public function exportGoals(ExportService $goalExportService): Response
     {
         $filename = $goalExportService->exportToExcel();
 

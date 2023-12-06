@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Serializable;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
@@ -168,4 +169,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /*
+    public function serialize()
+    {
+        return serialize([$this->id, $this->email, $this->password]);
+    }
+
+    public function unserialize($serialized)
+    {
+        list($this->id, $this->email, $this->password) = unserialize($serialized);
+    }
+
+    public function __serialize(): array
+    {
+        return [
+            $this->id,
+            $this->email,
+            $this->password,
+        ];
+    }
+
+    public function __unserialize(array $data): void
+    {
+        [
+            $this->id,
+            $this->email,
+            $this->password,
+        ] = $data;
+    }
+    */
 }
