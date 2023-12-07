@@ -1,5 +1,175 @@
 // DASHBOARD Sass File 
 
-body{
-    
+// DETAIL Account
+
+.top-dash-content{
+        display: flex;
+    .stats{
+        display: flex;
+        div{
+            margin: 0 15px;
+            p{
+                display: inline;
+                font-weight: 800;
+                span{
+                    font-weight: 500;
+                    margin-left: 8px;
+                }
+            }
+        }
+    }
+    .transactions{
+        display: flex;
+        justify-content: center;
+        position: relative;
+        button{
+            margin: 0 10px;
+            font-size: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center ;
+            color: var(--color-black);
+        }
+    }
 }
+#expenseForm{
+    display: none;
+}
+.toastForm {
+    // display: none;
+    // background-color: var(--color-primary);
+    position: absolute;
+    width: 320px;
+    padding: 20px;
+    // border-radius: 10px;
+    margin-top: 75px;
+    animation: fadeIn 1s;
+
+    div{
+        h3{
+            margin-bottom: 15px;
+        }
+        form {
+            align-items: center;
+        }
+        .btn-div{
+            margin-top: 15px;
+            display: block;
+            text-align: right;
+            .button{
+                padding: 5px 15px;
+                border: 1px solid black;
+            }
+        }
+        div{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        input, select{
+            padding: 8px 13px;
+            border: none;
+            border: 1px solid var(--color-black);
+            border-radius: 25px;
+            margin: 4px;
+            margin-left: 8px;
+            display: inline;
+        }
+        input:focus {
+            outline: none;
+        }
+        .btn {
+            margin-left: auto;
+            font-size: 18px;
+            margin-top: 15px;
+            color: white;
+            i{
+                color: #333;  
+                margin-left: 15px;
+            }
+        }
+    }
+    .login-content {
+        margin: auto;
+        text-align: center;
+
+        form {
+            align-items: center;
+
+            .uptitle {
+                font-size: 65px;
+            }
+
+            .login-form {
+                padding: 30px;
+                border-radius: 15px;
+
+                .inputs {
+                    font-size: 14px;
+
+                    div {
+                        user-select: none;
+                        background-color: white;
+                        padding: 5px 15px;
+                        margin-bottom: 7px;
+                        border-radius: 50px;
+                        text-align: left;
+
+                        i {
+                            color: #3d3d3d;
+                        }
+
+                        input {
+                            padding: 8px 13px;
+                            border: none;
+                        }
+
+                        input:focus-visible {
+                            border: none;
+                        }
+
+                        input:focus {
+                            outline: none;
+                        }
+                    }
+
+                    div:last-child {
+                        font-size: 13px;
+                        text-align: center;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+
+                        input {
+                            margin: 0 15px;
+                        }
+                    }
+                }
+
+                .btn {
+                    margin-top: 15px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 15px;
+
+                    * {
+                        font-size: 23px;
+                    }
+                }
+            }
+        }
+    }   
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+

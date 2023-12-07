@@ -9,6 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class ExpenseFormType extends AbstractType
 {
@@ -21,7 +22,7 @@ class ExpenseFormType extends AbstractType
                 ],
             ])
             ->add('description')
-            ->add('date')
+            ->add('date', HiddenType::class)
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'label',

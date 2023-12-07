@@ -1,65 +1,141 @@
 {% extends 'base.html.twig' %}
-
-{% block body %}
-    <section class="dashboard">
-        <div class="element">
-            <a>Nom : {{account.nameAccount }}</a> <br>
-            <a>Solde : {{account.balance }}</a>
-        </div>
-
-        <div class="element">
-            <h1>Goal</h1>
-            <p>Total Goal: {{ totalGoal }}</p>
-            <h1>Debt</h1>
-            <p>Total Debt: {{ totalDebt }}</p>
-            <h1>Total Income Amount</h1>
-            <p>Total Amount: {{ totalIncomeAmount }}</p>
-            <h1>Total Expense Amount</h1>
-            <p>Total Amount: {{ totalExpenseAmount }}</p>
-        </div>
-
-            <div class="element">
-                <h1>Create Transaction</h1>
-                <div>
-                    <p>Choose transaction type:</p>
-                    <button onclick="showForm('income')">Income</button>
-                    <button onclick="showForm('expense')">Expense</button>
-                </div>
-
-                 <div id="incomeForm" style="display:none;">
-                    {{ form_start(incomeForm, {'attr': {'class': 'income-form'}}) }}
-                    {{ form_row(incomeForm.amount) }}
-                    {{ form_row(incomeForm.date) }}
-                    {{ form_row(incomeForm.description) }}
-                    <button type="submit" class="btn btn-primary">Ajouter une Income</button>
-                    {{ form_end(incomeForm) }}
-                </div>
-
-                <div id="expenseForm" style="display:none;">
-                    {{ form_start(expenseForm, {'attr': {'class': 'expense-form'}}) }}
-                    {{ form_row(expenseForm.amount) }}
-                    {{ form_row(expenseForm.date) }}
-                    {{ form_row(expenseForm.description) }}
-                    <button type="submit" class="btn btn-primary">Ajouter une dépense</button>
-                    {{ form_end(expenseForm) }}
-                </div>
-            </div>
-    </section>
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{ asset('assets/css/pages/dashboard.css') }}">
 {% endblock %}
 
+{% block body %}
+	<section class="dashboard">
+		<div class="top-dash-content">
+			<div class="element stats">
+				<div>
+					<p>Account name :
+						<span>{{account.nameAccount }}</span>
+					</p>
+					<br>
+					<p>Solde :
+						<span>{{account.balance }}€</span>
+					</p>
+				</div>
+				<div>
+					<p class="tooltip-container" data-tooltip="The sold goal you want to reach on this account">Goal :
+						<span>{{ totalGoal }}€</span>
+					</p>
+				<br>
+				<p>Solde :
+					<span>{{account.balance }}€</span>
+				</p>
+				</div>
+				<div>
+					<p class="tooltip-container" data-tooltip="Total of all Incoming Money since creation of this account">Total Income :
+						<span>{{ totalIncomeAmount }}€</span>
+					</p>
+					<br>
+					<p class="tooltip-container" data-tooltip="Total of all Expense Money since creation of this account">Total Expense :
+						<span>{{ totalExpenseAmount }}€</span>
+					</p>
+				</div>
+			</div>
+			<div class="element transactions">
+				<button>
+					<i class="bi bi-plus-square-fill" id="addIncome"></i>
+				</button>
+				<button>
+					<i class="bi bi-dash-square-fill" id="addExpense"></i>
+				</button>
+				<div class="toastForm element" id="incomeForm">
+					<div>
+						{{ form_start(incomeForm, {'attr': {'class': 'income-form', 'id': 'incomeFormId'} } ) }}
+						<h3>Add a Money Income</h3>
+						{{ form_row(incomeForm.amount) }}
+						{{ form_row(incomeForm.date) }}
+						{{ form_row(incomeForm.description) }}
+						{{ form_row(incomeForm.category) }}
+						<div class="btn-div">
+							<a href="#" id="linkFormIncome" class="button button--pan">
+								<span>
+									Add<i class="bi bi-patch-plus-fill"></i>
+								</span>
+							</a>
+						</div>
+						{{ form_end(incomeForm) }}
+					</div>
+				</div>
+			</div>
+			<div class="toastForm element" id="expenseForm">
+				<div>
+					{{ form_start(expenseForm, {'attr': {'class': 'expense-form'} } ) }}
+					{{ form_row(expenseForm.amount) }}
+					{{ form_row(expenseForm.date) }}
+					{{ form_row(expenseForm.description) }}
+					<button type="submit" class="btn btn-primary">Ajouter une dépense</button>
+					{{ form_end(expenseForm) }}
+				</div>
+			</div>
+		</div>
+	</div>
+					
+	<div class="element">
+
+	</div>
+	
+	<div class="element">
+		<!-- <h1>Create Transaction</h1>
+		<div>
+			<p>Choose transaction type:</p>
+			<button onclick="showForm('income')">Income</button>
+			<button onclick="showForm('expense')">Expense</button>
+		</div> -->
+	</div>
+</section>
+{% endblock %}
 {% block javascripts %}
     <script>
-        function showForm(type) {
-            if (type === 'income') {
-                document.getElementById('incomeForm').style.display = 'block';
-                document.getElementById('expenseForm').style.display = 'none';
-            } else if (type === 'expense') {
-                document.getElementById('incomeForm').style.display = 'none';
-                document.getElementById('expenseForm').style.display = 'block';
-            }
-            // Mettre à jour l'URL
-            const newUrl = window.location.href.split('?')[0] + '?type=' + type;
-            history.pushState({}, '', newUrl);
+        let incomeFormElement;
+        let expenseFormElement;
+        let incomeButton, expenseButton;
+
+        document.addEventListener('DOMContentLoaded', function () {
+			incomeFormElement = document.getElementById('incomeForm');
+			expenseFormElement = document.getElementById('expenseForm');
+			incomeButton = document.getElementById('addIncome');
+			expenseButton = document.getElementById('addExpense');
+
+			// Make the <a> link can be use like a <button type="submit"> for income an expense forms
+			var formulaire = document.getElementById('incomeFormId');
+			var link = document.getElementById('linkFormIncome');
+
+			link.addEventListener('click', function (event) {
+				event.preventDefault();
+				formulaire.submit();
+			});
+        });
+
+        function sleep(ms) {
+        	return new Promise(resolve => setTimeout(resolve, ms));
         }
+
+        document.addEventListener('click', function (event) {
+			if (event.target == incomeButton) {
+				incomeFormElement.style.display = 'block';
+				expenseFormElement.style.display = 'none';
+				// Mettre à jour l'URL
+				const newUrl = window.location.href.split('?')[0] + '?type=expense';
+				history.pushState({}, '', newUrl);
+				return;
+			}
+			if (event.target == expenseButton) {
+				incomeFormElement.style.display = 'none';
+				expenseFormElement.style.display = 'block';
+				// Mettre à jour l'URL
+				const newUrl = window.location.href.split('?')[0] + '?type=expense';
+				history.pushState({}, '', newUrl);
+				return;
+			}
+			if (incomeFormElement.contains(event.target) || expenseFormElement.contains(event.target)) {
+				return;
+			}
+			incomeFormElement.style.display = 'none';
+			expenseFormElement.style.display = 'none';
+        });
     </script>
 {% endblock %}

@@ -1,3 +1,153 @@
+.top-dash-content {
+  display: flex;
+}
+.top-dash-content .stats {
+  display: flex;
+}
+.top-dash-content .stats div {
+  margin: 0 15px;
+}
+.top-dash-content .stats div p {
+  display: inline;
+  font-weight: 800;
+}
+.top-dash-content .stats div p span {
+  font-weight: 500;
+  margin-left: 8px;
+}
+.top-dash-content .transactions {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+.top-dash-content .transactions button {
+  margin: 0 10px;
+  font-size: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--color-black);
+}
 
+#expenseForm {
+  display: none;
+}
+
+.toastForm {
+  position: absolute;
+  width: 320px;
+  padding: 20px;
+  margin-top: 75px;
+  animation: fadeIn 1s;
+}
+.toastForm div h3 {
+  margin-bottom: 15px;
+}
+.toastForm div form {
+  align-items: center;
+}
+.toastForm div .btn-div {
+  margin-top: 15px;
+  display: block;
+  text-align: right;
+}
+.toastForm div .btn-div .button {
+  padding: 5px 15px;
+  border: 1px solid black;
+}
+.toastForm div div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.toastForm div input, .toastForm div select {
+  padding: 8px 13px;
+  border: none;
+  border: 1px solid var(--color-black);
+  border-radius: 25px;
+  margin: 4px;
+  margin-left: 8px;
+  display: inline;
+}
+.toastForm div input:focus {
+  outline: none;
+}
+.toastForm div .btn {
+  margin-left: auto;
+  font-size: 18px;
+  margin-top: 15px;
+  color: white;
+}
+.toastForm div .btn i {
+  color: #333;
+  margin-left: 15px;
+}
+.toastForm .login-content {
+  margin: auto;
+  text-align: center;
+}
+.toastForm .login-content form {
+  align-items: center;
+}
+.toastForm .login-content form .uptitle {
+  font-size: 65px;
+}
+.toastForm .login-content form .login-form {
+  padding: 30px;
+  border-radius: 15px;
+}
+.toastForm .login-content form .login-form .inputs {
+  font-size: 14px;
+}
+.toastForm .login-content form .login-form .inputs div {
+  user-select: none;
+  background-color: white;
+  padding: 5px 15px;
+  margin-bottom: 7px;
+  border-radius: 50px;
+  text-align: left;
+}
+.toastForm .login-content form .login-form .inputs div i {
+  color: #3d3d3d;
+}
+.toastForm .login-content form .login-form .inputs div input {
+  padding: 8px 13px;
+  border: none;
+}
+.toastForm .login-content form .login-form .inputs div input:focus-visible {
+  border: none;
+}
+.toastForm .login-content form .login-form .inputs div input:focus {
+  outline: none;
+}
+.toastForm .login-content form .login-form .inputs div:last-child {
+  font-size: 13px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.toastForm .login-content form .login-form .inputs div:last-child input {
+  margin: 0 15px;
+}
+.toastForm .login-content form .login-form .btn {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+.toastForm .login-content form .login-form .btn * {
+  font-size: 23px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 
 /*# sourceMappingURL=dashboard.css.map */

@@ -29,15 +29,15 @@ class ExpenseRepository extends ServiceEntityRepository
                 ->setParameter('account_id', $id)
                 ->getQuery();
 
-            dump($query->getSQL());
+            // dump($query->getSQL());
 
             $result = $query->getSingleScalarResult();
 
-            dump($result);
+            // dump($result);
 
             return $result ?? 0.0;
         } catch (\Exception $e) {
-            dump($e->getMessage());
+            // dump($e->getMessage());
             return null;
         }
     }
