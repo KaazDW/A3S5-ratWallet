@@ -143,13 +143,11 @@ class DashboardController extends AbstractController
             $username = 'Invité';
         }
 
-        $chartData = $this->balanceAccountChart($entityManager, $user);
 
         return $this->render('pages/dashboard.html.twig', [
             'username' => $username,
             'accounts' => $accounts,
             'topAccounts' => $topAccounts,
-            'data' => $chartData,
         ]);
     }
 
