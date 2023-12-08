@@ -20,7 +20,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class DashboardController extends AbstractController
 {
@@ -44,8 +43,8 @@ class DashboardController extends AbstractController
                 'accounts' => $accounts,
             ]);
         }
-        return $this->render('login/index.html.twig', []);
 
+        return $this->render('login/index.html.twig');
     }
 
     #[Route('/dashboard/{id}', name: 'detailsAccount')]
@@ -55,7 +54,7 @@ class DashboardController extends AbstractController
         $account = $entityManager->getRepository(Account::class)->find($id);
 
         if (!$account) {
-            throw $this->createNotFoundException('Compte non trouvé');
+            throw $this->createNotFoundException('Account not found');
         }
         $incomeForm = $this->createForm(IncomeFormType::class, new Income());
         $expenseForm = $this->createForm(ExpenseFormType::class, new Expense());
@@ -79,7 +78,6 @@ class DashboardController extends AbstractController
 
                 $account->setBalance($account->getBalance() + ($formType === 'income' ? $transactionAmount : -$transactionAmount));
 
-                // Enregistrement dans la table historique
                 $history = new History();
                 $history->setAccount($account);
                 $history->setDate(new \DateTime());
@@ -116,7 +114,7 @@ class DashboardController extends AbstractController
             'totalExpenseAmount' => $totalExpenseAmount,
             'totalGoal' => $totalGoal,
             'totalDebt' => $totalDebt,
-            'form' => $form ? $form->createView() : null,
+            'form' => $form?->createView(),
             'formType' => $formType,
             'incomeForm' => $incomeForm->createView(),
             'expenseForm' => $expenseForm->createView(),
@@ -189,7 +187,40 @@ class DashboardController extends AbstractController
             'data' => $data,
         ];
     }
+    // ...
 
+    #[Route('/recap/{id}', name: 'recap')]
+    public function recap(int $id, EntityManagerInterface $entityManager, Request $request): Response
+    {
+        $account = $entityManager->getRepository(Account::class)->find($id);
+
+        $categoryFilter = $request->query->get('categoryFilter');
+
+        $incomes = $entityManager->getRepository(Income::class)->findBy(['account' => $id]);
+        $expenses = $entityManager->getRepository(Expense::class)->findBy(['account' => $id]);
+
+        $recapItems = array_merge($incomes, $expenses);
+
+        $recapItems = array_map(function ($item) {
+            $itemType = $item instanceof Income ? 'Income' : 'Expense';
+            $itemCategory = $item->getCategory()->getLabel();
+
+            $item->type = $itemType;
+            $item->categoryName = $itemCategory;
+            return $item;
+        }, $recapItems);
+
+        $uniqueCategories = array_unique(array_map(function ($item) {
+            return $item->categoryName;
+        }, $recapItems));
+
+        return $this->render('pages/recap.html.twig', [
+            'recapItems' => $recapItems,
+            'categoryFilter' => $categoryFilter,
+            'uniqueCategories' => $uniqueCategories,
+            'account' => $account,
+        ]);
+    }
 
 
 }

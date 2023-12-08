@@ -4,13 +4,16 @@ namespace App\Controller;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class ProfileController extends AbstractController
+
+class ProfilController extends AbstractController
 {
     private EntityManagerInterface $entityManager;
 
@@ -60,19 +63,21 @@ class ProfileController extends AbstractController
         return $this->render('pages/profil.html.twig');
     }
 
-    #[Route('/changeLanguage', name: 'change_language')]
-    public function changeLanguage(Request $request, TranslatorInterface $translator)
+   // #[Route('/change-language/{lang}', name: 'change_language')]
+    public function changeLanguageeeee(Request $request, SessionInterface $session, $lang): RedirectResponse
     {
-        $newLocale = $request->get('new_locale');
+        $validLanguages = ['fr', 'en'];
 
-        if (in_array($newLocale, $translator->getFallbackLocales())) {
-            $translator->setLocale($newLocale);
-            $this->addFlash('success', $translator->trans('Language changed successfully.'));
-        } else {
-            $this->addFlash('error', $translator->trans('Invalid language selection.'));
+        if (!in_array($lang, $validLanguages)) {
+            return $this->redirectToRoute('dashboard');
         }
 
-        return $this->redirect($request->headers->get('referer'));
+        $session->set('_locale', $lang);
+        dump($locale = $request->getLocale());
+
+
+        $referer = $request->headers->get('referer');
+        return $this->redirectToRoute('dashboard');
     }
 
 

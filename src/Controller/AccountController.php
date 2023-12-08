@@ -9,6 +9,7 @@ use App\Form\AccountFormType;
 use App\Form\DebtFormType;
 use App\Form\GoalFormType;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpOffice\PhpSpreadsheet\Writer\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,10 +26,9 @@ class AccountController extends AbstractController
     }
 
     #[Route('/newAccount', name: 'new_account')]
-    public function createAccount(EntityManagerInterface $entityManager, Request $request): Response
+    public function createAccount(Request $request): Response
     {
         $user = $this->getUser();
-
         $maxAccountLimit = 3;
 
         if ($user->getNbAccount() >= $maxAccountLimit) {
@@ -144,6 +144,9 @@ class AccountController extends AbstractController
         ]);
     }
 
+    /**
+     * @throws Exception
+     */
     #[Route('/export-goals', name: 'export_goals')]
     public function exportGoals(ExportService $goalExportService): Response
     {
@@ -151,4 +154,24 @@ class AccountController extends AbstractController
 
         return $this->file($filename, 'goals_export.xlsx');
     }
+
+    #[Route('/changeLanguage/{lang}', name: 'change_language')]
+    public function changeLanguage(Request $request, $lang): \Symfony\Component\HttpFoundation\RedirectResponse
+    {
+        $validLanguages = ['en_GB', 'fr_FR'];
+        dump('test');
+        if (!in_array($lang, $validLanguages)) {
+            return $this->redirectToRoute('dashboard');
+        }
+
+         $request->getSession()->set('_locale', $lang);
+
+         dump($lang);
+         dump($request->getSession()->get('_locale'));  // Check if _locale is set correctly
+
+         $referer = $request->headers->get('referer');
+         dump($referer);
+         return $this->redirectToRoute('dashboard');
+    }
+
 }

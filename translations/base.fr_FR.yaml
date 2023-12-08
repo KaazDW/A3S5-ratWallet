@@ -1,0 +1,44 @@
+#Page base.html.twig
+Export Data: 'Exporter les données'
+Profil: 'Profile'
+Log out : 'Déconnexion'
+
+#Page accueil.html.twig
+Master Your Finances: ''
+Simplify, Organize, Prosper: ''
+Elevate with Organized Finances: ''
+Organize Your Financial Life: ''
+Sign in : 'Se connecter'
+Create an account : 'Créer un compte'
+
+#Page registration/register.html.twig
+Register.: ''
+
+#Page login/index.html.twig
+Login. : 'Connexion.'
+
+#Page components/account.html.twig
+Global Dashboard: 'Dashboard Global'
+Open Popup: 'Ouvrir la popup'
+You have reached the maximum number of accounts.: 'Vous avez atteint le nombre maximum de comptes.'
+
+#Page dashboard.html.twig
+
+#Page pages/profil.html.twig
+Delete User: 'Supprimer un utilisateur'
+Delete Profil: 'Supprimer votre profile'
+Modify Username: 'Modifier votre nom utilisateur :'
+Welcome to your profile: 'Bienvenue sur votre profil '
+Update Username: 'Mettre à jour'
+Your username: 'Votre nom dutilisateur'
+Your email: 'Votre email'
+New Username: 'Nouveau nom'
+Are you sure you want to delete the user with the username: 'Etes-vous sur de vouloir supprimer cette utilisateur '
+
+#Page pages/newGoal.html.twig
+Create Goal: 'Créer un goal'
+Add goal: 'Ajouter le goal'
+
+#Page pages/newAccount.html.twig
+Create Account: 'Créer un compte'
+Add acoount: 'Ajouter le compte'

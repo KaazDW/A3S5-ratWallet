@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <section class="dashboard">
+        <div class="element">
+            <h1>Tableau récapitulatif</h1>
+            <!-- Filter form for sorting by category -->
+            <form method="get" action="{{ path('recap', {'id': account.id}) }}">
+                <label>
+                    Sort by Category:
+                    <select name="categoryFilter">
+                        <option value="" {% if not categoryFilter %}selected{% endif %}>All</option>
+                        {% for category in uniqueCategories %}
+                            <option value="{{ category }}" {% if categoryFilter == category %}selected{% endif %}>{{ category }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <button type="submit">Apply Filter</button>
+            </form>
+
+            <!-- Display the table -->
+            <table>
+                <thead>
+                <tr>
+                    <th>id</th>
+                    <th>type</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th>Montant</th>
+                    <th>Category</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in recapItems %}
+                    <tr>
+                        <td>{{ item.id }}</td>
+                        <td style="color: {{ item.type == 'Income' ? 'green' : 'red' }}">
+                            {{ item.type }}
+                        </td>
+                        <td>{{ item.description }}</td>
+                        <td>{{ item.date|date('Y-m-d') }}</td>
+                        <td style="color: {{ item.type == 'Income' ? 'green' : 'red' }}">
+                            {{ item.type == 'Income' ? '+' : '-' }}  {{ item.amount }}
+                        </td>
+                        <td>{{ item.categoryName }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+
+{% endblock %}
