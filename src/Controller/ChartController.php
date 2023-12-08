@@ -1,6 +1,8 @@
 <?php
 namespace App\Controller;
 
+use App\Entity\Category;
+use App\Entity\Expense;
 use App\Entity\Account;
 use App\Entity\Goal;
 use Doctrine\ORM\EntityManagerInterface;
@@ -11,19 +13,34 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ChartController extends AbstractController
 {
-    #[Route('/chart/datacategory/', name: 'datacategory')]
-    public function getData()
+    #[Route('/chart/datacategory/{id}', name: 'datacategory')]
+    public function getDataCategory(int $id, EntityManagerInterface $entityManager)
     {
-        $chartData = [
-            'categories' => ['Category 1', 'Category 2', 'Category 3'],
-            'series' => [
-                ['name' => 'Series 1', 'data' => [30, 40, 35]],
-            ],
-        ];
+        // Récupérer le référentiel (repository) pour l'entité Expense
+        $expenseRepository = $entityManager->getRepository(Expense::class);
+        $queryBuilder = $expenseRepository->createQueryBuilder('e')
+            ->select('e.category_id', 'SUM(e.amount) as totalAmount')
+            ->where('e.account_id = :account')
+            ->setParameter('account', $id)
+            ->groupBy('e.category_id');
+
+        // Exécuter la requête
+        $query = $queryBuilder->getQuery();
+        $result = $query->getResult();
+
+        // Formater les résultats pour la réponse JSON
+        $chartData = [];
+        foreach ($result as $row) {
+            $chartData[] = [
+                'category_id' => $row['category_id'],
+                'total_amount' => $row['totalAmount'],
+            ];
+        }
 
         return new JsonResponse($chartData);
-        // for see which data are responses go to : http://127.0.0.1:8000/chart/data
+        // pour voir les données renvoyées, allez à : http://127.0.0.1:8000/chart/datacategory/{id}
     }
+
 
     #[Route('/goal-progress/{id}', name: 'goal_progress')]
     public function goalProgress(int $id, EntityManagerInterface $entityManager): Response

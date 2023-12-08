@@ -120,16 +120,12 @@
 			});
         });
 
-        function sleep(ms) {
-        	return new Promise(resolve => setTimeout(resolve, ms));
-        }
-
         document.addEventListener('click', function (event) {
 			if (event.target == incomeButton) {
 				incomeFormElement.style.display = 'block';
 				expenseFormElement.style.display = 'none';
 
-				// Mettre à jour l'URL
+				// URL Update
 				const newUrl = window.location.href.split('?')[0] + '?type=income';
 				history.pushState({}, '', newUrl);
 				return;
@@ -138,7 +134,7 @@
 				incomeFormElement.style.display = 'none';
 				expenseFormElement.style.display = 'block';
 				
-				// Mettre à jour l'URL
+				// URL Update
 				const newUrl = window.location.href.split('?')[0] + '?type=expense';
 				history.pushState({}, '', newUrl);
 				return;
@@ -150,10 +146,8 @@
 			expenseFormElement.style.display = 'none';
         });
 
-
-
 		document.addEventListener('DOMContentLoaded', function () {
-			fetch("{{ path('datacategory') }}")
+			fetch("{{ path('datacategory', { 'id': account.id} ) }}")
 				.then(response => response.json())
 				.then(data => {
 					if (data && data.series && data.series.length > 0 && data.categories && data.categories.length > 0) {
