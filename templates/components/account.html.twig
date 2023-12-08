@@ -14,6 +14,7 @@
                 <a href="{{ path('delete_account',{'id': account.id}) }}" class="tooltip-container" data-tooltip="Delete this account"><i class="bi bi-trash3"></i></a>
                 <a href="{{ path('create_goal',{'id': account.id}) }}" class="tooltip-container" data-tooltip="Go to account's settings"><i class="bi bi-gear"></i></a>
                 <a href="{{ path('recap',{'id': account.id}) }}" class="tooltip-container" data-tooltip="Chart"><i class="bi bi-table"></i></a>
+                <a href="{{ path('goal_progress',{'id': account.id}) }}" class="tooltip-container" data-tooltip="Chart">test</a>
                 <!-- <a href="{{ path('create_debt',{'id': account.id}) }}"> debt | </a>-->
             </div>
         </li>
