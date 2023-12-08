@@ -19,25 +19,29 @@ class ChartController extends AbstractController
         // Récupérer le référentiel (repository) pour l'entité Expense
         $expenseRepository = $entityManager->getRepository(Expense::class);
         $queryBuilder = $expenseRepository->createQueryBuilder('e')
-            ->select('e.category_id', 'SUM(e.amount) as totalAmount')
-            ->where('e.account_id = :account')
-            ->setParameter('account', $id)
-            ->groupBy('e.category_id');
+            ->select('c.label AS category_label', 'SUM(e.amount) AS total_amount')
+            ->join('e.category', 'c') // Utilisation de la relation avec la table Category
+            ->join('e.account', 'a') // Utilisation de la relation avec la table Account
+            ->where('a.id = :account')
+            ->groupBy('e.category');
 
         // Exécuter la requête
         $query = $queryBuilder->getQuery();
+        $query->setParameter('account', $id);
         $result = $query->getResult();
 
-        // Formater les résultats pour la réponse JSON
-        $chartData = [];
+        // Exécuter la requête
+        $chartData = [
+            'categories' => [],
+            'series' => [],
+        ];
+
         foreach ($result as $row) {
-            $chartData[] = [
-                'categories' => $row['category_id'],
-                'series' => $row['totalAmount'],
-            ];
+            $chartData['categories'][] = $row['category_label'];
+            $chartData['series'][] = $row['total_amount'];
         }
 
-        return new JsonResponse($chartData);
+        return new JsonResponse(['data' => $chartData]);
         // pour voir les données renvoyées, allez à : http://127.0.0.1:8000/chart/datacategory/{id}
     }
 

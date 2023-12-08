@@ -148,29 +148,33 @@
 
 		document.addEventListener('DOMContentLoaded', function () {
 			fetch("{{ path('datacategory', { 'id': account.id} ) }}")
-				.then(response => response.json())
-				.then(data => {
-					if (data && data.series && data.series.length > 0 && data.categories && data.categories.length > 0) {
-						var options = {
-							chart: {
-								type: 'bar'
-							},
-							series: data.series,
-							xaxis: {
-								categories: data.categories
-							}
-						};
+					.then(response => response.json())
+					.then(data => {
+						if (data && data.data && data.data.series && data.data.series.length > 0 && data.data.categories && data.data.categories.length > 0) {
+							var options = {
+								chart: {
+									type: 'bar'
+								},
+								series: [{
+									name: 'Total Amount',
+									data: data.data.series
+								}],
+								xaxis: {
+									categories: data.data.categories
+								}
+							};
 
-						var chart = new ApexCharts(document.querySelector('#chart'), options);
-						chart.render();
-					} else {
-						console.error('Les données du graphique sont incorrectes.');
-					}
-				})
-				.catch(error => {
-					console.error('Erreur lors de la récupération des données du graphique:', error);
-				});
+							var chart = new ApexCharts(document.querySelector('#chart'), options);
+							chart.render();
+						} else {
+							console.error('Les données du graphique sont incorrectes.');
+						}
+					})
+					.catch(error => {
+						console.error('Erreur lors de la récupération des données du graphique:', error);
+					});
 		});
+
 
 	</script>
 {% endblock %}
