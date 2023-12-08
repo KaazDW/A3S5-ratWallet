@@ -32,8 +32,8 @@ class ChartController extends AbstractController
         $chartData = [];
         foreach ($result as $row) {
             $chartData[] = [
-                'category_id' => $row['category_id'],
-                'total_amount' => $row['totalAmount'],
+                'categories' => $row['category_id'],
+                'series' => $row['totalAmount'],
             ];
         }
 
