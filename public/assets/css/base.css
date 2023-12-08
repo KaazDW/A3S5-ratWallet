@@ -73,8 +73,8 @@ body main {
 }
 body main aside {
   width: 100%;
-  min-width: 200px;
-  max-width: 300px;
+  min-width: 215px;
+  max-width: 225px;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
