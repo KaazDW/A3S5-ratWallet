@@ -43,7 +43,6 @@ class DashboardController extends AbstractController
                 'accounts' => $accounts,
             ]);
         }
-
         return $this->render('login/index.html.twig');
     }
 
@@ -78,6 +77,7 @@ class DashboardController extends AbstractController
 
                 $account->setBalance($account->getBalance() + ($formType === 'income' ? $transactionAmount : -$transactionAmount));
 
+                // Enregistrement dans la table historique
                 $history = new History();
                 $history->setAccount($account);
                 $history->setDate(new \DateTime());
@@ -199,28 +199,6 @@ class DashboardController extends AbstractController
         $incomes = $entityManager->getRepository(Income::class)->findBy(['account' => $id]);
         $expenses = $entityManager->getRepository(Expense::class)->findBy(['account' => $id]);
 
-        $recapItems = array_merge($incomes, $expenses);
-
-        $recapItems = array_map(function ($item) {
-            $itemType = $item instanceof Income ? 'Income' : 'Expense';
-            $itemCategory = $item->getCategory()->getLabel();
-
-            $item->type = $itemType;
-            $item->categoryName = $itemCategory;
-            return $item;
-        }, $recapItems);
-
-        $uniqueCategories = array_unique(array_map(function ($item) {
-            return $item->categoryName;
-        }, $recapItems));
-
-        return $this->render('pages/recap.html.twig', [
-            'recapItems' => $recapItems,
-            'categoryFilter' => $categoryFilter,
-            'uniqueCategories' => $uniqueCategories,
-            'account' => $account,
-        ]);
-    }
 
 
 }
