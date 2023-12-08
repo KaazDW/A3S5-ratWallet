@@ -45,7 +45,7 @@
 				<div class="toastForm element" id="incomeForm">
 					<div>
 						{{ form_start(incomeForm, {'attr': {'class': 'income-form', 'id': 'incomeFormId'} } ) }}
-						<h3>Add a Money Income</h3>
+						<h3>Add a Money <span>Income</span></h3>
 						{{ form_row(incomeForm.amount) }}
 						{{ form_row(incomeForm.date) }}
 						{{ form_row(incomeForm.description) }}
@@ -53,22 +53,30 @@
 						<div class="btn-div">
 							<a href="#" id="linkFormIncome" class="button button--pan">
 								<span>
-									Add<i class="bi bi-patch-plus-fill"></i>
+									Add<i class="bi bi-plus-circle-fill"></i>
 								</span>
 							</a>
 						</div>
 						{{ form_end(incomeForm) }}
 					</div>
 				</div>
-			</div>
-			<div class="toastForm element" id="expenseForm">
-				<div>
-					{{ form_start(expenseForm, {'attr': {'class': 'expense-form'} } ) }}
-					{{ form_row(expenseForm.amount) }}
-					{{ form_row(expenseForm.date) }}
-					{{ form_row(expenseForm.description) }}
-					<button type="submit" class="btn btn-primary">Ajouter une dépense</button>
-					{{ form_end(expenseForm) }}
+				<div class="toastForm element" id="expenseForm">
+					<div>
+						{{ form_start(expenseForm, {'attr': {'class': 'expense-form', 'id': 'incomeFormId'} } ) }}
+						<h3>Add a Money <span>Expense</span></h3>
+						{{ form_row(expenseForm.amount) }}
+						{{ form_row(expenseForm.date) }}
+						{{ form_row(expenseForm.description) }}
+						{{ form_row(expenseForm.category) }}
+						<div class="btn-div">
+							<a href="#" id="linkFormExpense" class="button button--pan">
+								<span>
+									Add<i class="bi bi-plus-circle-fill"></i>
+								</span>
+							</a>
+						</div>
+						{{ form_end(expenseForm) }}
+					</div>
 				</div>
 			</div>
 		</div>
@@ -118,14 +126,16 @@
 			if (event.target == incomeButton) {
 				incomeFormElement.style.display = 'block';
 				expenseFormElement.style.display = 'none';
+
 				// Mettre à jour l'URL
-				const newUrl = window.location.href.split('?')[0] + '?type=expense';
+				const newUrl = window.location.href.split('?')[0] + '?type=income';
 				history.pushState({}, '', newUrl);
 				return;
 			}
 			if (event.target == expenseButton) {
 				incomeFormElement.style.display = 'none';
 				expenseFormElement.style.display = 'block';
+				
 				// Mettre à jour l'URL
 				const newUrl = window.location.href.split('?')[0] + '?type=expense';
 				history.pushState({}, '', newUrl);
