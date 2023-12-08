@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 {% block body %}
 <div class="form mt-4">
-    <h1>Ajouter un compte</h1>
+    <h1>{{ 'Create acoount'|trans }}</h1>
     <div class="textcustom">
         {{ form_start(form) }}
         {{ form_row(form.balance) }}
         {{ form_row(form.user_id) }}
         {{ form_row(form.name_account) }}
-        <button type="submit" class="btn btn-primary">Ajouter le compte</button>
+        <button type="submit" class="btn btn-primary">{{ 'Add account'|trans }}</button>
         {{ form_end(form) }}
     </div>
 </div>

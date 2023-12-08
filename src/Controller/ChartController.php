@@ -8,9 +8,50 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 class ChartController extends AbstractController
 {
+    //#[Route('/balanceAccountChart', name: 'balanceAccountChart')]
+    public function balanceAccountChart(EntityManagerInterface $entityManager, $user): array
+    {
+        if (!$user) {
+            throw $this->createNotFoundException('User not found');
+        }
+
+        $accounts = $entityManager->getRepository(Account::class)->findBy(['userID' => $user]);
+
+        $data = [
+            'labels' => [],
+            'datasets' => [],
+        ];
+
+        foreach ($accounts as $account) {
+            $historyData = $entityManager->getRepository(History::class)->findBy(['account' => $account]);
+
+            $accountData = [
+                'label' => $account->getNameAccount(),
+                'data' => [],
+                'borderWidth' => 1,
+            ];
+
+            foreach ($historyData as $entry) {
+                $data['labels'][] = $entry->getDate()->format('Y-m-d H:i:s');
+                $accountData['data'][] = $entry->getHistoryBalance();
+            }
+
+            $data['datasets'][] = $accountData;
+        }
+
+        return [
+            'accounts' => $accounts,
+            'data' => $data,
+        ];
+    }
+
+
+
+
     #[Route('/chart-line/{id}', name: 'chart_line')]
     public function chart(int $id, EntityManagerInterface $entityManager): Response
     {

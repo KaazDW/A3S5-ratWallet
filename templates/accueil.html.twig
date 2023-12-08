@@ -18,10 +18,10 @@
                 <div class="subtitle-slider">
                     <div class="subtitle-slider__container">
                         <ul class="subtitle-slider__container__list">
-                            <li class="subtitle-slider__container__list__item subtitle">Master Your Finances</li>
-                            <li class="subtitle-slider__container__list__item subtitle">Simplify, Organize, Prosper</li>
-                            <li class="subtitle-slider__container__list__item subtitle">Elevate with Organized Finances</li>
-                            <li class="subtitle-slider__container__list__item subtitle">Organize Your Financial Life</li>
+                            <li class="subtitle-slider__container__list__item subtitle">{{ 'Master Your Finances'|trans }}</li>
+                            <li class="subtitle-slider__container__list__item subtitle">{{ 'Simplify, Organize, Prosper'|trans }}</li>
+                            <li class="subtitle-slider__container__list__item subtitle">{{ 'Elevate with Organized Finances'|trans }}</li>
+                            <li class="subtitle-slider__container__list__item subtitle">{{ 'Organize Your Financial Life'|trans }}</li>
                         </ul>
                     </div>
                 </div>
@@ -30,8 +30,8 @@
          <div class="nav">
             <!-- Add hover effect -->
             <!-- Effect examples : https://codepen.io/aaroniker/pen/OJPqPMR ; https://codepen.io/aaroniker/pen/XWYpyNM -->
-             <a href="{{ path('app_login') }}" class="button button--pan"><span>Sign in</span></a>
-             <a href="{{ path('app_register') }}" class="button button--pan"><span>Create an account</span></a>
+             <a href="{{ path('app_login') }}" class="button button--pan"><span>{{ 'Sign in'|trans }}</span></a>
+             <a href="{{ path('app_register') }}" class="button button--pan"><span>{{ 'Create an account'|trans }}</span></a>
              <a href="https://github.com/KaazDW/A3S5-ratWallet" class="button button--pan" target="_blank"><span>Github</span></a>
          </div>
  {% endblock %}

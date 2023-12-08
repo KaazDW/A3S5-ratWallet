@@ -4,12 +4,10 @@
     <link rel="stylesheet" href="{{ asset('assets/css/pages/login.css') }}">
 {% endblock %}
 
-{% block title %}Register{% endblock %}
-
 {% block body %}
     <div class="login-content">
         {{ form_start(registrationForm) }}
-            <h3 class="uptitle">Register.</h3>
+            <h3 class="uptitle">{{ 'Register.'|trans }}</h3>
             <div class="login-form">
                 <div class="inputs">
 

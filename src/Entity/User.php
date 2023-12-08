@@ -35,10 +35,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $username = null;
 
-   #[ORM\OneToMany(mappedBy: 'user', targetEntity: Account::class)]
+   #[ORM\OneToMany(mappedBy: 'user', targetEntity: Account::class, cascade: ['persist', 'remove'])]
     private Collection $accounts;
 
-   #[ORM\Column(nullable: true)]
+    #[ORM\Column(nullable: true)]
    private ?int $nbAccount = null;
     public function __construct()
     {

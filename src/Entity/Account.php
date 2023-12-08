@@ -26,6 +26,7 @@ class Account
     private ?string $nameAccount = null;
 
     #[ORM\ManyToOne(inversedBy: 'accounts')]
+    #[ORM\JoinColumn(name: "user_id", referencedColumnName: "id")]
     private ?User $userID = null;
 
     #[ORM\ManyToOne(inversedBy: 'accounts')]

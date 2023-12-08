@@ -133,6 +133,7 @@ class DashboardController extends AbstractController
     {
         $user = $this->getUser();
         $accountRepository = $entityManager->getRepository(Account::class);
+        $topAccounts = $entityManager->getRepository(Account::class)->findTopAccounts(3);
         $accounts = $accountRepository->findAll();
 
         if ($user) {
@@ -141,10 +142,54 @@ class DashboardController extends AbstractController
             $username = 'Invité';
         }
 
+        $chartData = $this->balanceAccountChart($entityManager, $user);
+
         return $this->render('pages/dashboard.html.twig', [
             'username' => $username,
             'accounts' => $accounts,
+            'topAccounts' => $topAccounts,
+            'data' => $chartData,
         ]);
     }
+
+    //#[Route('/balanceAccountChart', name: 'balanceAccountChart')]
+    public function balanceAccountChart(EntityManagerInterface $entityManager, $user): array
+    {
+        if (!$user) {
+            throw $this->createNotFoundException('User not found');
+        }
+
+        $accounts = $entityManager->getRepository(Account::class)->findBy(['userID' => $user]);
+        $data = [
+            'labels' => [],
+            'datasets' => [],
+        ];
+
+        foreach ($accounts as $account) {
+            $historyData = $entityManager->getRepository(History::class)->findBy(['account' => $account]);
+
+            $accountData = [
+                'label' => $account->getNameAccount(),
+                'data' => [],
+                'borderWidth' => 1,
+            ];
+
+            foreach ($historyData as $entry) {
+                $data['labels'][] = $entry->getDate()->format('Y-m-d H:i:s');
+                $accountData['data'][] = $entry->getHistoryBalance();
+            }
+
+            $data['datasets'][] = $accountData;
+        }
+
+        dump($data['datasets']);
+
+        return [
+            'accounts' => $accounts,
+            'data' => $data,
+        ];
+    }
+
+
 
 }

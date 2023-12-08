@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ProfileController extends AbstractController
 {
@@ -32,7 +33,7 @@ class ProfileController extends AbstractController
         $username = $user->getUsername();
         $email = $user->getEmail();
 
-        return $this->render('pages/profile.html.twig', [
+        return $this->render('pages/profil.html.twig', [
             'username' => $username,
             'email' => $email,
         ]);
@@ -56,6 +57,24 @@ class ProfileController extends AbstractController
             return $this->redirectToRoute('dashboard');
         }
 
-        return $this->render('pages/profile.html.twig');
+        return $this->render('pages/profil.html.twig');
     }
+
+    #[Route('/changeLanguage', name: 'change_language')]
+    public function changeLanguage(Request $request, TranslatorInterface $translator)
+    {
+        $newLocale = $request->get('new_locale');
+
+        if (in_array($newLocale, $translator->getFallbackLocales())) {
+            $translator->setLocale($newLocale);
+            $this->addFlash('success', $translator->trans('Language changed successfully.'));
+        } else {
+            $this->addFlash('error', $translator->trans('Invalid language selection.'));
+        }
+
+        return $this->redirect($request->headers->get('referer'));
+    }
+
+
+
 }

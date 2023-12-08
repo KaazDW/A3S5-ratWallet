@@ -3,12 +3,12 @@
 {% block body %}
        <section class="dashboard">
               <div class="element">
-                     <h1>Create Goal</h1>
+                     <h1>{{ 'Create Goal'|trans }}</h1>
                      {{ form_start(form) }}
                      {{ form_row(form.targetAmount) }}
                      {{ form_row(form.deadline) }}
                      {{ form_row(form.description) }}
-                     <button type="submit" class="btn btn-primary">Ajouter le goal</button>
+                     <button type="submit" class="btn btn-primary">{{ 'Add goal'|trans }}</button>
                      {{ form_end(form) }}
               </div>
        </section>

@@ -1,6 +1,5 @@
 {% extends 'base.html.twig' %}
 
-
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('assets/css/pages/dashboard.css') }}">
 {% endblock %}
@@ -9,12 +8,56 @@
     <section class="dashboard">
         <div class="element">
             <p>dashboard</p>
-            <div>
-                <!-- ACCOUNT DIV -->
-            </div>
         </div>
+        <div class="element">
+            <p>Top 3 des comptes les plus riches :</p>
+            <ul>
+                {% for topAccount in topAccounts %}
+                    <li>{{ topAccount.userID.username }} -> {{ topAccount.nameAccount }} : {{ topAccount.balance }} €</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="element">
+            {% if app.user.getNbAccount() is defined %}
+                {% set nbAccountsCount = app.user.getNbAccount() %}
+                {% if nbAccountsCount == 1 %}
+                    <p>{{ app.user.username }} vous possédez 1 compte. Voici l'historique de votre solde :</p>
+                    <canvas id="myChart2"></canvas>
+                {% elseif nbAccountsCount >= 3 %}
+                    <p>{{ app.user.username }} vous possédez {{ nbAccountsCount }} comptes. Voici l'historique du solde pour chacun de vos comptes :</p>
+                    <canvas id="myChart2"></canvas>
+                {% else %}
+                    <p>{{ app.user.username }} vous ne possédez aucun compte.</p>
+                {% endif %}
+            {% endif %}
+        </div>
+
     </section>
-
-
 {% endblock %}
 
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const ctx = document.getElementById('myChart2').getContext('2d');
+
+            // Log the data to the console for debugging
+            console.log({{ data | json_encode | raw }});
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {{ data | json_encode | raw }},
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            position: 'bottom',
+                        },
+                    },
+                },
+            });
+        });
+    </script>
+
+{% endblock %}

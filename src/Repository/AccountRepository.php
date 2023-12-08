@@ -21,6 +21,15 @@ class AccountRepository extends ServiceEntityRepository
         parent::__construct($registry, Account::class);
     }
 
+    public function findTopAccounts(int $limit): array
+    {
+        return $this->createQueryBuilder('a')
+            ->orderBy('a.balance', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Account[] Returns an array of Account objects
 //     */

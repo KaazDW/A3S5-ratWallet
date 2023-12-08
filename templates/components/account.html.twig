@@ -1,4 +1,9 @@
 <ul>
+    <div class="element">
+        <li>
+            <a href="{{ path('dashboard') }}">{{ 'Global Dashboard'|trans }}</a>
+        </li>
+    </div>
     {% for account in accounts %}
     <div class="element">
         <li>
@@ -13,10 +18,22 @@
     </div>
     {% endfor %}
     {% if app.user.getNbAccount()|length < 3 %}
-    <div class="element">
-            <li><a href="{{ path('new_account') }}">Créer un compte</a></li>
-    </div>
+        <div class="element">
+            <li><a href="{{ path('new_account') }}">{{ 'Create an account'|trans }}</a></li>
+        </div>
     {% else %}
-        <li>Vous avez atteint dddsfsdfe nombre maximum de comptes.</li>
+        <button id="openPopupButton">{{ 'Open Popup'|trans }}</button>
+
+        <div id="popup" class="popup">
+            <div class="popup-content">
+                <span class="close" id="closePopupButton">&times;</span>
+                <p>{{ 'You have reached the maximum number of accounts.'|trans }}</p>
+            </div>
+        </div>
     {% endif %}
+    {% for flashError in app.flashes('error') %}
+        <div class="alert alert-danger">
+            {{ flashError }}
+        </div>
+    {% endfor %}
 </ul>
