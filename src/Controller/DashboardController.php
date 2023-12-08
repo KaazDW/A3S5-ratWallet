@@ -45,7 +45,6 @@ class DashboardController extends AbstractController
             ]);
         }
         return $this->render('login/index.html.twig', []);
-
     }
 
     #[Route('/dashboard/{id}', name: 'detailsAccount')]

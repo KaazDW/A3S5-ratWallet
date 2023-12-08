@@ -94,63 +94,17 @@
   color: #333;
   margin-left: 15px;
 }
-.toastForm .login-content {
-  margin: auto;
-  text-align: center;
-}
-.toastForm .login-content form {
-  align-items: center;
-}
-.toastForm .login-content form .uptitle {
-  font-size: 65px;
-}
-.toastForm .login-content form .login-form {
-  padding: 30px;
-  border-radius: 15px;
-}
-.toastForm .login-content form .login-form .inputs {
-  font-size: 14px;
-}
-.toastForm .login-content form .login-form .inputs div {
-  user-select: none;
-  background-color: white;
-  padding: 5px 15px;
-  margin-bottom: 7px;
-  border-radius: 50px;
-  text-align: left;
-}
-.toastForm .login-content form .login-form .inputs div i {
-  color: #3d3d3d;
-}
-.toastForm .login-content form .login-form .inputs div input {
-  padding: 8px 13px;
-  border: none;
-}
-.toastForm .login-content form .login-form .inputs div input:focus-visible {
-  border: none;
-}
-.toastForm .login-content form .login-form .inputs div input:focus {
-  outline: none;
-}
-.toastForm .login-content form .login-form .inputs div:last-child {
-  font-size: 13px;
-  text-align: center;
+
+.charts {
   display: flex;
-  align-items: center;
-  justify-content: center;
 }
-.toastForm .login-content form .login-form .inputs div:last-child input {
-  margin: 0 15px;
+.charts .linearChart {
+  width: 760px !important;
+  height: 380px !important;
 }
-.toastForm .login-content form .login-form .btn {
-  margin-top: 15px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
-}
-.toastForm .login-content form .login-form .btn * {
-  font-size: 23px;
+.charts .pieChart {
+  width: 500px !important;
+  height: 500px !important;
 }
 
 @keyframes fadeIn {
