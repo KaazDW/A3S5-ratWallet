@@ -17,9 +17,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+
 
 class DashboardController extends AbstractController
 {
@@ -150,44 +153,6 @@ class DashboardController extends AbstractController
         ]);
     }
 
-    //#[Route('/balanceAccountChart', name: 'balanceAccountChart')]
-    public function balanceAccountChart(EntityManagerInterface $entityManager, $user): array
-    {
-        if (!$user) {
-            throw $this->createNotFoundException('User not found');
-        }
-
-        $accounts = $entityManager->getRepository(Account::class)->findBy(['userID' => $user]);
-        $data = [
-            'labels' => [],
-            'datasets' => [],
-        ];
-
-        foreach ($accounts as $account) {
-            $historyData = $entityManager->getRepository(History::class)->findBy(['account' => $account]);
-
-            $accountData = [
-                'label' => $account->getNameAccount(),
-                'data' => [],
-                'borderWidth' => 1,
-            ];
-
-            foreach ($historyData as $entry) {
-                $data['labels'][] = $entry->getDate()->format('Y-m-d H:i:s');
-                $accountData['data'][] = $entry->getHistoryBalance();
-            }
-
-            $data['datasets'][] = $accountData;
-        }
-
-        dump($data['datasets']);
-
-        return [
-            'accounts' => $accounts,
-            'data' => $data,
-        ];
-    }
-
     #[Route('/recap/{id}', name: 'recap')]
     public function recap(int $id, EntityManagerInterface $entityManager, Request $request): Response
     {
@@ -223,4 +188,32 @@ class DashboardController extends AbstractController
             'typeFilter' => $typeFilter,
         ]);
     }
+
+    #[Route('/chart/dataaccounts', name: 'dataaccounts')]
+    public function getDataAccounts(EntityManagerInterface $entityManager, Security $security): JsonResponse
+    {
+        $user = $security->getUser();
+
+        // Récupérer le référentiel (repository) pour l'entité Account
+        $accountRepository = $entityManager->getRepository(Account::class);
+
+        // Récupérer tous les comptes de l'utilisateur connecté
+        $accounts = $accountRepository->findBy(['userID' => $user]);
+
+        // Récupérer les données d'historique pour chaque compte
+        $historyData = [];
+        foreach ($accounts as $account) {
+            $history = $account->getHistories(); // Assurez-vous que cette méthode existe dans votre entité Account
+            $historyData[] = [
+                'accountName' => $account->getNameAccount(),
+                'amountHistory' => array_map(function ($entry) {
+                    return $entry->getHistoryBalance();
+                }, $history->toArray()),
+            ];
+        }
+
+        return new JsonResponse($historyData);
+    }
+
+
 }

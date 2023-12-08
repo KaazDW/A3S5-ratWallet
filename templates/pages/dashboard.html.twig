@@ -31,6 +31,7 @@
                 {% endif %}
             {% endif %}
         </div>
+        <div id="chart"></div>
 
     </section>
 {% endblock %}
@@ -38,26 +39,39 @@
 {% block javascripts %}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        // ...
+
         document.addEventListener('DOMContentLoaded', function () {
-            const ctx = document.getElementById('myChart2').getContext('2d');
+            // Remplacez "{{ path('dataaccounts') }}" par le chemin approprié dans votre application
+            fetch("{{ path('dataaccounts') }}")
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.length > 0) {
+                        var options = {
+                            chart: {
+                                type: 'line'
+                            },
+                            series: data.map(accountData => ({
+                                name: accountData.accountName,
+                                data: accountData.amountHistory  // Correction ici
+                            })),
+                            xaxis: {
+                                categories: data[0].amountHistory.map((_, index) => index + 1)
+                            }
+                        };
 
-            // Log the data to the console for debugging
-            console.log({{ data | json_encode | raw }});
-
-            new Chart(ctx, {
-                type: 'line',
-                data: {{ data | json_encode | raw }},
-                options: {
-                    responsive: true,
-                    scales: {
-                        x: {
-                            type: 'linear',
-                            position: 'bottom',
-                        },
-                    },
-                },
-            });
+                        var chart = new ApexCharts(document.querySelector('#chart'), options);
+                        chart.render();
+                    } else {
+                        console.error('Les données de l\'historique sont incorrectes.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la récupération des données de l\'historique:', error);
+                });
         });
+
+
     </script>
 
 {% endblock %}
