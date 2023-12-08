@@ -187,31 +187,4 @@ class DashboardController extends AbstractController
         ]);
     }
 
-    #[Route('/chart/dataaccounts', name: 'dataaccounts')]
-    public function getDataAccounts(EntityManagerInterface $entityManager, Security $security): JsonResponse
-    {
-        $user = $security->getUser();
-
-        // Récupérer le référentiel (repository) pour l'entité Account
-        $accountRepository = $entityManager->getRepository(Account::class);
-
-        // Récupérer tous les comptes de l'utilisateur connecté
-        $accounts = $accountRepository->findBy(['userID' => $user]);
-
-        // Récupérer les données d'historique pour chaque compte
-        $historyData = [];
-        foreach ($accounts as $account) {
-            $history = $account->getHistories(); // Assurez-vous que cette méthode existe dans votre entité Account
-            $historyData[] = [
-                'accountName' => $account->getNameAccount(),
-                'amountHistory' => array_map(function ($entry) {
-                    return $entry->getHistoryBalance();
-                }, $history->toArray()),
-            ];
-        }
-
-        return new JsonResponse($historyData);
-    }
-
-
 }

@@ -11,10 +11,22 @@
                      <button type="submit" class="btn btn-primary">{{ 'Add goal'|trans }}</button>
                      {{ form_end(form) }}
               </div>
-
+              <div class="charts">
+                     <div id="chartGoal"></div>
+              </div>
        </section>
 {% endblock %}
 
 {% block javascripts %}
 
 {% endblock %}
+
+
+// Retourner les données sous forme de JSON
+return new JsonResponse([
+'accountName' => $account->getNameAccount(),
+'balance' => $balance,
+'targetAmount' => $targetAmount,
+'progress' => $progress,
+]);
+}

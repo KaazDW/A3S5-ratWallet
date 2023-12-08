@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 class ChartController extends AbstractController
 {
@@ -30,18 +31,16 @@ class ChartController extends AbstractController
         $query->setParameter('account', $id);
         $result = $query->getResult();
 
-        // Exécuter la requête
-        $chartData = [
-            'categories' => [],
-            'series' => [],
-        ];
-
+        // Formater les résultats pour la réponse JSON
+        $chartData = [];
         foreach ($result as $row) {
-            $chartData['categories'][] = $row['category_label'];
-            $chartData['series'][] = $row['total_amount'];
+            $chartData[] = [
+                'categories' => $row['category_id'],
+                'series' => $row['totalAmount'],
+            ];
         }
 
-        return new JsonResponse(['data' => $chartData]);
+        return new JsonResponse($chartData);
         // pour voir les données renvoyées, allez à : http://127.0.0.1:8000/chart/datacategory/{id}
     }
 
@@ -72,4 +71,68 @@ class ChartController extends AbstractController
         ]);
     }
 
+    #[Route('/chart/datahistory', name: 'datahistory')]
+    public function getDataHistory(EntityManagerInterface $entityManager, Security $security): JsonResponse
+    {
+        $user = $security->getUser();
+
+        $accountRepository = $entityManager->getRepository(Account::class);
+
+        $accounts = $accountRepository->findBy(['userID' => $user]);
+
+        $historyData = [];
+        foreach ($accounts as $account) {
+            $history = $account->getHistories();
+            $historyData[] = [
+                'accountName' => $account->getNameAccount(),
+                'amountHistory' => array_map(function ($entry) {
+                    return $entry->getHistoryBalance();
+                }, $history->toArray()),
+            ];
+        }
+
+        return new JsonResponse($historyData);
+    }
+
+    #[Route('/chart/dataaccounts/{id}', name: 'dataaccounts')]
+    public function getDataAccounts(int $id, EntityManagerInterface $entityManager, Security $security): JsonResponse
+    {
+        $user = $security->getUser();
+
+        // Récupérer le référentiel (repository) pour l'entité Account
+        $accountRepository = $entityManager->getRepository(Account::class);
+
+        // Récupérer le compte par ID
+        $account = $accountRepository->find($id);
+
+        if (!$account || $account->getUserID() !== $user) {
+            return new JsonResponse(['error' => 'Compte non trouvé.'], 404);
+        }
+
+        // Récupérer la balance du compte
+        $balance = $account->getBalance();
+
+        // Récupérer le goal lié au compte
+        $goal = $account->getGoal();
+
+        // Initialiser le targetAmount à zéro si le compte n'a pas de goal
+        $targetAmount = 0;
+
+        // Calculer la progression par rapport à l'objectif
+        $progress = 0;
+        if ($goal) {
+            $targetAmount = $goal->getTargetAmount();
+            if ($targetAmount > 0) {
+                $progress = ($balance / $targetAmount) * 100;
+            }
+        }
+
+        // Retourner les données sous forme de JSON
+        return new JsonResponse([
+            'accountName' => $account->getNameAccount(),
+            'balance' => $balance,
+            'targetAmount' => $targetAmount,
+            'progress' => $progress,
+        ]);
+    }
 }

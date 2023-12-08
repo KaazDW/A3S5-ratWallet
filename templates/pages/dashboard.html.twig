@@ -39,11 +39,8 @@
 {% block javascripts %}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // ...
-
         document.addEventListener('DOMContentLoaded', function () {
-            // Remplacez "{{ path('dataaccounts') }}" par le chemin approprié dans votre application
-            fetch("{{ path('dataaccounts') }}")
+            fetch("{{ path('datahistory') }}")
                 .then(response => response.json())
                 .then(data => {
                     if (data && data.length > 0) {
@@ -71,6 +68,89 @@
                 });
         });
 
+
+
+        /*document.addEventListener('DOMContentLoaded', function () {
+            {#fetch("{{ path('dataaccounts') }}")#}
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.length > 0) {
+                        var options = {
+                            chart: {
+                                type: 'area',
+                                height: 350
+                            },
+                            dataLabels: {
+                                enabled: false
+                            },
+                            stroke: {
+                                curve: 'smooth'
+                            },
+                            title: {
+                                text: 'Progression par rapport à l\'objectif',
+                                align: 'left',
+                                style: {
+                                    fontSize: '14px'
+                                }
+                            },
+                            xaxis: {
+                                categories: data[0].amountHistory.map((_, index) => index + 1)
+                            },
+                            yaxis: {
+                                tickAmount: 4,
+                                labels: {
+                                    style: {
+                                        colors: '#8e8da4',
+                                    },
+                                    offsetY: -7,
+                                    offsetX: 0,
+                                },
+                                axisBorder: {
+                                    show: false,
+                                },
+                                axisTicks: {
+                                    show: false
+                                }
+                            },
+                            fill: {
+                                opacity: 0.5
+                            },
+                            tooltip: {
+                                x: {
+                                    format: "yyyy",
+                                },
+                                fixed: {
+                                    enabled: false,
+                                    position: 'topRight'
+                                }
+                            },
+                            grid: {
+                                yaxis: {
+                                    lines: {
+                                        offsetX: -30
+                                    }
+                                },
+                                padding: {
+                                    left: 20
+                                }
+                            },
+                            series: data.map(accountData => ({
+                                name: accountData.accountName,
+                                data: accountData.amountHistory
+                            }))
+                        };
+
+                        var chart = new ApexCharts(document.querySelector('#chart'), options);
+                        chart.render();
+                    } else {
+                        console.error('Les données de l\'historique sont incorrectes.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la récupération des données de l\'historique:', error);
+                });
+        #});
+*/
 
     </script>
 

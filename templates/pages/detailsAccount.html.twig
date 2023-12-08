@@ -91,8 +91,12 @@
 			<!-- <canvas id="myChart" class="linearChart element"></canvas>
 			<canvas id="myPieChart" class="pieChart"></canvas> -->
 			<div id="chart"></div>
-
 		</div>
+		<div class="charts">
+			<div id="chartGoal"></div>
+		</div>
+
+
 	</section>
 </section>
 {% endblock %}
@@ -174,6 +178,42 @@
 						console.error('Erreur lors de la récupération des données du graphique:', error);
 					});
 		});
+
+			document.addEventListener('DOMContentLoaded', function () {
+			fetch("{{ path('dataaccounts', { 'id': account.id} ) }}")
+					.then(response => response.json())
+					.then(data => {
+						var options = {
+							series: [data.progress],
+							chart: {
+								height: 350,
+								type: 'radialBar',
+								toolbar: {
+									show: true
+								}
+							},
+							// Autres options de configuration...
+						};
+
+						var chart = new ApexCharts(document.querySelector("#chartGoal"), options);
+						chart.render();
+					})
+					.catch(error => {
+						console.error('Erreur lors de la récupération des données de progression:', error);
+					});
+
+			// Pour le graphique de l'historique des comptes
+			fetch("{{ path('dataaccounts', { 'id': account.id} ) }}")
+			.then(response => response.json())
+			.then(data => {
+			// Utilisez les données pour créer un graphique d'historique des comptes
+			console.log(data.historyData);
+		})
+			.catch(error => {
+			console.error('Erreur lors de la récupération des données de l\'historique des comptes:', error);
+		});
+		});
+
 
 
 	</script>
