@@ -194,6 +194,7 @@ class DashboardController extends AbstractController
         $account = $entityManager->getRepository(Account::class)->find($id);
 
         $categoryFilter = $request->query->get('categoryFilter');
+        $typeFilter = $request->query->get('typeFilter');
 
         $incomes = $entityManager->getRepository(Income::class)->findBy(['account' => $id]);
         $expenses = $entityManager->getRepository(Expense::class)->findBy(['account' => $id]);
@@ -219,6 +220,7 @@ class DashboardController extends AbstractController
             'categoryFilter' => $categoryFilter,
             'uniqueCategories' => $uniqueCategories,
             'account' => $account,
+            'typeFilter' => $typeFilter,
         ]);
     }
 }
