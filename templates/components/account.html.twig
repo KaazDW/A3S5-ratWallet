@@ -1,12 +1,13 @@
 <ul>
     <div class="element">
         <li>
+            <i style="margin-right: 10px;" class="bi bi-house-fill"></i>
             <a href="{{ path('dashboard') }}">{{ 'Global Dashboard'|trans }}</a>
-        </li>
+        </li>   
     </div>
     {% for account in accounts %}
     <div class="element">
-        <li>
+        <li style="display: flex; justify-content: space-between; align-items: center;">
             <a href="{{ path('detailsAccount', {'id': account.id,'type': 'income'}) }}" class="tooltip-container" data-tooltip="Create Income or Expense">
                 {{ account.nameAccount }}
             </a>
