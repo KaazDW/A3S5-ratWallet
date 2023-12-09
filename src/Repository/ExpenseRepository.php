@@ -5,8 +5,12 @@ namespace App\Repository;
 use App\Entity\Account;
 use App\Entity\Category;
 use App\Entity\Expense;
+use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * @extends ServiceEntityRepository<Expense>
@@ -46,6 +50,10 @@ class ExpenseRepository extends ServiceEntityRepository
     }
 
 
+    /**
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
     public function getSumByCategoryAndAccount(Category $category, Account $account): float
     {
         return $this->createQueryBuilder('e')
@@ -58,41 +66,4 @@ class ExpenseRepository extends ServiceEntityRepository
             ->getSingleScalarResult() ?? 0;
     }
 
-    public function getMonthlyExpensesByCategory($user)
-    {
-        $query = $this->createQueryBuilder('e')
-            ->join('e.account', 'a')
-            ->andWhere('a.user = :user')
-            ->setParameter('user', $user)
-            // Add more conditions and joins as needed
-            ->getQuery();
-
-        return $query->getResult();
-    }
-
-
-//    /**
-//     * @return Expense[] Returns an array of Expense objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('e.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Expense
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

@@ -6,6 +6,7 @@ use App\Entity\Expense;
 use App\Entity\Account;
 use App\Entity\Goal;
 use App\Entity\Income;
+use DateTimeInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,8 +23,8 @@ class ChartController extends AbstractController
         $expenseRepository = $entityManager->getRepository(Expense::class);
         $queryBuilder = $expenseRepository->createQueryBuilder('e')
             ->select('c.label AS category_label', 'SUM(e.amount) AS total_amount')
-            ->join('e.category', 'c') // Utilisation de la relation avec la table Category
-            ->join('e.account', 'a') // Utilisation de la relation avec la table Account
+            ->join('e.category', 'c')
+            ->join('e.account', 'a')
             ->where('a.id = :account')
             ->groupBy('e.category');
 
@@ -47,32 +48,6 @@ class ChartController extends AbstractController
         // pour voir les données renvoyées, allez à : http://127.0.0.1:8000/chart/datacategory/{id}
     }
 
-
-  /*  #[Route('/goal-progress/{id}', name: 'goal_progress')]
-    public function goalProgress(int $id, EntityManagerInterface $entityManager): Response
-    {
-        $account = $entityManager->getRepository(Account::class)->find($id);
-
-        // Assuming getGoal() returns a single goal
-        $goal = $account->getGoal();
-
-        // Access the targetAmount directly
-        $totalGoalAmount = $goal ? $goal->getTargetAmount() : 0;
-
-        dump($totalGoalAmount);
-
-        if ($totalGoalAmount === 0) {
-            $progress = 0;
-        } else {
-            $progress = ($account->getBalance() / $totalGoalAmount) * 100;
-        }
-
-        dump($progress);
-
-        return $this->render('pages/test.html.twig', [
-            'progress' => $progress,
-        ]);
-    }*/
 
     #[Route('/chart/datahistory', name: 'datahistorybalance')]
     public function getDataHistoryBalance(EntityManagerInterface $entityManager, Security $security): JsonResponse
@@ -157,6 +132,7 @@ class ChartController extends AbstractController
     }
 
 
+
     #[Route('/chart/expense-sum/{id}', name: 'expenseSumByCategory')]
     public function getExpenseSumByCategory(EntityManagerInterface $entityManager, Security $security, int $id): JsonResponse
     {
@@ -183,47 +159,6 @@ class ChartController extends AbstractController
         $response = [
             'categories' => array_map(fn(Category $category) => $category->getLabel(), $categories),
             'expenseSums' => $expenseSums,
-        ];
-
-        return new JsonResponse($response);
-    }
-
-
-    #[Route('/chart/categoryAllAccount', name: 'categoryAllAccount')]
-    public function getCategoryAllAccount(EntityManagerInterface $entityManager, Security $security): Response
-    {
-        $user = $security->getUser();
-
-        $accountRepository = $entityManager->getRepository(Account::class);
-        $expenseRepository = $entityManager->getRepository(Expense::class);
-        $categoryRepository = $entityManager->getRepository(Category::class);
-
-        $accounts = $accountRepository->findBy(['userID' => $user]);
-        $categories = $categoryRepository->findAll(); // Retrieve all categories from the database
-
-        $accountExpenseSums = [];
-
-        foreach ($accounts as $account) {
-            $expenseSums = [];
-
-            foreach ($categories as $category) {
-                $sum = $expenseRepository->getSumByCategoryAndAccount($category, $account);
-                $expenseSums[] = $sum ?? 0;
-            }
-
-            $accountExpenseSums[] = [
-                'account' => [
-                    'id' => $account->getId(),
-                    'name' => $account->getNameAccount(),
-                    // Add any other account information you want to include
-                ],
-                'expenseSums' => $expenseSums,
-            ];
-        }
-
-        $response = [
-            'categories' => array_map(fn(Category $category) => $category->getLabel(), $categories),
-            'accountExpenseSums' => $accountExpenseSums,
         ];
 
         return new JsonResponse($response);

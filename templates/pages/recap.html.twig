@@ -10,18 +10,24 @@
             <h1>Tableau récapitulatif</h1>
 
             <div class="filter-links">
-                <a href="{{ path('recap', {'id': account.id}) }}">All</a>
+                <p>Liste des filtres par catégorie :</p>
+                <a href="{{ path('recap', {'id': account.id}) }}" class="{% if categoryFilter is null %}active{% endif %}">All</a>
                 {% for category in uniqueCategories %}
-                    <a href="{{ path('recap', {'id': account.id, 'categoryFilter': category, 'typeFilter': typeFilter}) }}">{{ category }}</a>
+                    <a href="{{ path('recap', {'id': account.id, 'categoryFilter': category, 'typeFilter': typeFilter}) }}"
+                       class="{% if categoryFilter == category %}active{% endif %}">{{ category }}</a>
                 {% endfor %}
             </div>
 
             <div class="type-filter-links">
-                <a href="{{ path('recap', {'id': account.id}) }}">All Types</a>
-                <a href="{{ path('recap', {'id': account.id, 'typeFilter': 'Income'}) }}">Income</a>
-                <a href="{{ path('recap', {'id': account.id, 'typeFilter': 'Expense'}) }}">Expense</a>
+                <p>Liste des filtres par type :</p>
+                <a href="{{ path('recap', {'id': account.id}) }}" class="{% if typeFilter is null %}active{% endif %}">All Types</a>
+                <a href="{{ path('recap', {'id': account.id, 'typeFilter': 'Income'}) }}"
+                   class="{% if typeFilter == 'Income' %}active{% endif %}">Income</a>
+                <a href="{{ path('recap', {'id': account.id, 'typeFilter': 'Expense'}) }}"
+                   class="{% if typeFilter == 'Expense' %}active{% endif %}">Expense</a>
             </div>
-
+        </div>
+        <div class="element">
             <table>
                 <thead>
                 <tr>
@@ -57,5 +63,60 @@
 {% endblock %}
 
 {% block javascripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Écouter les changements d'état des boutons radio
+            var categoryFilterRadios = document.querySelectorAll('input[name="categoryFilter"]');
+            var typeFilterRadios = document.querySelectorAll('input[name="typeFilter"]');
 
+            categoryFilterRadios.forEach(function (radio) {
+                radio.addEventListener('change', function () {
+                    filterItems();
+                });
+            });
+
+            typeFilterRadios.forEach(function (radio) {
+                radio.addEventListener('change', function () {
+                    filterItems();
+                });
+            });
+
+            // Appeler la fonction de filtrage initiale
+            filterItems();
+
+            function filterItems() {
+                // Récupérer les valeurs sélectionnées
+                var selectedCategoryFilter = getCategoryFilter();
+                var selectedTypeFilter = getTypeFilter();
+
+                // Effectuer votre requête fetch en utilisant les paramètres de filtre
+                fetch("{{ path('recap', {'id': account.id}) }}?categoryFilter=" + selectedCategoryFilter + "&typeFilter=" + selectedTypeFilter)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Mettre à jour le contenu de la page avec les données filtrées
+                        // (Vous devrez adapter cela à la structure réelle de votre page)
+                        updatePageContent(data);
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de la récupération des données:', error);
+                    });
+            }
+
+            function getCategoryFilter() {
+                var selectedRadio = document.querySelector('input[name="categoryFilter"]:checked');
+                return selectedRadio ? selectedRadio.value : '';
+            }
+
+            function getTypeFilter() {
+                var selectedRadio = document.querySelector('input[name="typeFilter"]:checked');
+                return selectedRadio ? selectedRadio.value : '';
+            }
+
+            function updatePageContent(data) {
+                // Mettre à jour le contenu de la page avec les données filtrées
+                // (Vous devrez adapter cela à la structure réelle de votre page)
+                console.log(data);
+            }
+        });
+    </script>
 {% endblock %}

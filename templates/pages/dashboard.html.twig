@@ -50,7 +50,7 @@
             {% endif %}
         </div>
 
-        <div id="chartCategoryAllAccount"></div>
+        <div id="chartExpenseSumByCategory"></div>
 
     </section>
 {% endblock %}
@@ -139,8 +139,78 @@
             });
     });
 
-   /* document.addEventListener('DOMContentLoaded', function () {
-       {# fetch("{{ path('categoryAllAccount') }}") #}
+    /*document.addEventListener('DOMContentLoaded', function () {
+        {#fetch("{{ path('expenseSumByCategory') }}")
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.accountExpenseSums && data.accountExpenseSums.length > 0) {
+                    var options = {
+                        series: data.accountExpenseSums.map(accountData => ({
+                            name: accountData.account.name,
+                            data: accountData.expenseSums,
+                        })),
+                        chart: {
+                            type: 'bar',
+                            height: 350,
+                            stacked: true,
+                            toolbar: {
+                                show: true
+                            },
+                            zoom: {
+                                enabled: true
+                            }
+                        },
+                        responsive: [{
+                            breakpoint: 480,
+                            options: {
+                                legend: {
+                                    position: 'bottom',
+                                    offsetX: -10,
+                                    offsetY: 0
+                                }
+                            }
+                        }],
+                        plotOptions: {
+                            bar: {
+                                horizontal: false,
+                                borderRadius: 10,
+                                dataLabels: {
+                                    total: {
+                                        enabled: true,
+                                        style: {
+                                            fontSize: '13px',
+                                            fontWeight: 900
+                                        }
+                                    }
+                                }
+                            },
+                        },
+                        xaxis: {
+                            categories: data.categories,
+                        },
+                        legend: {
+                            position: 'right',
+                            offsetY: 40
+                        },
+                        fill: {
+                            opacity: 1
+                        }
+                    };
+
+                    var chart = new ApexCharts(document.querySelector('#chartExpenseSumByCategory'), options);
+                    chart.render();
+                } else {
+                    console.error('Les données de la somme des dépenses sont incorrectes.');
+                }
+            })
+            .catch(error => {
+                console.error('Erreur lors de la récupération des données de la somme des dépenses:', error);
+            });
+    #});*/
+
+
+    /* document.addEventListener('DOMContentLoaded', function () {
+{# fetch("{{ path('categoryAllAccount') }}") #}
             .then(response => response.json())
             .then(data => {
 
