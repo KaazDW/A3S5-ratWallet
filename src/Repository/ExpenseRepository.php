@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 
+use App\Entity\Account;
+use App\Entity\Category;
 use App\Entity\Expense;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -41,6 +43,20 @@ class ExpenseRepository extends ServiceEntityRepository
             return null;
         }
     }
+
+    public function getSumByCategoryAndAccount(Category $category, Account $account): float
+    {
+        return $this->createQueryBuilder('e')
+            ->select('SUM(e.amount) as sum')
+            ->where('e.category = :category')
+            ->andWhere('e.account = :account')
+            ->setParameter('category', $category)
+            ->setParameter('account', $account)
+            ->getQuery()
+            ->getSingleScalarResult() ?? 0;
+    }
+
+
 
 
 //    /**

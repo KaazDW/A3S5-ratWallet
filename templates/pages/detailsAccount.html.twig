@@ -98,6 +98,9 @@
 		<div class="charts">
 			<div id="chartHistoryBalanceByAccount"></div>
 		</div>
+		<div class="charts">
+			<div id="chartExpenseSumByCategory"></div>
+		</div>
 
 
 	</section>
@@ -283,6 +286,76 @@
 						console.error('Erreur lors de la récupération des données de l\'historique:', error);
 					});
 		});
+
+		document.addEventListener('DOMContentLoaded', function () {
+			fetch("{{ path('expenseSumByCategory', {'id': account.id}) }}")
+					.then(response => response.json())
+					.then(data => {
+						if (data) {
+							var options = {
+								series: data.categories.map((category, index) => ({
+									name: category,
+									data: [data.expenseSums[index]],
+								})),
+								chart: {
+									type: 'bar',
+									height: 350,
+									stacked: true,
+									toolbar: {
+										show: true
+									},
+									zoom: {
+										enabled: true
+									}
+								},
+								responsive: [{
+									breakpoint: 480,
+									options: {
+										legend: {
+											position: 'bottom',
+											offsetX: -10,
+											offsetY: 0
+										}
+									}
+								}],
+								plotOptions: {
+									bar: {
+										horizontal: false,
+										borderRadius: 10,
+										dataLabels: {
+											total: {
+												enabled: true,
+												style: {
+													fontSize: '13px',
+													fontWeight: 900
+												}
+											}
+										}
+									},
+								},
+								xaxis: {
+									categories: data.categories,
+								},
+								legend: {
+									position: 'right',
+									offsetY: 40
+								},
+								fill: {
+									opacity: 1
+								}
+							};
+
+							var chart = new ApexCharts(document.querySelector('#chartExpenseSumByCategory'), options);
+							chart.render();
+						} else {
+							console.error('Les données de la somme des dépenses sont incorrectes.');
+						}
+					})
+					.catch(error => {
+						console.error('Erreur lors de la récupération des données de la somme des dépenses:', error);
+					});
+		});
+
 
 	</script>
 {% endblock %}

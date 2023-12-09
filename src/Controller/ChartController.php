@@ -154,5 +154,36 @@ class ChartController extends AbstractController
     }
 
 
+    #[Route('/chart/expense-sum/{id}', name: 'expenseSumByCategory')]
+    public function getExpenseSumByCategory(EntityManagerInterface $entityManager, Security $security, int $id): JsonResponse
+    {
+        $user = $security->getUser();
+
+        $accountRepository = $entityManager->getRepository(Account::class);
+        $expenseRepository = $entityManager->getRepository(Expense::class);
+        $categoryRepository = $entityManager->getRepository(Category::class);
+
+        $account = $accountRepository->findOneBy(['userID' => $user, 'id' => $id]);
+
+        if (!$account) {
+            throw $this->createNotFoundException('Compte non trouvé');
+        }
+
+        $categories = $categoryRepository->findAll(); // Retrieve all categories from the database
+
+        $expenseSums = [];
+        foreach ($categories as $category) {
+            $sum = $expenseRepository->getSumByCategoryAndAccount($category, $account);
+            $expenseSums[] = $sum ?? 0;
+        }
+
+        $response = [
+            'categories' => array_map(fn(Category $category) => $category->getLabel(), $categories),
+            'expenseSums' => $expenseSums,
+        ];
+
+        return new JsonResponse($response);
+    }
+
 
 }
