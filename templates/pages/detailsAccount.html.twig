@@ -171,7 +171,16 @@
 						if (data && data.data && data.data.series && data.data.series.length > 0 && data.data.categories && data.data.categories.length > 0) {
 							var options = {
 								chart: {
-									type: 'bar'
+									type: 'bar',
+									height: 350
+								},
+								dataLabels: {
+									enabled: true
+								},
+								stroke: {
+									show: true,
+									width: 2,
+									colors: ['transparent']
 								},
 								series: [{
 									name: 'Total Amount',
@@ -179,7 +188,12 @@
 								}],
 								xaxis: {
 									categories: data.data.categories
-								}
+								},
+								yaxis: {
+									title: {
+										text: '€ (Euro)'
+									}
+								},
 							};
 
 							var chart = new ApexCharts(document.querySelector('#chart'), options);
@@ -206,6 +220,76 @@
 									show: true
 								}
 							},
+							plotOptions: {
+								radialBar: {
+									startAngle: -135,
+									endAngle: 225,
+									hollow: {
+										margin: 0,
+										size: '70%',
+										background: '#fff',
+										image: undefined,
+										imageOffsetX: 0,
+										imageOffsetY: 0,
+										position: 'front',
+										dropShadow: {
+											enabled: true,
+											top: 3,
+											left: 0,
+											blur: 4,
+											opacity: 0.24
+										}
+									},
+									track: {
+										background: '#fff',
+										strokeWidth: '67%',
+										margin: 0, // margin is in pixels
+										dropShadow: {
+											enabled: true,
+											top: -3,
+											left: 0,
+											blur: 4,
+											opacity: 0.35
+										}
+									},
+
+									dataLabels: {
+										show: true,
+										name: {
+											offsetY: -10,
+											show: true,
+											color: '#888',
+											fontSize: '17px'
+										},
+										value: {
+											formatter: function(val) {
+												return parseFloat(val).toFixed(2); // Vous pouvez ajuster le nombre de décimales après la virgule selon vos besoins
+											},
+											color: '#111',
+											fontSize: '36px',
+											show: true,
+										}
+
+									}
+								}
+							},
+							fill: {
+								type: 'gradient',
+								gradient: {
+									shade: 'dark',
+									type: 'horizontal',
+									shadeIntensity: 0.5,
+									gradientToColors: ['#ABE5A1'],
+									inverseColors: true,
+									opacityFrom: 1,
+									opacityTo: 1,
+									stops: [0, 100]
+								}
+							},
+							stroke: {
+								lineCap: 'round'
+							},
+							labels: ['Goal'],
 						};
 
 						var chart = new ApexCharts(document.querySelector("#chartGoal"), options);
