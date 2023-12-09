@@ -22,17 +22,15 @@
                 {% set nbAccountsCount = app.user.getNbAccount() %}
                 {% if nbAccountsCount == 1 %}
                     <p>{{ app.user.username }} vous possédez 1 compte. Voici l'historique de votre solde :</p>
-                    <canvas id="myChart2"></canvas>
-                {% elseif nbAccountsCount >= 3 %}
+                    <div id="chartHistoryBalance"></div>
+                {% elseif nbAccountsCount <= 3 %}
                     <p>{{ app.user.username }} vous possédez {{ nbAccountsCount }} comptes. Voici l'historique du solde pour chacun de vos comptes :</p>
-                    <canvas id="myChart2"></canvas>
+                    <div id="chartHistoryBalance"></div>
                 {% else %}
                     <p>{{ app.user.username }} vous ne possédez aucun compte.</p>
                 {% endif %}
             {% endif %}
         </div>
-        <div id="chartHistoryBalance"></div>
-
     </section>
 {% endblock %}
 

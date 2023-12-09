@@ -20,13 +20,3 @@
 {% block javascripts %}
 
 {% endblock %}
-
-
-// Retourner les données sous forme de JSON
-return new JsonResponse([
-'accountName' => $account->getNameAccount(),
-'balance' => $balance,
-'targetAmount' => $targetAmount,
-'progress' => $progress,
-]);
-}
