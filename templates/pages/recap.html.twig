@@ -11,20 +11,17 @@
 
             <div class="filter-links">
                 <p>Liste des filtres par catégorie :</p>
-                <a href="{{ path('recap', {'id': account.id}) }}" class="{% if categoryFilter is null %}active{% endif %}">All</a>
+                <a href="{{ path('recap', {'id': account.id}) }}">All</a>
                 {% for category in uniqueCategories %}
-                    <a href="{{ path('recap', {'id': account.id, 'categoryFilter': category, 'typeFilter': typeFilter}) }}"
-                       class="{% if categoryFilter == category %}active{% endif %}">{{ category }}</a>
+                    <a href="{{ path('recap', {'id': account.id, 'categoryFilter': category, 'typeFilter': typeFilter}) }}">{{ category }}</a>
                 {% endfor %}
             </div>
 
             <div class="type-filter-links">
                 <p>Liste des filtres par type :</p>
-                <a href="{{ path('recap', {'id': account.id}) }}" class="{% if typeFilter is null %}active{% endif %}">All Types</a>
-                <a href="{{ path('recap', {'id': account.id, 'typeFilter': 'Income'}) }}"
-                   class="{% if typeFilter == 'Income' %}active{% endif %}">Income</a>
-                <a href="{{ path('recap', {'id': account.id, 'typeFilter': 'Expense'}) }}"
-                   class="{% if typeFilter == 'Expense' %}active{% endif %}">Expense</a>
+                <a href="{{ path('recap', {'id': account.id}) }}">All Types</a>
+                <a href="{{ path('recap', {'id': account.id, 'typeFilter': 'Income'}) }}">Income</a>
+                <a href="{{ path('recap', {'id': account.id, 'typeFilter': 'Expense'}) }}">Expense</a>
             </div>
         </div>
         <div class="element">
