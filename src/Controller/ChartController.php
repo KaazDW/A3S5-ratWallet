@@ -45,7 +45,7 @@ class ChartController extends AbstractController
     }
 
 
-    #[Route('/goal-progress/{id}', name: 'goal_progress')]
+  /*  #[Route('/goal-progress/{id}', name: 'goal_progress')]
     public function goalProgress(int $id, EntityManagerInterface $entityManager): Response
     {
         $account = $entityManager->getRepository(Account::class)->find($id);
@@ -69,10 +69,10 @@ class ChartController extends AbstractController
         return $this->render('pages/test.html.twig', [
             'progress' => $progress,
         ]);
-    }
+    }*/
 
-    #[Route('/chart/datahistory', name: 'datahistory')]
-    public function getDataHistory(EntityManagerInterface $entityManager, Security $security): JsonResponse
+    #[Route('/chart/datahistory', name: 'datahistorybalance')]
+    public function getDataHistoryBalance(EntityManagerInterface $entityManager, Security $security): JsonResponse
     {
         $user = $security->getUser();
 
@@ -94,31 +94,21 @@ class ChartController extends AbstractController
         return new JsonResponse($historyData);
     }
 
-    #[Route('/chart/dataaccounts/{id}', name: 'dataaccounts')]
-    public function getDataAccounts(int $id, EntityManagerInterface $entityManager, Security $security): JsonResponse
+    #[Route('/chart/goal-progress/{id}', name: 'goal_progress')]
+    public function getDataGoalProgress(int $id, EntityManagerInterface $entityManager, Security $security): JsonResponse
     {
         $user = $security->getUser();
-
-        // Récupérer le référentiel (repository) pour l'entité Account
         $accountRepository = $entityManager->getRepository(Account::class);
-
-        // Récupérer le compte par ID
         $account = $accountRepository->find($id);
 
         if (!$account || $account->getUserID() !== $user) {
             return new JsonResponse(['error' => 'Compte non trouvé.'], 404);
         }
 
-        // Récupérer la balance du compte
         $balance = $account->getBalance();
-
-        // Récupérer le goal lié au compte
         $goal = $account->getGoal();
-
-        // Initialiser le targetAmount à zéro si le compte n'a pas de goal
         $targetAmount = 0;
 
-        // Calculer la progression par rapport à l'objectif
         $progress = 0;
         if ($goal) {
             $targetAmount = $goal->getTargetAmount();
@@ -127,7 +117,6 @@ class ChartController extends AbstractController
             }
         }
 
-        // Retourner les données sous forme de JSON
         return new JsonResponse([
             'accountName' => $account->getNameAccount(),
             'balance' => $balance,
@@ -135,4 +124,35 @@ class ChartController extends AbstractController
             'progress' => $progress,
         ]);
     }
+
+    #[Route('/chart/datahistorybyaccount/{id}', name: 'historyBalanceAccount')]
+    public function getDataHistoryBalanceById(EntityManagerInterface $entityManager, Security $security, int $id): JsonResponse
+    {
+        $user = $security->getUser();
+
+        $accountRepository = $entityManager->getRepository(Account::class);
+
+        $account = $accountRepository->findOneBy(['userID' => $user, 'id' => $id]);
+
+        if (!$account) {
+            throw $this->createNotFoundException('Compte non trouvé');
+        }
+
+        $history = $account->getHistories();
+
+        $historyData = [
+            'accountName' => $account->getNameAccount(),
+            'amountHistory' => array_map(function ($entry) {
+                return [
+                    'x' => $entry->getDate()->getTimestamp() * 1000, // Convertir la date en millisecondes UNIX
+                    'y' => $entry->getHistoryBalance(),
+                ];
+            }, $history->toArray()),
+        ];
+
+        return new JsonResponse([$historyData]);
+    }
+
+
+
 }

@@ -95,6 +95,9 @@
 		<div class="charts">
 			<div id="chartGoal"></div>
 		</div>
+		<div class="charts">
+			<div id="chartHistoryBalanceByAccount"></div>
+		</div>
 
 
 	</section>
@@ -180,7 +183,7 @@
 		});
 
 			document.addEventListener('DOMContentLoaded', function () {
-			fetch("{{ path('dataaccounts', { 'id': account.id} ) }}")
+			fetch("{{ path('goal_progress', { 'id': account.id} ) }}")
 					.then(response => response.json())
 					.then(data => {
 						var options = {
@@ -192,7 +195,6 @@
 									show: true
 								}
 							},
-							// Autres options de configuration...
 						};
 
 						var chart = new ApexCharts(document.querySelector("#chartGoal"), options);
@@ -201,20 +203,86 @@
 					.catch(error => {
 						console.error('Erreur lors de la récupération des données de progression:', error);
 					});
-
-			// Pour le graphique de l'historique des comptes
-			fetch("{{ path('dataaccounts', { 'id': account.id} ) }}")
-			.then(response => response.json())
-			.then(data => {
-			// Utilisez les données pour créer un graphique d'historique des comptes
-			console.log(data.historyData);
-		})
-			.catch(error => {
-			console.error('Erreur lors de la récupération des données de l\'historique des comptes:', error);
-		});
 		});
 
 
+		document.addEventListener('DOMContentLoaded', function () {
+			fetch("{{ path('historyBalanceAccount', {'id': account.id}) }}")
+					.then(response => response.json())
+					.then(data => {
+						if (data && data.length > 0) {
+							var options = {
+								series: [{
+									name: data[0].accountName,
+									data: data[0].amountHistory
+								}],
+								chart: {
+									type: 'area',
+									stacked: false,
+									height: 350,
+									zoom: {
+										type: 'x',
+										enabled: true,
+										autoScaleYaxis: true
+									},
+									toolbar: {
+										autoSelected: 'zoom'
+									}
+								},
+								dataLabels: {
+									enabled: false
+								},
+								markers: {
+									size: 0,
+								},
+								title: {
+									text: 'Progression par rapport à l\'objectif',
+									align: 'left'
+								},
+								fill: {
+									type: 'gradient',
+									gradient: {
+										shadeIntensity: 1,
+										inverseColors: false,
+										opacityFrom: 0.5,
+										opacityTo: 0,
+										stops: [0, 90, 100]
+									},
+								},
+								yaxis: {
+									labels: {
+										formatter: function (val) {
+											return val.toFixed(0);
+										},
+									},
+									title: {
+										text: 'Balance'
+									},
+								},
+								xaxis: {
+									type: 'datetime',
+									categories: data[0].amountHistory.map(entry => entry.x), // Utilisez les timestamps comme catégories
+								},
+								tooltip: {
+									shared: false,
+									y: {
+										formatter: function (val) {
+											return val.toFixed(0);
+										}
+									}
+								}
+							};
+
+							var chart = new ApexCharts(document.querySelector('#chartHistoryBalanceByAccount'), options);
+							chart.render();
+						} else {
+							console.error('Les données de l\'historique sont incorrectes.');
+						}
+					})
+					.catch(error => {
+						console.error('Erreur lors de la récupération des données de l\'historique:', error);
+					});
+		});
 
 	</script>
 {% endblock %}
