@@ -62,7 +62,7 @@
 				</div>
 				<div class="toastForm element" id="expenseForm">
 					<div>
-						{{ form_start(expenseForm, {'attr': {'class': 'expense-form', 'id': 'incomeFormId'} } ) }}
+						{{ form_start(expenseForm, {'attr': {'class': 'expense-form', 'id': 'expenseFormId'} } ) }}
 						<h3>Add a Money <span>Expense</span></h3>
 						{{ form_row(expenseForm.amount) }}
 						{{ form_row(expenseForm.date) }}
@@ -121,12 +121,20 @@
 			expenseButton = document.getElementById('addExpense');
 
 			// Make the <a> link can be use like a <button type="submit"> for income an expense forms
-			var formulaire = document.getElementById('incomeFormId');
-			var link = document.getElementById('linkFormIncome');
+			let formulaireIn = document.getElementById('incomeFormId');
+			let linkIn = document.getElementById('linkFormIncome');
 
-			link.addEventListener('click', function (event) {
+			linkIn.addEventListener('click', function (event) {
 				event.preventDefault();
-				formulaire.submit();
+				formulaireIn.submit();
+			});
+
+			let formulaireEx = document.getElementById('expenseFormId');
+			let linkEx = document.getElementById('linkFormExpense');
+
+			linkEx.addEventListener('click', function (event) {
+				event.preventDefault();
+				formulaireEx.submit();
 			});
         });
 
