@@ -5,6 +5,7 @@ use App\Entity\Category;
 use App\Entity\Expense;
 use App\Entity\Account;
 use App\Entity\Goal;
+use App\Entity\Income;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -186,4 +187,43 @@ class ChartController extends AbstractController
     }
 
 
+    #[Route('/chart/categoryAllAccount', name: 'categoryAllAccount')]
+    public function getCategoryAllAccount(EntityManagerInterface $entityManager, Security $security): Response
+    {
+        $user = $security->getUser();
+
+        $accountRepository = $entityManager->getRepository(Account::class);
+        $expenseRepository = $entityManager->getRepository(Expense::class);
+        $categoryRepository = $entityManager->getRepository(Category::class);
+
+        $accounts = $accountRepository->findBy(['userID' => $user]);
+        $categories = $categoryRepository->findAll(); // Retrieve all categories from the database
+
+        $accountExpenseSums = [];
+
+        foreach ($accounts as $account) {
+            $expenseSums = [];
+
+            foreach ($categories as $category) {
+                $sum = $expenseRepository->getSumByCategoryAndAccount($category, $account);
+                $expenseSums[] = $sum ?? 0;
+            }
+
+            $accountExpenseSums[] = [
+                'account' => [
+                    'id' => $account->getId(),
+                    'name' => $account->getNameAccount(),
+                    // Add any other account information you want to include
+                ],
+                'expenseSums' => $expenseSums,
+            ];
+        }
+
+        $response = [
+            'categories' => array_map(fn(Category $category) => $category->getLabel(), $categories),
+            'accountExpenseSums' => $accountExpenseSums,
+        ];
+
+        return new JsonResponse($response);
+    }
 }

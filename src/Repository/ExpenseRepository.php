@@ -22,6 +22,7 @@ class ExpenseRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Expense::class);
     }
+
     public function getTotalExpenseAmount(int $id): ?float
     {
         try {
@@ -44,6 +45,7 @@ class ExpenseRepository extends ServiceEntityRepository
         }
     }
 
+
     public function getSumByCategoryAndAccount(Category $category, Account $account): float
     {
         return $this->createQueryBuilder('e')
@@ -56,7 +58,17 @@ class ExpenseRepository extends ServiceEntityRepository
             ->getSingleScalarResult() ?? 0;
     }
 
+    public function getMonthlyExpensesByCategory($user)
+    {
+        $query = $this->createQueryBuilder('e')
+            ->join('e.account', 'a')
+            ->andWhere('a.user = :user')
+            ->setParameter('user', $user)
+            // Add more conditions and joins as needed
+            ->getQuery();
 
+        return $query->getResult();
+    }
 
 
 //    /**

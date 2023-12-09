@@ -45,6 +45,28 @@ class IncomeRepository extends ServiceEntityRepository
         }
     }
 
+    public function findByTotalIncomeAmount(int $id): ?float
+    {
+        try {
+            $query = $this->createQueryBuilder('i')
+                ->select('SUM(i.amount) as totalIncomeAmount')
+                ->andWhere('i.account = :account_id')
+                ->setParameter('account_id', $id)
+                ->getQuery();
+
+            // dump($query->getSQL());
+
+            $result = $query->getSingleScalarResult();
+
+            // dump($result);
+
+            return $result ?? 0.0;
+        } catch (\Exception $e) {
+            // dump($e->getMessage());
+            return null;
+        }
+    }
+
 
 //    /**
 //     * @return Income[] Returns an array of Income objects

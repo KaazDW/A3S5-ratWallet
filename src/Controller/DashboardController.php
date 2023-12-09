@@ -130,26 +130,44 @@ class DashboardController extends AbstractController
      * @throws NoResultException
      */
     #[Route('/dashboard', name: 'dashboard')]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function dashboard(EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
         $accountRepository = $entityManager->getRepository(Account::class);
-        $topAccounts = $entityManager->getRepository(Account::class)->findTopAccounts(3);
-        $accounts = $accountRepository->findAll();
+        $topAccounts = $accountRepository->findTopAccounts(3);
+        $accounts = $accountRepository->findBy(['userID' => $user]);
 
-        if ($user) {
-            $username = $user->getUsername();
-        } else {
+        if (!$user) {
             $username = 'Invité';
-        }
+            $balanceSum = 0; // Default value if user is not authenticated
+            $totalExpenseSum = 0;
+            $totalIncomeSum = 0;
+        } else {
+            $username = $user->getUsername();
 
+            $balanceSum = 0;
+            $totalExpenseSum = 0;
+            $totalIncomeSum = 0;
+
+            foreach ($accounts as $account) {
+                $balanceSum += $account->getBalance();
+
+                $totalExpenseSum += $entityManager->getRepository(Expense::class)->getTotalExpenseAmount($account->getId());
+                $totalIncomeSum += $entityManager->getRepository(Income::class)->getTotalIncomeAmount($account->getId());
+            }
+        }
 
         return $this->render('pages/dashboard.html.twig', [
             'username' => $username,
             'accounts' => $accounts,
             'topAccounts' => $topAccounts,
+            'balanceSum' => $balanceSum,
+            'totalExpenseSum' => $totalExpenseSum,
+            'totalIncomeSum' => $totalIncomeSum,
         ]);
     }
+
+
 
     #[Route('/recap/{id}', name: 'recap')]
     public function recap(int $id, EntityManagerInterface $entityManager, Request $request): Response
@@ -186,5 +204,4 @@ class DashboardController extends AbstractController
             'typeFilter' => $typeFilter,
         ]);
     }
-
 }

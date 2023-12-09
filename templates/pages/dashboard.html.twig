@@ -18,6 +18,24 @@
             </ul>
         </div>
         <div class="element">
+            {% if balanceSum is defined %}
+                <p>{{ app.user.username }} voici la somme de chacun de vos comptes: {{ balanceSum }} €</p>
+            {% else %}
+                <p>{{ app.user.username }} vous n'avez aucun compte pour le moment.</p>
+            {% endif %}
+            {% if totalExpenseSum is defined %}
+                <p>{{ app.user.username }} voici la somme des dépenses pour la totalité de vos comptes: {{ totalExpenseSum }} €</p>
+            {% else %}
+                <p>{{ app.user.username }} vous n'avez aucune dépense pour le moment.</p>
+            {% endif %}
+
+            {% if totalIncomeSum is defined %}
+                <p>{{ app.user.username }} voici la somme des incomes pour la totalité de vos comptes: {{ totalIncomeSum }} €</p>
+            {% else %}
+                <p>{{ app.user.username }} vous n'avez aucun income pour le moment.</p>
+            {% endif %}
+        </div>
+        <div class="element">
             {% if app.user.getNbAccount() is defined %}
                 {% set nbAccountsCount = app.user.getNbAccount() %}
                 {% if nbAccountsCount == 1 %}
@@ -31,6 +49,9 @@
                 {% endif %}
             {% endif %}
         </div>
+
+        <div id="chartCategoryAllAccount"></div>
+
     </section>
 {% endblock %}
 
@@ -117,6 +138,75 @@
                 console.error('Erreur lors de la récupération des données de l\'historique:', error);
             });
     });
+
+   /* document.addEventListener('DOMContentLoaded', function () {
+       {# fetch("{{ path('categoryAllAccount') }}") #}
+            .then(response => response.json())
+            .then(data => {
+
+                if (data && data.length > 0) {
+                    var options = {
+                        chart: {
+                            type: 'bar',
+                            height: 350,
+                            stacked: true,
+                        },
+                        stroke: {
+                            width: 1,
+                            colors: ['#fff']
+                        },
+                        dataLabels: {
+                            formatter: (val) => {
+                                return val / 1000 + 'K'
+                            }
+                        },
+                        plotOptions: {
+                            bar: {
+                                horizontal: false
+                            }
+                        },
+                        fill: {
+                            opacity: 1
+                        },
+                        colors: ['#80c7fd', '#008FFB', '#80f1cb', '#00E396'],
+                        yaxis: {
+                            labels: {
+                                formatter: (val) => {
+                                    return val / 1000 + 'K'
+                                }
+                            }
+                        },
+                        legend: {
+                            position: 'top',
+                            horizontalAlign: 'left'
+                        }
+                    };
+
+                    // Transform your data to fit the series structure
+                    var series = [];
+                    data.forEach(function (accountData) {
+                        accountData.expenseSums.forEach(function (expenseSum, index) {
+                            var categorySeries = {
+                                name: accountData.account.name + ' - ' + 'Q' + (index + 1) + ' ' + accountData.expenseSums[index].group,
+                                group: accountData.expenseSums[index].group.toLowerCase(),
+                                data: expenseSum
+                            };
+
+                            series.push(categorySeries);
+                        });
+                    });
+
+                    options.series = series;
+
+                    var chart = new ApexCharts(document.querySelector("#chartCategoryAllAccount"), options);
+                    chart.render();
+                }
+            }});
+    });
+*/
+
+
+
     </script>
 
 {% endblock %}
