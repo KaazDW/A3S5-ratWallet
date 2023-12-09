@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\Security;
 
 class ChartController extends AbstractController
 {
-    #[Route('/chart/datacategory/{id}', name: 'datacategory')]
+   #[Route('/chart/datacategory/{id}', name: 'datacategory')]
     public function getDataCategory(int $id, EntityManagerInterface $entityManager)
     {
         // Récupérer le référentiel (repository) pour l'entité Expense
@@ -32,16 +32,18 @@ class ChartController extends AbstractController
         $query->setParameter('account', $id);
         $result = $query->getResult();
 
-        // Formater les résultats pour la réponse JSON
-        $chartData = [];
+        // Exécuter la requête
+        $chartData = [
+            'categories' => [],
+            'series' => [],
+        ];
+
         foreach ($result as $row) {
-            $chartData[] = [
-                'categories' => $row['category_id'],
-                'series' => $row['totalAmount'],
-            ];
+            $chartData['categories'][] = $row['category_label'];
+            $chartData['series'][] = $row['total_amount'];
         }
 
-        return new JsonResponse($chartData);
+        return new JsonResponse(['data' => $chartData]);
         // pour voir les données renvoyées, allez à : http://127.0.0.1:8000/chart/datacategory/{id}
     }
 
