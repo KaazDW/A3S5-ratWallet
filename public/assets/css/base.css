@@ -62,6 +62,7 @@ body header .user img {
 }
 body header .user span {
   margin-left: 15px;
+  font-size: 21px;
 }
 body header .uptitle {
   font-size: 35px;
