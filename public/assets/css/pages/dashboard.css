@@ -1,3 +1,21 @@
+.dashboard .header {
+  display: flex;
+}
+.dashboard .header .top3 {
+  width: 330px;
+}
+.dashboard .header .stats {
+  width: 100%;
+}
+
+.background-plain {
+  padding: 0 10px;
+  border-radius: 52px;
+  background-color: var(--color-black);
+  color: white;
+  margin-left: 8px;
+}
+
 .top-dash-content {
   display: flex;
 }

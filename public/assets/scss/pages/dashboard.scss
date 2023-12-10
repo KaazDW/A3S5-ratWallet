@@ -1,5 +1,29 @@
 // DASHBOARD Sass File 
 
+
+// DASHBOARD
+.dashboard{
+    .header{
+        display: flex;
+        .top3{
+            width: 330px;
+        }
+        .stats{
+            width: 100%;
+        }
+    }
+}
+.background-plain {
+    padding: 0 10px;
+    border-radius: 52px;
+    background-color: var(--color-black);
+    color: white;
+    margin-left: 8px;
+}
+
+
+
+
 // DETAIL Account
 .top-dash-content{
         display: flex;

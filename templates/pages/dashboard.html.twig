@@ -6,51 +6,52 @@
 
 {% block body %}
     <section class="dashboard">
-        <div class="element">
-            <p>dashboard</p>
-        </div>
-        <div class="element">
-            <p>Top 3 des comptes les plus riches :</p>
-            <ul>
-                {% for topAccount in topAccounts %}
-                    <li>{{ topAccount.userID.username }} -> {{ topAccount.nameAccount }} : {{ topAccount.balance }} €</li>
-                {% endfor %}
-            </ul>
-        </div>
-        <div class="element">
-            {% if balanceSum is defined %}
-                <p>{{ app.user.username }} voici la somme de chacun de vos comptes: {{ balanceSum }} €</p>
-            {% else %}
-                <p>{{ app.user.username }} vous n'avez aucun compte pour le moment.</p>
-            {% endif %}
-            {% if totalExpenseSum is defined %}
-                <p>{{ app.user.username }} voici la somme des dépenses pour la totalité de vos comptes: {{ totalExpenseSum }} €</p>
-            {% else %}
-                <p>{{ app.user.username }} vous n'avez aucune dépense pour le moment.</p>
-            {% endif %}
+        <div class="header">
+            <div class="element top3">
+                <h3><span data-tooltip="Top 3 of most fortunate account actually registered on ratWallet." class="tooltip-container">#TOP 3 :</span></h3>
+                <ul>
+                    {% for topAccount in topAccounts %}
+                    <!-- <li>{{ topAccount.userID.username }} -> {{ topAccount.nameAccount }} : {{ topAccount.balance }} €</li> -->
+                        <li>Number #{{ loop.index }} : <span class="background-plain">{{ topAccount.balance }}€</span></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="element stats">
+                <h3>SOME GLOBAL STATISTICS :</h3>
+                {% if balanceSum is defined %}
+                    <p><b><span class="background-plain">{{ balanceSum }} €</span></b> >  <u>Sold</u> Total of All your Account combined. </p>
+                {% else %}
+                    <p>Create one or more accounts to display their statistics.</p>
+                {% endif %}
 
-            {% if totalIncomeSum is defined %}
-                <p>{{ app.user.username }} voici la somme des incomes pour la totalité de vos comptes: {{ totalIncomeSum }} €</p>
-            {% else %}
-                <p>{{ app.user.username }} vous n'avez aucun income pour le moment.</p>
-            {% endif %}
+                {% if totalExpenseSum is defined %}
+                    <p><span class="background-plain">{{ totalExpenseSum }} €</span> >  <u>Expenses</u> Total of All your Account combined.</p>
+                {% else %}
+                    <p>You don't have any Expense register actually so we can not build statistic about it.</p>
+                {% endif %}
+
+                {% if totalIncomeSum is defined %}
+                    <p><span class="background-plain">{{ totalIncomeSum }} €</span> > <u>Income</u> Total of All your Account combined.</p>
+                {% else %}
+                    <p>You don't have any Income register actually so we can not build statistic about it.</p>
+                {% endif %}
+            </div>
         </div>
-        <div class="element">
+        
+        <div class="element" style="padding-top: 25px;">
             {% if app.user.getNbAccount() is defined %}
                 {% set nbAccountsCount = app.user.getNbAccount() %}
-                {% if nbAccountsCount == 1 %}
-                    <p>{{ app.user.username }} vous possédez 1 compte. Voici l'historique de votre solde :</p>
-                    <div id="chartHistoryBalance"></div>
-                {% elseif nbAccountsCount <= 3 %}
-                    <p>{{ app.user.username }} vous possédez {{ nbAccountsCount }} comptes. Voici l'historique du solde pour chacun de vos comptes :</p>
-                    <div id="chartHistoryBalance"></div>
+                {% if nbAccountsCount <= 3 %}
+                    <p><span class="background-plain"><b>{{ app.user.username }}.</b></span>, you have actually <b>{{ nbAccountsCount }}</b> accounts register on <b>ratWallet.</b> , here is the history of their balances :</p>
+                    <div id="chartHistoryBalance" style="margin-top: 25px;"></div>
                 {% else %}
-                    <p>{{ app.user.username }} vous ne possédez aucun compte.</p>
+                    <p><span class="background-plain"><b>{{ app.user.username }}.</b></span>, create one or more accounts to display their statistics.</p>
                 {% endif %}
             {% endif %}
         </div>
 
-        <div id="chartExpenseSumByCategory"></div>
+        <!-- JF :  Ce graphique n'est pas affiché on est d'accord ? -->
+        <div id="chartExpenseSumByCategory"></div> 
 
     </section>
 {% endblock %}
@@ -76,7 +77,7 @@
                             curve: 'smooth'
                         },
                         title: {
-                            text: 'Progression par rapport à l\'objectif',
+                            text: 'GLOBAL Sold history',
                             align: 'left',
                             style: {
                                 fontSize: '14px'
