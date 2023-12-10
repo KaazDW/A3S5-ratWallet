@@ -9,13 +9,15 @@
     padding: 7px 12px;
     margin-top: 3px;
     border-radius: 10px;
-    font-weight: 500 !important;
+    font-weight: 600 !important;
     white-space: nowrap;
     opacity: 0;
     transition: opacity 0.1s ease-in-out;
     pointer-events: none; 
     z-index: 999; 
     left: 50%;
+    font-style: normal;
+    font-size: 16px !important;
     transform: translateX(-50%);
 }
 

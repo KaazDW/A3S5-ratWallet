@@ -7,23 +7,19 @@
 	<section class="dashboard">
 		<div class="top-dash-content">
 			<div class="element stats">
-				<div>
+				<div style="display: flex; align-items: center;">
 					<p>Account name :
-						<span>{{account.nameAccount }}</span>
-					</p>
-					<br>
-					<p>Solde :
-						<span>{{account.balance }}€</span>
+						<span class="background-plain">{{account.nameAccount }}</span>
 					</p>
 				</div>
 				<div>
+					<p>Solde :
+						<span>{{account.balance }}€</span>
+					</p>
+					<br>
 					<p class="tooltip-container" data-tooltip="The sold goal you want to reach on this account">Goal :
 						<span>{{ totalGoal }}€</span>
 					</p>
-				<br>
-				<p>Solde :
-					<span>{{account.balance }}€</span>
-				</p>
 				</div>
 				<div>
 					<p class="tooltip-container" data-tooltip="Total of all Incoming Money since creation of this account">Total Income :
@@ -37,10 +33,10 @@
 			</div>
 			<div class="element transactions">
 				<button>
-					<i class="bi bi-plus-square-fill" id="addIncome"></i>
+					<i class="bi bi-plus-square-fill tooltip-container" data-tooltip="Make an Income" id="addIncome"></i>
 				</button>
 				<button>
-					<i class="bi bi-dash-square-fill" id="addExpense"></i>
+					<i class="bi bi-dash-square-fill tooltip-container" data-tooltip="Make an Expense"  id="addExpense"></i>
 				</button>
 				<div class="toastForm element" id="incomeForm">
 					<div>
@@ -69,7 +65,7 @@
 						{{ form_row(expenseForm.description) }}
 						{{ form_row(expenseForm.category) }}
 						<div class="btn-div">
-							<a href="#" id="linkFormExpense" class="button button--pan">
+							<a href="#" id="linkFormExpense" class="button button--pan"> 
 								<span>
 									Add<i class="bi bi-plus-circle-fill"></i>
 								</span>
@@ -78,6 +74,12 @@
 						{{ form_end(expenseForm) }}
 					</div>
 				</div>
+			</div>
+			<div class="element historyLink">
+				<a href="{{ path('recap',{'id': account.id}) }}" class="tooltip-container" data-tooltip="Let's see your transaction's history"><i class="bi bi-table"></i></a>
+			</div>
+			<div class="element goalLink">
+				<a href="{{ path('create_goal',{'id': account.id}) }}" class="tooltip-container" data-tooltip="Define your account sold Goal you want to reach"><i class="bi bi-wallet"></i></a>
 			</div>
 		</div>
 	</div>

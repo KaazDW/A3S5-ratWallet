@@ -40,11 +40,16 @@
 }
 .top-dash-content .transactions button {
   margin: 0 10px;
-  font-size: 40px;
+  font-size: 33px;
   display: flex;
   justify-content: center;
   align-items: center;
   color: var(--color-black);
+}
+.top-dash-content .historyLink, .top-dash-content .goalLink {
+  text-align: center;
+  font-size: 33px;
+  width: 65px;
 }
 
 #expenseForm {
