@@ -3,6 +3,7 @@
 
 // DASHBOARD
 .dashboard{
+    margin-right: 30px;
     .header{
         display: flex;
         .top3{
@@ -29,6 +30,7 @@
         display: flex;
     .stats{
         display: flex;
+        width: 100%;
         div{
             margin: 0 15px;
             p{
@@ -54,10 +56,13 @@
             color: var(--color-black);
         }
     }
-    .historyLink, .goalLink{
+    .historyLink, .goalLink, .deleteLink{
         text-align: center;
         font-size: 33px;
         width: 65px;
+    }
+    .deleteLink a i{
+        color: var(--color-red);
     }
 }
 #expenseForm{

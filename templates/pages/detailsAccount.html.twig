@@ -81,6 +81,9 @@
 			<div class="element goalLink">
 				<a href="{{ path('create_goal',{'id': account.id}) }}" class="tooltip-container" data-tooltip="Define your account sold Goal you want to reach"><i class="bi bi-wallet"></i></a>
 			</div>
+			<div class="element deleteLink">
+				<a href="{{ path('delete_account',{'id': account.id}) }}" class="tooltip-container" data-tooltip="Delete this account. This action is irreversible !"><i class="bi bi-trash-fill"></i></a>
+			</div>
 		</div>
 	</div>
 					

@@ -1,3 +1,6 @@
+.dashboard {
+  margin-right: 30px;
+}
 .dashboard .header {
   display: flex;
 }
@@ -21,6 +24,7 @@
 }
 .top-dash-content .stats {
   display: flex;
+  width: 100%;
 }
 .top-dash-content .stats div {
   margin: 0 15px;
@@ -46,10 +50,13 @@
   align-items: center;
   color: var(--color-black);
 }
-.top-dash-content .historyLink, .top-dash-content .goalLink {
+.top-dash-content .historyLink, .top-dash-content .goalLink, .top-dash-content .deleteLink {
   text-align: center;
   font-size: 33px;
   width: 65px;
+}
+.top-dash-content .deleteLink a i {
+  color: var(--color-red);
 }
 
 #expenseForm {
