@@ -57,7 +57,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 15px 25px 0 25px;
+    margin: 15px 25px 15px 25px;
 
     .user {
       display: flex;
@@ -91,6 +91,7 @@ body {
       display: flex;
       justify-content: space-between;
       flex-direction: column;
+      margin-left: 10px;
     }
     section.dashboard{
       width: 100%;
@@ -167,7 +168,7 @@ body {
 
 .element{
   background-color: white;
-  margin: 8px;
+  margin: 5px;
   padding: 10px;
   border-radius: 10px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.041);
