@@ -3,7 +3,7 @@
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('assets/css/pages/dashboard.css') }}">
 {% endblock %}
-<div class="addacount">
+<section class="addacount">
     <div class="element addaccountform">
         <div>
             {{ form_start(form, {'attr': {'id': 'accountFormId'} } ) }}
@@ -26,7 +26,7 @@
             {{ form_end(form) }}
         </div>
     </div>
-</div>
+</section>
 {% endblock %}
 {% block javascripts %}
     <script>

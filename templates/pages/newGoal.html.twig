@@ -1,22 +1,48 @@
 {% extends 'base.html.twig' %}
 
+
+
+{% block stylesheets %}
+       <link rel="stylesheet" href="{{ asset('assets/css/pages/dashboard.css') }}">
+{% endblock %}
+
 {% block body %}
-       <section class="dashboard">
-              <div class="element">
-                     <h1>{{ 'Create Goal'|trans }}</h1>
-                     {{ form_start(form) }}
-                     {{ form_row(form.targetAmount) }}
-                     {{ form_row(form.deadline) }}
-                     {{ form_row(form.description) }}
-                     <button type="submit" class="btn btn-primary">{{ 'Add goal'|trans }}</button>
-                     {{ form_end(form) }}
-              </div>
-              <div class="charts">
-                     <div id="chartGoal"></div>
+       <section class="addacount">
+              <div class="element addaccountform">
+                     <div>
+                            {{ form_start(form, {'attr': {'id': 'goalFormId'} } ) }}
+                            <h3><span style='margin-left: 0;margin-right: 10px;'>Create</span>{{ 'new Money Goal'|trans }}
+                            </h3>
+                            {{ form_row(form.targetAmount) }}
+                            <div style="display: none">
+                                   {{ form_row(form.deadline) }}
+                            </div>
+                            {{ form_row(form.description) }}
+                            {{ form_row(form.category) }}
+                            <!-- <button type="submit" class="btn btn-primary"></button> -->
+                            <div class="btn-div">
+                                   <a href="#" id="linkFormGoal" class="button button--pan">
+                                          <span>
+                                                 {{ 'Add goal'|trans }}
+                                          </span>
+                                   </a>
+                            </div>
+                            {{ form_end(form) }}
+                     </div>
               </div>
        </section>
 {% endblock %}
-
 {% block javascripts %}
+<script>
+       document.addEventListener('DOMContentLoaded', function () {
+              // Make the <a> link can be use like a <button type="submit"> for income an expense forms
+              let formulaireGoal = document.getElementById('goalFormId');
+              let linkGoal = document.getElementById('linkFormGoal');
 
+              linkGoal.addEventListener('click', function (event) {
+                     event.preventDefault();
+                     formulaireGoal.submit();
+              });
+       });
+</script>
 {% endblock %}
