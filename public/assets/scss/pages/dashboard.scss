@@ -121,3 +121,78 @@
     }
 }
 
+
+
+// ADD ACCOUNT
+.addacount{
+    .addaccountform{
+        padding: 20px;
+        animation: fadeIn 1s;
+        div {
+            h3 {
+                margin-bottom: 25px;
+    
+                span {
+                    border: 1px solid var(--color-black);
+                    color: white;
+                    background-color: var(--color-black);
+                    padding: 5px 10px;
+                    border-radius: 25px;
+                    margin-left: 15px;
+                }
+            }
+    
+            form {
+                align-items: center;
+            }
+    
+            .btn-div {
+                margin-top: 15px;
+                display: block;
+                text-align: right;
+    
+                .button {
+                    padding: 5px 15px;
+                    border: 1px solid black;
+    
+                    i {
+                        margin-left: 15px;
+                    }
+                }
+            }
+    
+            div {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+    
+            input,
+            select {
+                padding: 8px 13px;
+                border: none;
+                border: 1px solid var(--color-black);
+                border-radius: 8px;
+                margin: 4px;
+                margin-left: 8px;
+                display: inline;
+            }
+    
+            input:focus {
+                outline: none;
+            }
+    
+            .btn {
+                margin-left: auto;
+                font-size: 18px;
+                margin-top: 15px;
+                color: white;
+    
+                i {
+                    color: #333;
+                    margin-left: 15px;
+                }
+            }
+        }
+    }
+}

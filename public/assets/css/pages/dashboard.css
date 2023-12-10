@@ -115,5 +115,63 @@
     opacity: 1;
   }
 }
+.addacount .addaccountform {
+  padding: 20px;
+  animation: fadeIn 1s;
+}
+.addacount .addaccountform div h3 {
+  margin-bottom: 25px;
+}
+.addacount .addaccountform div h3 span {
+  border: 1px solid var(--color-black);
+  color: white;
+  background-color: var(--color-black);
+  padding: 5px 10px;
+  border-radius: 25px;
+  margin-left: 15px;
+}
+.addacount .addaccountform div form {
+  align-items: center;
+}
+.addacount .addaccountform div .btn-div {
+  margin-top: 15px;
+  display: block;
+  text-align: right;
+}
+.addacount .addaccountform div .btn-div .button {
+  padding: 5px 15px;
+  border: 1px solid black;
+}
+.addacount .addaccountform div .btn-div .button i {
+  margin-left: 15px;
+}
+.addacount .addaccountform div div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.addacount .addaccountform div input,
+.addacount .addaccountform div select {
+  padding: 8px 13px;
+  border: none;
+  border: 1px solid var(--color-black);
+  border-radius: 8px;
+  margin: 4px;
+  margin-left: 8px;
+  display: inline;
+}
+.addacount .addaccountform div input:focus {
+  outline: none;
+}
+.addacount .addaccountform div .btn {
+  margin-left: auto;
+  font-size: 18px;
+  margin-top: 15px;
+  color: white;
+}
+.addacount .addaccountform div .btn i {
+  color: #333;
+  margin-left: 15px;
+}
 
 /*# sourceMappingURL=dashboard.css.map */

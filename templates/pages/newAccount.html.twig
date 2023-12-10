@@ -1,14 +1,44 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-<div class="form mt-4">
-    <h1>{{ 'Create acoount'|trans }}</h1>
-    <div class="textcustom">
-        {{ form_start(form) }}
-        {{ form_row(form.balance) }}
-        {{ form_row(form.user_id) }}
-        {{ form_row(form.name_account) }}
-        <button type="submit" class="btn btn-primary">{{ 'Add account'|trans }}</button>
-        {{ form_end(form) }}
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/pages/dashboard.css') }}">
+{% endblock %}
+<div class="addacount">
+    <div class="element addaccountform">
+        <div>
+            {{ form_start(form, {'attr': {'id': 'accountFormId'} } ) }}
+            <h3><span style='margin-left: 0;margin-right: 10px;'>Create</span>{{ 'new Money Account '|trans }}</h3>
+            {{ form_row(form.balance) }}
+            <div style="display: none">
+                {{ form_row(form.user_id) }}
+            </div>
+            {{ form_row(form.name_account) }}
+            {{ form_row(form.currency) }}
+            {{ form_row(form.account_type) }}
+            <!-- <button type="submit" class="btn btn-primary"></button> -->
+            <div class="btn-div">
+                <a href="#" id="linkFormAccount" class="button button--pan">
+                    <span>
+                        {{ 'Add account'|trans }}
+                    </span>
+                </a>
+            </div>
+            {{ form_end(form) }}
+        </div>
     </div>
 </div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Make the <a> link can be use like a <button type="submit"> for income an expense forms
+            let formulaireAcc = document.getElementById('accountFormId');
+            let linkAcc = document.getElementById('linkFormAccount');
+
+            linkAcc.addEventListener('click', function (event) {
+                event.preventDefault();
+                formulaireAcc.submit();
+            });
+        });
+	</script>
 {% endblock %}
