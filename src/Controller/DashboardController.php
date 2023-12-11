@@ -23,6 +23,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 
 
 class DashboardController extends AbstractController
@@ -234,6 +237,29 @@ class DashboardController extends AbstractController
         $this->addFlash('success', 'Item deleted successfully.');
 
         return $this->redirectToRoute('recap', ['id' => $item->getAccount()->getId()]);
+    }
+
+    
+    #[Route('/lastTransaction/{id}', name: 'lastTransaction')]
+    public function lastTransaction(EntityManagerInterface $entityManager, Security $security): JsonResponse
+    {
+        $user = $security->getUser();
+
+        $accountRepository = $entityManager->getRepository(Account::class);
+        $accounts = $accountRepository->findBy(['userID' => $user]);
+
+        $historyData = [];
+        foreach ($accounts as $account) {
+            $history = $account->getHistories();
+            $historyData[] = [
+                'accountName' => $account->getNameAccount(),
+                'amountHistory' => array_map(function ($entry) {
+                    return $entry->getHistoryBalance();
+                }, $history->toArray()),
+            ];
+        }
+
+        return new JsonResponse($historyData);
     }
 
 }
