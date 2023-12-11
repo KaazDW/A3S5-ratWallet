@@ -148,19 +148,28 @@ class ChartController extends AbstractController
             throw $this->createNotFoundException('Compte non trouvé');
         }
 
+        // Retrieve all categories from the database
         $categories = $categoryRepository->findAll(); // Retrieve all categories from the database
 
-        $expenseSums = [];
-        foreach ($categories as $category) {
-            $sum = $expenseRepository->getSumByCategoryAndAccount($category, $account);
-            $expenseSums[] = $sum ?? 0;
-        }
+        // Retrieve monthly expense sums by category
+        $sum = $expenseRepository->getSumByCategoryAndAccount($category, $account);
+
+        // Extract months and sums from the result
+        $months = array_column($monthlyExpenseSums, 'month');
+        $sums = array_column($monthlyExpenseSums, 'sum');
 
         $response = [
             'categories' => array_map(fn(Category $category) => $category->getLabel(), $categories),
-            'expenseSums' => $expenseSums,
+            'expenseSums' => $sums,
+            'months' => $months,
         ];
 
         return new JsonResponse($response);
     }
 }
+
+ $expenseSums = [];
+        foreach ($categories as $category) {
+            $sum = $expenseRepository->getSumByCategoryAndAccount($category, $account);
+            $expenseSums[] = $sum ?? 0;
+        }
