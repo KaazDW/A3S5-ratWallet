@@ -54,16 +54,29 @@ class ExpenseRepository extends ServiceEntityRepository
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
-    public function getSumByCategoryAndAccount(Category $category, Account $account): float
+    public function getSumByCategoryAndAccount(Category $category, Account $account)
     {
         return $this->createQueryBuilder('e')
-            ->select('SUM(e.amount) as sum')
+            ->select('e.date as month', 'SUM(e.amount) as sum')
             ->where('e.category = :category')
             ->andWhere('e.account = :account')
             ->setParameter('category', $category)
             ->setParameter('account', $account)
+            ->groupBy('month')
             ->getQuery()
-            ->getSingleScalarResult() ?? 0;
+            ->getResult();
+    }
+
+
+    public function getMonthlyExpenseSumByCategory(Account $account)
+    {
+        return $this->createQueryBuilder('e')
+            ->select('MONTH(e.date) as month', 'SUM(e.amount) as sum')
+            ->where('e.account = :account')
+            ->setParameter('account', $account)
+            ->groupBy('month')
+            ->getQuery()
+            ->getResult();
     }
 
 }
