@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Account;
+use App\Entity\Avis;
 use App\Entity\Expense;
 use App\Entity\History;
 use App\Entity\Income;
@@ -58,8 +59,16 @@ class DashboardController extends AbstractController
         if (!$account) {
             throw $this->createNotFoundException('Compte non trouvé');
         }
-        $incomeForm = $this->createForm(IncomeFormType::class, new Income());
-        $expenseForm = $this->createForm(ExpenseFormType::class, new Expense());
+        $income = new Income();
+        $expense = new Expense();
+
+        $income->setDate(new \DateTime());
+        $expense->setDate(new \DateTime());
+
+        $incomeForm = $this->createForm(IncomeFormType::class, $income);
+        $expenseForm = $this->createForm(ExpenseFormType::class, $expense);
+
+
 
         $formType = $request->query->get('type');
         $form = null;
@@ -84,6 +93,7 @@ class DashboardController extends AbstractController
                 $history = new History();
                 $history->setAccount($account);
                 $history->setDate(new \DateTime());
+
                 $history->setHistoryBalance($account->getBalance());
 
                 $entityManager->persist($history);
