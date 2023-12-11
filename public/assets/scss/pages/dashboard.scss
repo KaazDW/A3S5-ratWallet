@@ -3,7 +3,7 @@
 
 // DASHBOARD
 .dashboard{
-    margin-right: 30px;
+    margin-right: 55px;
     .header{
         display: flex;
         .top3{
@@ -132,22 +132,12 @@
         }
     }
 }
-.charts{
-    display: flex;
-    .linearChart {
-        width: 760px !important;
-        height: 380px !important;
-    }
-    .pieChart{
-        width: 500px !important;
-        height: 500px !important;
-    }
-}
+
 
 
 @keyframes fadeIn {
     from {
-        opacity: 0;
+        opacity: 0; 
     }
 
     to {

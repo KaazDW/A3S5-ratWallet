@@ -1,5 +1,5 @@
 .dashboard {
-  margin-right: 30px;
+  margin-right: 55px;
 }
 .dashboard .header {
   display: flex;
@@ -123,18 +123,6 @@
 .toastForm div .btn i {
   color: #333;
   margin-left: 15px;
-}
-
-.charts {
-  display: flex;
-}
-.charts .linearChart {
-  width: 760px !important;
-  height: 380px !important;
-}
-.charts .pieChart {
-  width: 500px !important;
-  height: 500px !important;
 }
 
 @keyframes fadeIn {
