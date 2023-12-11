@@ -13,8 +13,6 @@ Create new db named : "ratwallet"
 
 ```
 php bin/console doctrine:migrations:migrate
-php bin/console doctrine:schema:update -f // only if migrations does not work
-npm run watch
 symfony server:start
 ```
 
@@ -27,45 +25,28 @@ sass public\assets\scss\pages\dashboard.scss:public\assets\css\pages\dashboard.c
 sass public\assets\scss\pages\login.scss:public\assets\css\pages\login.css -w
 ```
 
-librairy used :
+Librairy used :
 
-- Chartjs for Symfony (https://symfony.com/bundles/ux-chartjs/current/index.html)[https://symfony.com/bundles/ux-chartjs/current/index.html]
+- ApexCharts
 - PHPSpreadSheet
-
-## Notes
-
-Important :
-
-- ajout
-- filtre complexe (filtre multiplle sur les objets - recherche texte, catégorie couplé)
-
-Vu notre sujet :
-
-- mettre l'accent sur les statistiques
-- il faut utilser impoerattivement doctrine de toutes facons.
-
-Doc sur les components Symfony :
-https://symfony.com/doc/current/templates.html#embedding-controllers
-
-Doctrine :
-
-> "En doctrine on s'en bas les couilles des id : `SELECT * FROM Student WHERE idschool=2;` deviens `$querybuilder("s")->andWhere(s.school=:idschool)->setParameter('idschool', 2);` `$querybuilder("student")->innerJoin("student.school")->innerJoin("school.city","city")->andWhere("city.name"=:name)->setparameter("name","Bourg-en-bresse")->getQuery()->getResult();`"
+- 
+<br/><br/>
 
 ## Specifications
 
 Sujet : Système de suivi des dépenses personnelles.
-
-- Login
-  - Enregistrement de plusieurs comptes bancaires
-  - Enregistrement des dépenses par catégories (aliementation, loyer, ...)
-  - Enregistrement des revenus (Salaire, APL, Aide au logement)
-  - Définition des budgets attendus dans chaque catégorie
-  - Définition d'objectif financiers sur chaque compte
-  - Exportation des données sous format EXCEL (pourquoi pas importation également)
-  - Dashboard avec graphiques
-  - Gestion des remboursements (ex: a rembourser : 30€ a Pierre, 12€ a .... etc etc)
-- Responsive primordiale car utilisation sur mobile important
-- Sécurité des données
+Listes des fonctionnalitées (attendu et réalisées) :
+  - ✅ Login - Création, Suppression, Modifications de comptes
+  - ✅ Enregistrement de plusieurs comptes bancaires
+  - ✅ Enregistrement des dépenses par catégories (aliementation, loyer, ...)
+  - ✅ Enregistrement des revenus (Salaire, APL, Aide au logement)
+  - ✅ Définition d'objectif financiers sur chaque compte
+  - ✅ Enregistrement et affichage de l'historique de chaques comptes
+  - ✅ Fonctions de tri sur les historiques des comptes
+  - ✅ Possibiltié de suppression d'une entrée depuis l'historiques des comptes
+  - ✅ Exportation des données (Excel)
+  - ✅ Dashboard avec graphiques
+  - ✅ Sécurité des données (Middleware Symfony twig protège nativement des injections XSS)
 
 <div align="center">
   <img src="https://github.com/KaazDW/A3S5-ratWallet/blob/master/DOC/cg_1.png">
