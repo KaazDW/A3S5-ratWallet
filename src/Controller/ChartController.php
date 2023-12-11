@@ -167,9 +167,3 @@ class ChartController extends AbstractController
         return new JsonResponse($response);
     }
 }
-
- $expenseSums = [];
-        foreach ($categories as $category) {
-            $sum = $expenseRepository->getSumByCategoryAndAccount($category, $account);
-            $expenseSums[] = $sum ?? 0;
-        }

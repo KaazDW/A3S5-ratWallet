@@ -9,14 +9,14 @@ composer install
 npm install
 ```
 
-new db named : `ratwallet`
+Create new db named : "ratwallet"
 
 ```
 php bin/console doctrine:migrations:migrate
 symfony server:start
 ```
 
-Compilation sass pour `dev` :
+dev sass compile command :
 
 ```
 sass public\assets\scss\base.scss:public\assets\css\base.css -w
@@ -25,12 +25,12 @@ sass public\assets\scss\pages\dashboard.scss:public\assets\css\pages\dashboard.c
 sass public\assets\scss\pages\login.scss:public\assets\css\pages\login.css -w
 ```
 
-Librairies utilisées :
+Librairy used :
 
 - ApexCharts
 - PHPSpreadSheet
-
-<br/>
+- 
+<br/><br/>
 
 ## Specifications
 
@@ -45,7 +45,7 @@ Listes des fonctionnalitées (attendu et réalisées) :
   - ✅ Fonctions de tri sur les historiques des comptes
   - ✅ Possibiltié de suppression d'une entrée depuis l'historiques des comptes
   - ✅ Exportation des données (Excel)
-  - ✅ Dashboard avec graphiques détaillés
+  - ✅ Dashboard avec graphiques
   - ✅ Sécurité des données (Middleware Symfony twig protège nativement des injections XSS)
 
 <div align="center">
