@@ -74,7 +74,8 @@
     width: 320px;
     padding: 20px;
     margin-top: 75px;
-    animation: fadeIn 1s;
+    animation: fadeIn .5s;
+    z-index: 2;
 
     div{
         h3{
