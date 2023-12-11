@@ -5,12 +5,10 @@ namespace App\Repository;
 use App\Entity\Account;
 use App\Entity\Category;
 use App\Entity\Expense;
-use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * @extends ServiceEntityRepository<Expense>
@@ -79,4 +77,31 @@ class ExpenseRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+   /* public function getMonthlyExpensesByCategory(int $accountId ): array
+    {
+        $queryBuilder = $this->createQueryBuilder('e')
+            ->select('SUBSTRING(e.date, 1, 4) as year, SUBSTRING(e.date, 6, 2) as month, c.label as category, SUM(e.amount) as totalAmount, b.amount as budgetAmount')
+            ->leftJoin('e.category', 'c')
+            ->leftJoin('c.budgets', 'b') // Ajouter une jointure avec la table Budget
+            ->leftJoin('b.account', 'a') // Ajouter une jointure avec la table Account
+            ->where('a.id = :accountId') // Filter by the account ID
+            ->setParameter('accountId', $accountId)
+            ->groupBy('year, month, category, budgetAmount') // Ajouter budgetAmount à la clause GROUP BY
+            ->orderBy('year, month, category');
+
+        return $queryBuilder->getQuery()->getResult();
+    }*/
+
+    public function getMonthlyExpensesByCategory(int $accountId, int $currentYear ): array
+    {
+        $queryBuilder = $this->createQueryBuilder('e')
+            ->select('SUBSTRING(e.date, 1, 4) as year, c.label as category, SUM(e.amount) as totalAmount')
+            ->leftJoin('e.category', 'c')
+            ->andWhere('SUBSTRING(e.date, 1, 4) = :currentYear')
+            ->setParameter('currentYear', $currentYear)
+            ->groupBy('year, category')
+            ->orderBy('year, category');
+
+        return $queryBuilder->getQuery()->getResult();
+    }
 }

@@ -79,12 +79,13 @@
 			<div class="element goalLink">
 				<a href="{{ path('create_goal',{'id': account.id}) }}" class="tooltip-container" data-tooltip="Define your account sold Goal"><i class="bi bi-wallet"></i></a>
 			</div>
+			<div class="element goalLink">
+				<a href="{{ path('add_budget',{'id': account.id}) }}" class="tooltip-container" data-tooltip="Add budget to category."><i class="bi bi-cash-coin"></i></a>
+			</div>
 			<div class="element deleteLink">
 				<a href="{{ path('delete_account',{'id': account.id}) }}" class="tooltip-container" data-tooltip="Delete this account."><i class="bi bi-trash-fill"></i></a>
 			</div>
-			<div class="element deleteLink">
-				<a href="{{ path('add_budget',{'id': account.id}) }}" class="tooltip-container" data-tooltip="Add budget to category.">budget</a>
-			</div>
+
 		</div>
 					
 		<div class="dashboard-content">
@@ -99,7 +100,9 @@
 				<div id="chartExpenseSumByCategory" class="element"></div>
 
 			</div>
-
+			<div class="element">
+				<div id="chartMonthlyExpensesByCategory"></div>
+			</div>
 				<!-- <canvas id="myChart" class="linearChart element"></canvas>
 				<canvas id="myPieChart" class="pieChart"></canvas> -->
 				<!-- <div id="chart"></div> -->
@@ -452,13 +455,66 @@
 		});
 
 
+		document.addEventListener('DOMContentLoaded', function () {
+			fetch("{{ path('sum', {'id': account.id}) }}")
+					.then(response => response.json())
+					.then(data => {
+						if (data) {
+							var actualData = data.map(item => {
+								return {
+									x: item.year,  // Utilisez la date du point de données
+									y: item.totalAmount,  // Utilisez le totalAmount comme y
+									goals: [
+										{
+											name: 'Expected',
+											value: item.budgetAmount,  // Utilisez le budgetAmount comme valeur attendue
+											strokeHeight: 5,
+											strokeColor: '#775DD0'
+										}
+									]
+								};
+							});
 
+							var options = {
+								series: [
+									{
+										name: 'Actual',
+										data: actualData
+									}
+								],
+								chart: {
+									height: 350,
+									type: 'bar'
+								},
+								plotOptions: {
+									bar: {
+										columnWidth: '60%'
+									}
+								},
+								colors: ['#00E396'],
+								dataLabels: {
+									enabled: false
+								},
+								legend: {
+									show: true,
+									showForSingleSeries: true,
+									customLegendItems: ['Actual', 'Expected'],
+									markers: {
+										fillColors: ['#00E396', '#775DD0']
+									}
+								}
+							};
 
-
-
-
-
-
+							var chart = new ApexCharts(document.querySelector('#chartMonthlyExpensesByCategory'), options);
+							chart.render();
+						} else {
+							console.error('Les données de la somme des dépenses sont incorrectes.');
+						}
+					})
+					.catch(error => {
+						console.error('Erreur lors de la récupération des données de la somme des dépenses:', error);
+					});
+		});
 
 	</script>
 {% endblock %}

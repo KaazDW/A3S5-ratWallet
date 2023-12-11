@@ -6,6 +6,7 @@ use App\Entity\Expense;
 use App\Entity\Account;
 use App\Entity\Goal;
 use App\Entity\Income;
+use App\Repository\ExpenseRepository;
 use DateTimeInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,9 +17,9 @@ use Symfony\Component\Security\Core\Security;
 
 class ChartController extends AbstractController
 {
-   #[Route('/chart/datacategory/{id}', name: 'datacategory')]
+    #[Route('/chart/datacategory/{id}', name: 'datacategory')]
     public function getDataCategory(int $id, EntityManagerInterface $entityManager): JsonResponse
-   {
+    {
         // Récupérer le référentiel (repository) pour l'entité Expense
         $expenseRepository = $entityManager->getRepository(Expense::class);
         $queryBuilder = $expenseRepository->createQueryBuilder('e')
@@ -166,4 +167,15 @@ class ChartController extends AbstractController
 
         return new JsonResponse($response);
     }
+
+    #[Route('/sum/{id}', name: 'sum')]
+    public function getMonthlyExpensesByCategory(int $id, ExpenseRepository $expenseRepository): JsonResponse
+    {
+        $year='2023';
+        // Use $expenseRepository to fetch monthly expenses from the database
+        $monthlyExpenses = $expenseRepository->getMonthlyExpensesByCategory($id,$year);
+
+        return new JsonResponse($monthlyExpenses);
+    }
+
 }
