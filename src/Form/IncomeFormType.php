@@ -22,7 +22,6 @@ class IncomeFormType extends AbstractType
                 ],
             ])
             ->add('description')
-            ->add('date', HiddenType::class)
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'label',
