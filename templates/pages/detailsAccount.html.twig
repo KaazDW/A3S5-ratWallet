@@ -85,30 +85,27 @@
 				<a href="{{ path('delete_account',{'id': account.id}) }}" class="tooltip-container" data-tooltip="Delete this account."><i class="bi bi-trash-fill"></i></a>
 			</div>
 		</div>
-	</div>
 					
-	<div class="element">
+		<div class="dashboard-content">
+			<div class="element">
+				<div id="chartHistoryBalanceByAccount"></div>
+			</div>
 
-	</div>
+			<div style="display: flex; height: 395px;">
+				<div class="element">
+					<div id="chartGoal"></div>
+				</div>
+				<div id="chartExpenseSumByCategory" class="element"></div>
 
-	<section class="dashboard">
-		<div class="charts">
-			<!-- <canvas id="myChart" class="linearChart element"></canvas>
-			<canvas id="myPieChart" class="pieChart"></canvas> -->
-			<div id="chart"></div>
-		</div>
-		<div class="charts">
-			<div id="chartGoal"></div>
-		</div>
-		<div class="charts">
-			<div id="chartHistoryBalanceByAccount"></div>
-		</div>
-		<div class="charts">
-			<div id="chartExpenseSumByCategory"></div>
-		</div>
+			</div>
 
+				<!-- <canvas id="myChart" class="linearChart element"></canvas>
+				<canvas id="myPieChart" class="pieChart"></canvas> -->
+				<!-- <div id="chart"></div> -->
 
-	</section>
+				<!-- marche pas -->
+				<!-- <div id="chartExpenseSumByCategory"></div> -->
+		</div>
 </section>
 {% endblock %}
 {% block javascripts %}
