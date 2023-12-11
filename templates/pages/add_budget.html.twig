@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <section class="dashboard">
+        <div class="element">
+            <h1>Gestion du budget par category :</h1>
+        </div>
+        <div class="element">
+            <h2>Budgets actuels pour {{ account.nameAccount }} :</h2>
+            <ul>
+                {% for budget in account.budgets %}
+                    <li>{{ budget.category.label }} : {{ budget.amount }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="element">
+            <h1>Ajouter un budget</h1>
+
+            <form method="post" action="{{ path('add_budget',{'id': account.id}) }}">
+                <label for="amount">Montant :</label>
+                <input type="number" id="amount" name="amount" required>
+
+                <label for="category">Catégorie :</label>
+                <select id="category" name="category" required>
+                    {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category.label }}</option>
+                    {% endfor %}
+                </select>
+
+                <button type="submit">Ajouter le budget</button>
+            </form>
+            {% for message in app.flashes('successs') %}
+                <div style="color: green;">{{ message }}</div>
+            {% endfor %}
+            {% for message in app.flashes('dangerr') %}
+                <div style="color: red;">{{ message }}</div>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+
+{% endblock %}

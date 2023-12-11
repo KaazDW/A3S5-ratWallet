@@ -2,8 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Account;
+use App\Entity\Budget;
 use App\Entity\Category;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,7 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
 
 
 class ProfilController extends AbstractController
@@ -37,11 +39,129 @@ class ProfilController extends AbstractController
 
         $categories = $entityManager->getRepository(Category::class)->findAll();
 
-
         return $this->render('pages/profil.html.twig', [
             'username' => $username,
             'email' => $email,
-            'categories' => $categories
+            'categories' => $categories,
+        ]);
+    }
+
+
+    #[Route('/add_budget/{id}', name: 'add_budget')]
+    public function addBudget(int $id, Request $request, EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator): Response
+    {
+        $user = $this->getUser();
+
+        if ($user === null) {
+            return $this->redirectToRoute('app_login');
+        }
+        $account = $entityManager->getRepository(Account::class)->find($id);
+        if (!$account) {
+            throw $this->createNotFoundException('Account not found');
+        }
+
+        if ($request->isMethod('POST')) {
+            // Récupérer les données du formulaire
+            $amount = $request->request->get('amount');
+            $categoryId = $request->request->get('category');
+
+            // Récupérer la catégorie correspondante
+            $category = $entityManager->getRepository(Category::class)->find($categoryId);
+
+
+            if (!$category) {
+                throw $this->createNotFoundException('La catégorie n\'existe pas');
+            }
+
+            // Vérifier si un budget existe déjà pour cette catégorie et cet utilisateur
+            $existingBudget = $entityManager->getRepository(Budget::class)->findOneBy([
+                'category' => $category,
+                'user' => $user,
+            ]);
+
+            // Si un budget existe déjà, rediriger vers la liste des catégories
+            if ($existingBudget) {
+                $this->addFlash('dangerr', 'Le budget existe deja!');
+                // Rediriger vers la liste des catégories après l'ajout du budget
+                $url = $urlGenerator->generate('add_budget', ['id' => $id]);
+                return $this->redirect($url);
+            }
+
+            // Créer un nouvel objet Budget lié à la catégorie et à l'utilisateur actuel
+            $budget = new Budget();
+            $budget->setAmount($amount);
+            $budget->setCategory($category);
+            $budget->setUser($user);
+            $budget->setAccount($account);
+
+            // Enregistrer le budget dans la base de données
+            $entityManager->persist($budget);
+            $entityManager->flush();
+
+            $this->addFlash('successs', 'Le budget a été ajouté avec succès.');
+
+            // Rediriger vers la liste des catégories après l'ajout du budget
+            $url = $urlGenerator->generate('add_budget', ['id' => $id]);
+            return $this->redirect($url);
+        }
+
+        // Récupérer toutes les catégories pour le formulaire
+        $categories = $entityManager->getRepository(Category::class)->findAll();
+
+        // Récupérer les budgets associés à chaque catégorie pour l'utilisateur actuel
+        $budgets = [];
+        foreach ($categories as $category) {
+            $budget = $entityManager->getRepository(Budget::class)->findOneBy([
+                'category' => $category,
+                'user' => $user,
+            ]);
+
+            // Si aucun budget n'est trouvé, initialiser à 0
+            $budgets[$category->getId()] = $budget ? $budget->getAmount() : 0;
+        }
+
+        return $this->render('pages/add_budget.html.twig', [
+            'categories' => $categories,
+            'account' => $account,
+            'budgets' => $budget,
+        ]);
+    }
+
+    #[Route('/edit_budget/{id}', name: 'edit_budget')]
+    public function editBudget(int $id, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->getUser();
+
+        if ($user === null) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        $budget = $entityManager->getRepository(Budget::class)->find($id);
+
+        if (!$budget) {
+            throw $this->createNotFoundException('Budget not found');
+        }
+
+        // Vérifier si l'utilisateur a le droit de modifier ce budget (vérifiez s'il s'agit de son budget)
+
+        if ($request->isMethod('POST')) {
+            // Récupérer les données du formulaire
+            $amount = $request->request->get('amount');
+
+            // Mettre à jour le montant du budget
+            $budget->setAmount($amount);
+
+            // Enregistrer les modifications dans la base de données
+            $entityManager->flush();
+
+            $this->addFlash('successs', 'Le budget a été modifié avec succès.');
+
+            // Rediriger vers la page où l'utilisateur était
+            return $this->redirectToRoute('add_budget', ['id' => $id]);
+        }
+
+        return $this->render('pages/add_budget.html.twig', [
+            'budgets' => $budget,
         ]);
     }
 

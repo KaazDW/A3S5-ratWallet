@@ -82,6 +82,9 @@
 			<div class="element deleteLink">
 				<a href="{{ path('delete_account',{'id': account.id}) }}" class="tooltip-container" data-tooltip="Delete this account."><i class="bi bi-trash-fill"></i></a>
 			</div>
+			<div class="element deleteLink">
+				<a href="{{ path('add_budget',{'id': account.id}) }}" class="tooltip-container" data-tooltip="Add budget to category.">budget</a>
+			</div>
 		</div>
 					
 		<div class="dashboard-content">
