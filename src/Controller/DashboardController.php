@@ -7,6 +7,8 @@ use App\Entity\Expense;
 use App\Entity\History;
 use App\Entity\Income;
 use App\Entity\User;
+use App\Form\EditExpenseFormType;
+use App\Form\EditIncomeFormType;
 use App\Form\ExpenseFormType;
 use App\Form\IncomeFormType;
 use App\Repository\ExpenseRepository;
@@ -17,8 +19,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -204,4 +204,26 @@ class DashboardController extends AbstractController
             'typeFilter' => $typeFilter,
         ]);
     }
+
+    #[Route('/delete-item/{id}', name: 'delete_item')]
+    public function deleteItem(EntityManagerInterface $entityManager, int $id): Response
+    {
+        $item = $entityManager->getRepository(Income::class)->find($id);
+
+        if (!$item) {
+            $item = $entityManager->getRepository(Expense::class)->find($id);
+        }
+
+        if (!$item) {
+            throw $this->createNotFoundException('Item not found');
+        }
+
+        $entityManager->remove($item);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Item deleted successfully.');
+
+        return $this->redirectToRoute('recap', ['id' => $item->getAccount()->getId()]);
+    }
+
 }

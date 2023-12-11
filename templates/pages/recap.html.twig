@@ -34,6 +34,7 @@
                     <th>Date</th>
                     <th>Montant</th>
                     <th>Category</th>
+                    <th>Delete</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -50,6 +51,9 @@
                                 {{ item.type == 'Income' ? '+' : '-' }}  {{ item.amount }}
                             </td>
                             <td>{{ item.categoryName }}</td>
+                            <td>
+                                <a href="{{ path('delete_item', {'id': item.id}) }}" onclick="return confirm('Are you sure you want to delete this item?')"><i class="bi bi-trash-fill"></i></a>
+                            </td>
                         </tr>
                     {% endif %}
                 {% endfor %}
