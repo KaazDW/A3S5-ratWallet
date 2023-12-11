@@ -144,17 +144,6 @@ class AccountController extends AbstractController
         ]);
     }
 
-    /**
-     * @throws Exception
-     */
-    #[Route('/export-goals', name: 'export_goals')]
-    public function exportGoals(ExportService $goalExportService): Response
-    {
-        $filename = $goalExportService->exportToExcel();
-
-        return $this->file($filename, 'goals_export.xlsx');
-    }
-
     #[Route('/changeLanguage/{lang}', name: 'change_language')]
     public function changeLanguage(Request $request, $lang): \Symfony\Component\HttpFoundation\RedirectResponse
     {

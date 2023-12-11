@@ -17,8 +17,8 @@ use Symfony\Component\Security\Core\Security;
 class ChartController extends AbstractController
 {
    #[Route('/chart/datacategory/{id}', name: 'datacategory')]
-    public function getDataCategory(int $id, EntityManagerInterface $entityManager)
-    {
+    public function getDataCategory(int $id, EntityManagerInterface $entityManager): JsonResponse
+   {
         // Récupérer le référentiel (repository) pour l'entité Expense
         $expenseRepository = $entityManager->getRepository(Expense::class);
         $queryBuilder = $expenseRepository->createQueryBuilder('e')
