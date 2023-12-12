@@ -156,7 +156,7 @@ class AccountController extends AbstractController
          $request->getSession()->set('_locale', $lang);
 
          dump($lang);
-         dump($request->getSession()->get('_locale'));  // Check if _locale is set correctly
+         dump($request->getSession()->get('_locale'));
 
          $referer = $request->headers->get('referer');
          dump($referer);

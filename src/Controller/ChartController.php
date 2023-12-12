@@ -20,7 +20,6 @@ class ChartController extends AbstractController
     #[Route('/chart/datacategory/{id}', name: 'datacategory')]
     public function getDataCategory(int $id, EntityManagerInterface $entityManager): JsonResponse
     {
-        // Récupérer le référentiel (repository) pour l'entité Expense
         $expenseRepository = $entityManager->getRepository(Expense::class);
         $queryBuilder = $expenseRepository->createQueryBuilder('e')
             ->select('c.label AS category_label', 'SUM(e.amount) AS total_amount')
@@ -29,12 +28,10 @@ class ChartController extends AbstractController
             ->where('a.id = :account')
             ->groupBy('e.category');
 
-        // Exécuter la requête
         $query = $queryBuilder->getQuery();
         $query->setParameter('account', $id);
         $result = $query->getResult();
 
-        // Exécuter la requête
         $chartData = [
             'categories' => [],
             'series' => [],
@@ -123,7 +120,7 @@ class ChartController extends AbstractController
             'accountName' => $account->getNameAccount(),
             'amountHistory' => array_map(function ($entry) {
                 return [
-                    'x' => $entry->getDate()->getTimestamp() * 1000, // Convertir la date en millisecondes UNIX
+                    'x' => $entry->getDate()->getTimestamp() * 1000,
                     'y' => $entry->getHistoryBalance(),
                 ];
             }, $history->toArray()),
@@ -149,13 +146,10 @@ class ChartController extends AbstractController
             throw $this->createNotFoundException('Compte non trouvé');
         }
 
-        // Retrieve all categories from the database
-        $categories = $categoryRepository->findAll(); // Retrieve all categories from the database
+        $categories = $categoryRepository->findAll();
 
-        // Retrieve monthly expense sums by category
         $sum = $expenseRepository->getSumByCategoryAndAccount($category, $account);
 
-        // Extract months and sums from the result
         $months = array_column($monthlyExpenseSums, 'month');
         $sums = array_column($monthlyExpenseSums, 'sum');
 
@@ -172,7 +166,6 @@ class ChartController extends AbstractController
     public function getMonthlyExpensesByCategory(int $id, ExpenseRepository $expenseRepository): JsonResponse
     {
         $year='2023';
-        // Use $expenseRepository to fetch monthly expenses from the database
         $monthlyExpenses = $expenseRepository->getMonthlyExpensesByCategory($id,$year);
 
         return new JsonResponse($monthlyExpenses);

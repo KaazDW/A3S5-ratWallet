@@ -92,7 +92,6 @@ class DashboardController extends AbstractController
 
                 $account->setBalance($account->getBalance() + ($formType === 'income' ? $transactionAmount : -$transactionAmount));
 
-                // Enregistrement dans la table historique
                 $history = new History();
                 $history->setAccount($account);
                 $history->setDate(new \DateTime());
@@ -152,7 +151,7 @@ class DashboardController extends AbstractController
 
         if (!$user) {
             $username = 'Invité';
-            $balanceSum = 0; // Default value if user is not authenticated
+            $balanceSum = 0;
             $totalExpenseSum = 0;
             $totalIncomeSum = 0;
         } else {
@@ -204,7 +203,6 @@ class DashboardController extends AbstractController
             return $item;
         }, $recapItems);
 
-        // Extract unique categories for the filter options
         $uniqueCategories = array_unique(array_map(function ($item) {
             return $item->categoryName;
         }, $recapItems));

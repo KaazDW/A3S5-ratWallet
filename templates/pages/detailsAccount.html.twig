@@ -250,7 +250,7 @@
 									track: {
 										background: '#fff',
 										strokeWidth: '67%',
-										margin: 0, // margin is in pixels
+										margin: 0,
 										dropShadow: {
 											enabled: true,
 											top: -3,
@@ -270,7 +270,7 @@
 										},
 										value: {
 											formatter: function(val) {
-												return parseFloat(val).toFixed(2); // Vous pouvez ajuster le nombre de décimales après la virgule selon vos besoins
+												return parseFloat(val).toFixed(2);
 											},
 											color: '#111',
 											fontSize: '36px',
@@ -363,7 +363,7 @@
 								},
 								xaxis: {
 									type: 'datetime',
-									categories: data[0].amountHistory.map(entry => entry.x), // Utilisez les timestamps comme catégories
+									categories: data[0].amountHistory.map(entry => entry.x),
 								},
 								tooltip: {
 									shared: false,
@@ -463,12 +463,12 @@
 						if (data) {
 							var actualData = data.map(item => {
 								return {
-									x: item.category,  // Utilisez la date du point de données
-									y: item.totalAmount,  // Utilisez le totalAmount comme y
+									x: item.category,
+									y: item.totalAmount,
 									goals: [
 										{
 											name: 'Expected',
-											value: item.budgetAmount,  // Utilisez le budgetAmount comme valeur attendue
+											value: item.budgetAmount,
 											strokeHeight: 5,
 											strokeColor: '#775DD0'
 										}

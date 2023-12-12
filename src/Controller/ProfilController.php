@@ -61,11 +61,9 @@ class ProfilController extends AbstractController
         }
 
         if ($request->isMethod('POST')) {
-            // Récupérer les données du formulaire
             $amount = $request->request->get('amount');
             $categoryId = $request->request->get('category');
 
-            // Récupérer la catégorie correspondante
             $category = $entityManager->getRepository(Category::class)->find($categoryId);
 
 
@@ -73,42 +71,34 @@ class ProfilController extends AbstractController
                 throw $this->createNotFoundException('La catégorie n\'existe pas');
             }
 
-            // Vérifier si un budget existe déjà pour cette catégorie et cet utilisateur
             $existingBudget = $entityManager->getRepository(Budget::class)->findOneBy([
                 'category' => $category,
                 'user' => $user,
             ]);
 
-            // Si un budget existe déjà, rediriger vers la liste des catégories
             if ($existingBudget) {
                 $this->addFlash('dangerr', 'Le budget existe deja!');
-                // Rediriger vers la liste des catégories après l'ajout du budget
                 $url = $urlGenerator->generate('add_budget', ['id' => $id]);
                 return $this->redirect($url);
             }
 
-            // Créer un nouvel objet Budget lié à la catégorie et à l'utilisateur actuel
             $budget = new Budget();
             $budget->setAmount($amount);
             $budget->setCategory($category);
             $budget->setUser($user);
             $budget->setAccount($account);
 
-            // Enregistrer le budget dans la base de données
             $entityManager->persist($budget);
             $entityManager->flush();
 
             $this->addFlash('successs', 'Le budget a été ajouté avec succès.');
 
-            // Rediriger vers la liste des catégories après l'ajout du budget
             $url = $urlGenerator->generate('add_budget', ['id' => $id]);
             return $this->redirect($url);
         }
 
-        // Récupérer toutes les catégories pour le formulaire
         $categories = $entityManager->getRepository(Category::class)->findAll();
 
-        // Récupérer les budgets associés à chaque catégorie pour l'utilisateur actuel
         $budgets = [];
         foreach ($categories as $category) {
             $budget = $entityManager->getRepository(Budget::class)->findOneBy([
@@ -142,21 +132,14 @@ class ProfilController extends AbstractController
             throw $this->createNotFoundException('Budget not found');
         }
 
-        // Vérifier si l'utilisateur a le droit de modifier ce budget (vérifiez s'il s'agit de son budget)
-
         if ($request->isMethod('POST')) {
-            // Récupérer les données du formulaire
+
             $amount = $request->request->get('amount');
-
-            // Mettre à jour le montant du budget
             $budget->setAmount($amount);
-
-            // Enregistrer les modifications dans la base de données
             $entityManager->flush();
 
             $this->addFlash('successs', 'Le budget a été modifié avec succès.');
 
-            // Rediriger vers la page où l'utilisateur était
             return $this->redirectToRoute('add_budget', ['id' => $id]);
         }
 
@@ -207,15 +190,11 @@ class ProfilController extends AbstractController
         if ($request->isMethod('POST')) {
             $label = $request->request->get('label');
 
-            // Validate $label as needed
-
-            // Check if the category with the given label already exists
             $existingCategory = $entityManager->getRepository(Category::class)->findOneBy(['label' => $label]);
 
             if ($existingCategory) {
                 $this->addFlash('danger', 'Category with this label already exists.');
             } else {
-                // Create and persist the new category
                 $category = new Category();
                 $category->setLabel($label);
 
@@ -224,10 +203,8 @@ class ProfilController extends AbstractController
 
                 $this->addFlash('success', 'Category added successfully.');
             }
-
             return $this->redirectToRoute('profile');
         }
-
         return $this->render('pages/profil.html.twig');
     }
 
@@ -240,7 +217,6 @@ class ProfilController extends AbstractController
             throw $this->createNotFoundException('Category not found');
         }
 
-        // Check if the category is associated with any records in related tables (e.g., expenses, incomes, etc.)
         $isInUse = $this->isCategoryInUse($category);
 
         if ($isInUse) {
@@ -263,13 +239,7 @@ class ProfilController extends AbstractController
      */
     private function isCategoryInUse(Category $category): bool
     {
-        // Implement logic to check if the category is used in any related tables
-        // For example, check if there are associated expenses, incomes, etc.
-        // You may need to update this logic based on your specific entity associations.
-
-        // Example: Check if the category is used in expenses
         $expensesCount = $category->getExpenses()->count();
-
         return $expensesCount > 0;
     }
 

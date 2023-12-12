@@ -51,7 +51,7 @@ class ExportService extends AbstractController
         $accountData = json_decode($accountDataResponse->getContent(), true);
         $accountDataJson = json_encode($accountData);
 
-        // Get account data JSON from getAccountData function
+        // Get currency data JSON from getCurrencyData function
         $currencyDataResponse = $this->getCurrencyData($entityManager);
         $currencyData = json_decode($currencyDataResponse->getContent(), true);
         $currencyDataJson = json_encode($currencyData);
@@ -71,17 +71,17 @@ class ExportService extends AbstractController
         $goalsData = json_decode($goalsDataResponse->getContent(), true);
         $goalsDataJson = json_encode($goalsData);
 
-        // Get goals data JSON from getGoalsData function
+        // Get history data JSON from getHistoryData function
         $historyDataResponse = $this->getHistoryData($entityManager);
         $historyData = json_decode($historyDataResponse->getContent(), true);
         $historyDataJson = json_encode($historyData);
 
-        // Get goals data JSON from getGoalsData function
+        // Get Income data JSON from getIncomeData function
         $incomeDataResponse = $this->getExpenseData($entityManager);
         $incomeData = json_decode($incomeDataResponse->getContent(), true);
         $incomeDataJson = json_encode($incomeData);
 
-        // Get goals data JSON from getGoalsData function
+        // Get Expense data JSON from getExpenseData function
         $expenseDataResponse = $this->getExpenseData($entityManager);
         $expenseData = json_decode($expenseDataResponse->getContent(), true);
         $expenseDataJson = json_encode($expenseData);
@@ -224,7 +224,6 @@ class ExportService extends AbstractController
         if ($user instanceof User) {
             $accountRepository = $entityManager->getRepository(Account::class);
 
-            // Assuming there is a relation between User and Account, adjust the field names accordingly
             $accounts = $accountRepository->findBy(['userID' => $user]);
             $goalsDataArray = [];
 
@@ -232,13 +231,11 @@ class ExportService extends AbstractController
             foreach ($accounts as $account) {
                 $goals = $account->getGoal();
 
-                // Utiliser foreach pour parcourir les objectifs directement
                 foreach ($goals as $goal) {
                     $goalsDataArray[] = [
                         'account' => [
                             'id' => $account->getId(),
                             'name' => $account->getNameAccount(),
-                            // Ajouter d'autres champs du compte au besoin
                         ],
                         'goal' => [
                             'id' => $goal->getId(),

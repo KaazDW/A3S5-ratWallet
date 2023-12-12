@@ -12,7 +12,6 @@ class LoginController extends AbstractController
     #[Route('/', name: 'accueil')]
     public function index(): Response
     {
-        // Use to avoid access to homepage when connected, redirect to dashboard
         if($this->getUser()){
             return $this->redirectToRoute('dashboard');
         }
@@ -26,7 +25,6 @@ class LoginController extends AbstractController
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        // Use to avoid access to login when connected, redirect to dashboard
         if($this->getUser()){
             return $this->redirectToRoute('dashboard');
         }
@@ -39,5 +37,4 @@ class LoginController extends AbstractController
 
     #[Route('/logout', name: 'app_logout')]
     public function logout(){}
-
 }
