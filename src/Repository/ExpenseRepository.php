@@ -92,7 +92,7 @@ class ExpenseRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery()->getResult();
     }*/
 
-    public function getMonthlyExpensesByCategory(int $accountId, int $currentYear ): array
+    public function getMonthlyExpensesByCategoryy(int $accountId, int $currentYear ): array
     {
         $queryBuilder = $this->createQueryBuilder('e')
             ->select('SUBSTRING(e.date, 1, 4) as year, c.label as category, SUM(e.amount) as totalAmount')
@@ -100,6 +100,20 @@ class ExpenseRepository extends ServiceEntityRepository
             ->andWhere('SUBSTRING(e.date, 1, 4) = :currentYear')
             ->setParameter('currentYear', $currentYear)
             ->groupBy('year, category')
+            ->orderBy('year, category');
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+    public function getMonthlyExpensesByCategory(int $accountId, int $currentYear): array
+    {
+        $queryBuilder = $this->createQueryBuilder('e')
+            ->select('SUBSTRING(e.date, 1, 4) as year, c.label as category, SUM(e.amount) as totalAmount, b.amount as budgetAmount')
+            ->leftJoin('e.category', 'c')
+            ->leftJoin('c.budgets', 'b')
+            ->andWhere('SUBSTRING(e.date, 1, 4) = :currentYear')
+            ->setParameter('currentYear', $currentYear)
+            ->groupBy('year, category, budgetAmount')
             ->orderBy('year, category');
 
         return $queryBuilder->getQuery()->getResult();
