@@ -9,14 +9,14 @@ composer install
 npm install
 ```
 
-Create new db named : "ratwallet"
+Créez une nouvelle bd name : `ratwallet`
 
 ```
 php bin/console doctrine:migrations:migrate
 symfony server:start
 ```
 
-dev sass compile command :
+Sass compilation pour dev:
 
 ```
 sass public\assets\scss\base.scss:public\assets\css\base.css -w
@@ -25,11 +25,10 @@ sass public\assets\scss\pages\dashboard.scss:public\assets\css\pages\dashboard.c
 sass public\assets\scss\pages\login.scss:public\assets\css\pages\login.css -w
 ```
 
-Librairy used :
+Librairie utilisés:
 
 - ApexCharts
 - PHPSpreadSheet
-- 
 <br/><br/>
 
 ## Specifications
@@ -40,7 +39,8 @@ Listes des fonctionnalitées (attendu et réalisées) :
   - ✅ Enregistrement de plusieurs comptes bancaires
   - ✅ Enregistrement des dépenses par catégories (aliementation, loyer, ...)
   - ✅ Enregistrement des revenus (Salaire, APL, Aide au logement)
-  - ✅ Définition d'objectif financiers sur chaque compte
+  - ✅ Définition d'objectif financiers sur chaque compte et affichage graphique
+  - ✅ Définition d'objectif financiers sur chaque catégories et affichage graphique
   - ✅ Enregistrement et affichage de l'historique de chaques comptes
   - ✅ Fonctions de tri sur les historiques des comptes
   - ✅ Possibiltié de suppression d'une entrée depuis l'historiques des comptes
@@ -52,4 +52,5 @@ Listes des fonctionnalitées (attendu et réalisées) :
   <img src="https://github.com/KaazDW/A3S5-ratWallet/blob/master/DOC/cg_1.png">
   <img src="https://github.com/KaazDW/A3S5-ratWallet/blob/master/DOC/cg_2.png">
   <img src="https://github.com/KaazDW/A3S5-ratWallet/blob/master/DOC/cg_3.png">
+  <img src="https://github.com/KaazDW/A3S5-ratWallet/blob/master/DOC/wireframes.png">
 </div>
