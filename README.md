@@ -53,4 +53,5 @@ Listes des fonctionnalitées (attendu et réalisées) :
   <img src="https://github.com/KaazDW/A3S5-ratWallet/blob/master/DOC/cg_2.png">
   <img src="https://github.com/KaazDW/A3S5-ratWallet/blob/master/DOC/cg_3.png">
   <img src="https://github.com/KaazDW/A3S5-ratWallet/blob/master/DOC/wireframes.png">
+  <img src="https://github.com/KaazDW/A3S5-ratWallet/blob/master/DOC/cg_4.png">
 </div>
